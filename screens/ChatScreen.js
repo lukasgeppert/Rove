@@ -38,6 +38,7 @@ export default class ChatScreen extends React.Component {
         messages={this.state.messages}
         onSend={Fire.send}
         user={this.user}
+        renderUsernameOnMessage={true}
       />
     );
 
