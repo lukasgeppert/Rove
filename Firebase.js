@@ -43,6 +43,7 @@ class Fire {
     }
 
     parse = message => {
+        console.log('message is: ', message)
         const {user, text, timestamp} = message.val()
         const {key: _id} = message
         const createdAt = new Date(timestamp);
@@ -68,7 +69,7 @@ class Fire {
     }
 
     get uid() {
-        return (firebase.auth().currentUser() || {}).uid
+        return (firebase.auth().currentUser || {}).uid
     }
 }
 
