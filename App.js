@@ -8,12 +8,13 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 // import BottomTabNavigator from "./navigation/BottomTabNavigator";
 // import useLinking from "./navigation/useLinking";
-import HomeScreen from "./screens/HomeScreen";
-// import LoginScreen from "./screens/LoginScreen";
 // import RegisterScreen from "./screens/RegisterScreen";
+import HomeScreen from "./screens/HomeScreen";
 
 import * as firebase from "firebase";
 import LoadingScreen from "./screens/LoadingScreen";
+import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 
 const Stack = createStackNavigator();
 
@@ -28,7 +29,9 @@ const firebaseConfig = {
   measurementId: "G-W0J1F80PRD"
 };
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 // const AppStack = createStackNavigator({
 //   Home: HomeScreen
@@ -38,14 +41,24 @@ firebase.initializeApp(firebaseConfig);
 //   Login: LoginScreen,
 //   Register: RegisterScreen
 // });
-
 const RootStack = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Loading"
+        initialRouteName="LoginScreen"
         screenOptions={{ gestureEnabled: false }}
       >
+        <Stack.Screen
+          name="LoginScreen"
+          component={LoginScreen}
+          options={{ title: "LoginScreen" }}
+        />
+        <Stack.Screen
+          name="RegisterScreen"
+          component={RegisterScreen}
+          options={{ title: "RegisterScreen" }}
+        />
+
         <Stack.Screen
           name="Loading"
           component={LoadingScreen}
