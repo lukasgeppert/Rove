@@ -6,7 +6,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "debug": " open ‘rndebugger://set-debugger-loc?host=localhost&port=19001’ && expo start"
   },
   "jest": {
     "preset": "jest-expo"

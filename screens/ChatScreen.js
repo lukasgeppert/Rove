@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from "react";
 import {
   Platform,
   KeyboardAvoidingView,
@@ -14,6 +14,8 @@ export default class ChatScreen extends React.Component {
   };
 
   get user() {
+    console.log(this.props.route.params.name);
+
     return {
       _id: Fire.uid,
       name: this.props.route.params.name
@@ -21,10 +23,10 @@ export default class ChatScreen extends React.Component {
   }
 
   componentDidMount() {
-    Fire.get(message =>{
+    Fire.get(message =>
       this.setState(previous => ({
         messages: GiftedChat.append(previous.messages, message)
-      }))}
+      }))
     );
   }
 

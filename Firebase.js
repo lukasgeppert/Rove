@@ -1,76 +1,77 @@
-import firebase from 'firebase'
-
+import firebase from "firebase";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCcmjfOQrPxE4PDJgUFTu7xcDeIZLf5MGw",
-    authDomain: "rove-01.firebaseapp.com",
-    databaseURL: "https://rove-01.firebaseio.com",
-    projectId: "rove-01",
-    storageBucket: "rove-01.appspot.com",
-    messagingSenderId: "894706767214",
-    appId: "1:894706767214:web:c670f1fdcd0794423b9d7f",
-    measurementId: "G-S6Q98CWK8F"
-  }
+  apiKey: "AIzaSyA2dCdOeDp-by7fvr1gNTKr0pl_ZLikC-E",
+  authDomain: "rove-96d5a.firebaseapp.com",
+  databaseURL: "https://rove-96d5a.firebaseio.com",
+  projectId: "rove-96d5a",
+  storageBucket: "rove-96d5a.appspot.com",
+  messagingSenderId: "382947731268",
+  appId: "1:382947731268:web:2a332efe58420c01b45911",
+  measurementId: "G-W0J1F80PRD"
+};
 
 class Fire {
-    constructor() {
-        this.init()
-        this.checkAuth()
+  constructor() {
+    this.init();
+    this.checkAuth();
+  }
+
+  init = () => {
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
     }
+  };
 
-    init = () => {
-        if (!firebase.apps.length) {firebase.initializeApp(firebaseConfig)}
-    }
+  checkAuth = () => {
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user) {
+        firebase.auth().signInAnonymously();
+      }
+    });
+  };
 
-    checkAuth = () => {
-        firebase.auth().onAuthStateChanged(user => {
-            if (!user){
-                firebase.auth().signInAnonymously();
-            }
-        })
-    }
+  send = messages => {
+    messages.forEach(item => {
+      const message = {
+        text: item.text,
+        timestamp: firebase.database.ServerValue.TIMESTAMP,
+        user: item.user
+      };
 
-    send = messages => {
-        messages.forEach(item => {
-            const message = {
-                text: item.text,
-                timestamp: firebase.database.ServerValue.TIMESTAMP,
-                user: item.user,
-            }
+      this.db.push(message);
+    });
+  };
 
-            this.db.push(message)
-        })
-    }
+  parse = message => {
+    console.log("message is: ", message);
+    const { user, text, timestamp } = message.val();
+    const { key: _id } = message;
+    const createdAt = new Date(timestamp);
 
-    parse = message => {
-        console.log('message is: ', message)
-        const {user, text, timestamp} = message.val()
-        const {key: _id} = message
-        const createdAt = new Date(timestamp);
+    return {
+      _id,
+      createdAt,
+      text,
+      user
+    };
+  };
 
-        return {
-            _id,
-            createdAt,
-            text,
-            user
-        }
-    }
+  get = callback => {
+    this.db.on("child_added", snapshot => callback(this.parse(snapshot)));
+  };
 
-    get = callback => {
-        this.db.on('child_added', snapshot => callback(this.parse(snapshot)))
-    }
+  off() {
+    this.db.off();
+  }
 
-    off() {
-        this.db.off();
-    }
+  get db() {
+    return firebase.database().ref("messages");
+  }
 
-    get db() {
-        return firebase.database().ref("messages");
-    }
-
-    get uid() {
-        return (firebase.auth().currentUser || {}).uid
-    }
+  get uid() {
+    return (firebase.auth().currentUser || {}).uid;
+  }
 }
 
 export default new Fire();

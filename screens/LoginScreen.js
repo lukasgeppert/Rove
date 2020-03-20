@@ -9,7 +9,7 @@ import {
   Image
 } from "react-native";
 
-export default class Chatscreen extends React.Component {
+export default class LoginScreen extends React.Component {
   state = {
     name: ""
   };
@@ -82,11 +82,11 @@ const styles = StyleSheet.create({
     fontWeight: "600"
   },
   continue: {
-      width: 70,
-      height: 70,
-      borderRadius: 70/2,
-      backgroundColor: "#9075E3",
-      alignItems: "center",
-      justifyContent: "center"
+    width: 70,
+    height: 70,
+    borderRadius: 70 / 2,
+    backgroundColor: "#9075E3",
+    alignItems: "center",
+    justifyContent: "center"
   }
 });
