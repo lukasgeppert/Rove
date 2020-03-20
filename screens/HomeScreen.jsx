@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -13,15 +13,19 @@ const HomeScreen = () => {
   // componentDidMount() {
   //   alert(Dimensions.get('window').width); --> width of 414
   // }
-  // const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("");
   // const [displayName, setDisplayName] = useState("");
 
   useEffect(() => {
+    console.log("In Use Effect");
+
+    console.log("firebase User", firebase.auth().currentUser);
+
     const { email, displayName } = firebase.auth().currentUser;
     console.log(firebase.auth().currentUser);
 
     setEmail(email);
-    setDisplayName(displayName);
+    // setDisplayName(displayName);
   });
 
   signOutUser = () => {

@@ -9,7 +9,7 @@ import {
   Image
 } from "react-native";
 
-export default class Chatscreen extends React.Component {
+export default class LoginScreen extends React.Component {
   state = {
     name: ""
   };

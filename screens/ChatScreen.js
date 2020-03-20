@@ -23,8 +23,6 @@ export default class ChatScreen extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.state.messages);
-
     Fire.get(message =>
       this.setState(previous => ({
         messages: GiftedChat.append(previous.messages, message)

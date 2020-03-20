@@ -3,15 +3,15 @@ import { View, Text, StyleSheet, Button } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import * as firebase from "firebase";
 
-const LoginScreen = ({ navigation }) => {
+const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
   const login = () => {
-    console.log("EMAIL", email);
-    console.log("PASSWORD", password);
-    console.log("error", error);
+    // console.log("EMAIL", email);
+    // console.log("PASSWORD", password);
+    // console.log("error", error);
 
     firebase
       .auth()
@@ -60,7 +60,7 @@ const LoginScreen = ({ navigation }) => {
 
       <TouchableOpacity
         style={{ color: "red" }}
-        onPress={() => navigation.navigate("RegisterScreen")}
+        onPress={() => navigation.navigate("Register")}
       >
         <Text style={styles.text}>
           New around here?
@@ -112,4 +112,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default LoginScreen;
+export default Login;
