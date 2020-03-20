@@ -14,21 +14,24 @@ import HomeScreen from "./screens/HomeScreen";
 
 import * as firebase from "firebase";
 import LoadingScreen from "./screens/LoadingScreen";
+import ChatScreen from "./screens/ChatScreen";
+import LoginScreen from "./screens/LoginScreen";
 
 const Stack = createStackNavigator();
 
-const firebaseConfig = {
-  apiKey: "AIzaSyA2dCdOeDp-by7fvr1gNTKr0pl_ZLikC-E",
-  authDomain: "rove-96d5a.firebaseapp.com",
-  databaseURL: "https://rove-96d5a.firebaseio.com",
-  projectId: "rove-96d5a",
-  storageBucket: "rove-96d5a.appspot.com",
-  messagingSenderId: "382947731268",
-  appId: "1:382947731268:web:2a332efe58420c01b45911",
-  measurementId: "G-W0J1F80PRD"
+var firebaseConfig = {
+  apiKey: "AIzaSyCcmjfOQrPxE4PDJgUFTu7xcDeIZLf5MGw",
+  authDomain: "rove-01.firebaseapp.com",
+  databaseURL: "https://rove-01.firebaseio.com",
+  projectId: "rove-01",
+  storageBucket: "rove-01.appspot.com",
+  messagingSenderId: "894706767214",
+  appId: "1:894706767214:web:c670f1fdcd0794423b9d7f",
+  measurementId: "G-S6Q98CWK8F"
 };
+
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
 // const AppStack = createStackNavigator({
 //   Home: HomeScreen
@@ -43,9 +46,14 @@ const RootStack = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Loading"
+        initialRouteName="Login"
         screenOptions={{ gestureEnabled: false }}
       >
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ title: "Login" }}
+        />
         <Stack.Screen
           name="Loading"
           component={LoadingScreen}
@@ -55,6 +63,11 @@ const RootStack = () => {
           name="Home"
           component={HomeScreen}
           options={{ title: "Home" }}
+        />
+        <Stack.Screen
+          name="Chat"
+          component={ChatScreen}
+          options={{ title: "Chat" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
