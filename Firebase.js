@@ -44,6 +44,7 @@ class Fire {
   };
 
   parse = message => {
+    console.log("message is: ", message);
     const { user, text, timestamp } = message.val();
     const { key: _id } = message;
     const createdAt = new Date(timestamp);

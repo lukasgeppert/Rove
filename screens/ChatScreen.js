@@ -22,7 +22,7 @@ export default class ChatScreen extends React.Component {
     };
   }
 
-  ComponentDidMount() {
+  componentDidMount() {
     console.log(this.state.messages);
 
     Fire.get(message =>
