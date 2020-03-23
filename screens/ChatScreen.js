@@ -14,11 +14,11 @@ export default class ChatScreen extends React.Component {
   };
 
   get user() {
-    console.log(this.props.route.params.name);
+    // console.log(this.props.route.params.name);
 
     return {
       _id: Fire.uid,
-      name: this.props.route.params.name
+      name: Fire.name
     };
   }
 

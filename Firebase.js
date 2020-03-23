@@ -116,6 +116,10 @@ class Fire {
     return firebase.database().ref("messages");
   }
 
+  get name() {
+    return (firebase.auth().currentUser || {}).displayName;
+  }
+
   get uid() {
     return (firebase.auth().currentUser || {}).uid;
   }
