@@ -60,7 +60,7 @@ const Login = ({ navigation }) => {
 
       <TouchableOpacity
         style={{ color: "red" }}
-        onPress={() => navigation.navigate("Register")}
+        onPress={() => navigation.push("Register")}
       >
         <Text style={styles.text}>
           New around here?

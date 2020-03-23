@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Image,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  LayoutAnimation
 } from "react-native";
 import * as firebase from "firebase";
 
@@ -17,11 +18,11 @@ const HomeScreen = () => {
   // const [displayName, setDisplayName] = useState("");
 
   useEffect(() => {
-    console.log("In Use Effect");
+    // console.log("In Use Effect");
 
-    console.log("firebase User", firebase.auth().currentUser);
+    // console.log("firebase User", firebase.auth().currentUser);
 
-    const { email, displayName } = firebase.auth().currentUser;
+    const { email } = firebase.auth().currentUser;
     console.log(firebase.auth().currentUser);
 
     setEmail(email);
@@ -31,6 +32,7 @@ const HomeScreen = () => {
   signOutUser = () => {
     firebase.auth().signOut();
   };
+  LayoutAnimation.easeInEaseOut();
 
   return (
     <View style={styles.container}>
