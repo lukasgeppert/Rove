@@ -130,7 +130,14 @@ const RootStackScreen = ({ userToken }) => (
 export default () => {
   // const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
+  
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(user => {
+       console.log("hello from app", user);
 
+      // navigate(user && user.email ? "Home" : "Login");
+    });
+  }, []);
   // useEffect(() => {
   //   setTimeout(() => {
   //     setIsLoading(false);
