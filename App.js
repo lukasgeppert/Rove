@@ -4,7 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
+import Fire from "./Firebase";
 import LoadingScreen from "./screens/LoadingScreen";
 import ChatScreen from "./screens/ChatScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -17,6 +17,8 @@ import Search from "./screens/Search";
 import PostScreen from "./screens/PostScreen";
 import NotificationScreen from "./screens/NotificationScreen";
 import HomeScreen from "./screens/HomeScreen";
+
+import { AuthContext } from "./screens/AuthContext";
 
 import * as firebase from "firebase";
 import { useState } from "react";
@@ -43,6 +45,7 @@ const DiscoverStack = createStackNavigator();
 const ChatStack = createStackNavigator();
 const NotificationStack = createStackNavigator();
 const PostStack = createStackNavigator();
+const RootStack = createStackNavigator();
 
 const HomeStackScreen = () => (
   <HomeStack.Navigator>
@@ -89,10 +92,44 @@ const ChatStackScreen = () => (
     <ChatStack.Screen name="Chat" component={ChatScreen} />
   </ChatStack.Navigator>
 );
+const TabsScreen = () => (
+  <Tabs.Navigator>
+    <Tabs.Screen name="Home" component={HomeStackScreen} />
+    <Tabs.Screen name="Profile" component={ProfileStackScreen} />
+    <Tabs.Screen name="Discover" component={DiscoverStackScreen} />
+    <Tabs.Screen name="Post" component={PostStackScreen} />
+    <Tabs.Screen name="Notifications" component={NotificationStackScreen} />
+
+    <Tabs.Screen name="Chat" component={ChatStackScreen} />
+  </Tabs.Navigator>
+);
+const AuthScreen = () => (
+  <AuthStack.Navigator>
+    <AuthStack.Screen
+      name="Login"
+      component={Login}
+      options={{ title: "Sign In" }}
+    />
+    <AuthStack.Screen
+      name="RegisterScreen"
+      component={RegisterScreen}
+      options={{ title: "Create Account" }}
+    />
+  </AuthStack.Navigator>
+);
+const RootStackScreen = ({ userToken }) => (
+  <RootStack.Navigator headerMode="none">
+    {userToken ? (
+      <RootStack.Screen name="App" component={TabsScreen} />
+    ) : (
+      <RootStack.Screen name="Auth" component={AuthScreen} />
+    )}
+  </RootStack.Navigator>
+);
 
 export default () => {
   // const [isLoading, setIsLoading] = useState(true);
-  const [userToken, setUserToken] = useState("");
+  const [userToken, setUserToken] = useState(null);
 
   // useEffect(() => {
   //   setTimeout(() => {
@@ -103,35 +140,72 @@ export default () => {
   // if (isLoading) {
   //   return <LoadingScreen />;
   // }
-  return (
-    <NavigationContainer>
-      {userToken ? (
-        <Tabs.Navigator>
-          <Tabs.Screen name="Home" component={HomeStackScreen} />
-          <Tabs.Screen name="Profile" component={ProfileStackScreen} />
-          <Tabs.Screen name="Discover" component={DiscoverStackScreen} />
-          <Tabs.Screen name="Post" component={PostStackScreen} />
-          <Tabs.Screen
-            name="Notifications"
-            component={NotificationStackScreen}
-          />
+  const authContext = React.useMemo(() => {
+     return {
+      signIn: (email, password) => {
+        // setisLoading(false);
+        firebase
+          .auth()
+          .signInWithEmailAndPassword(email, password)
+          .catch(error => console.log("Error Here", error));
+        setUserToken("asdf");
+      },
+      signUp: (email, password) => {
+        console.log("hello from signup");
+        // setisLoading(false);
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then(userCredentials => {
+            console.log("22", userCredentials);
 
-          <Tabs.Screen name="Chat" component={ChatStackScreen} />
-        </Tabs.Navigator>
-      ) : (
-        <AuthStack.Navigator>
-          <AuthStack.Screen
-            name="Login"
-            component={Login}
-            options={{ title: "Sign In" }}
-          />
-          <AuthStack.Screen
-            name="Register"
-            component={RegisterScreen}
-            options={{ title: "Create Account" }}
-          />
-        </AuthStack.Navigator>
-      )}
-    </NavigationContainer>
+            return userCredentials.user.updateProfile({
+              displayName: name
+            });
+          })
+          .catch(error => console.log("Error Here", error));
+        setUserToken("asdf");
+      },
+      signOut: () => {
+        firebase.auth().signOut();
+        setUserToken(null);
+      }
+    };
+  }, []);
+
+  return (
+    <AuthContext.Provider value={authContext}>
+      <NavigationContainer>
+        <RootStackScreen userToken={userToken} />
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 };
+
+// {userToken ? (
+//   <Tabs.Navigator>
+//     <Tabs.Screen name="Home" component={HomeStackScreen} />
+//     <Tabs.Screen name="Profile" component={ProfileStackScreen} />
+//     <Tabs.Screen name="Discover" component={DiscoverStackScreen} />
+//     <Tabs.Screen name="Post" component={PostStackScreen} />
+//     <Tabs.Screen
+//       name="Notifications"
+//       component={NotificationStackScreen}
+//     />
+
+//     <Tabs.Screen name="Chat" component={ChatStackScreen} />
+//   </Tabs.Navigator>
+// ) : (
+//   <AuthStack.Navigator>
+//     <AuthStack.Screen
+//       name="Login"
+//       component={Login}
+//       options={{ title: "Sign In" }}
+//     />
+//     <AuthStack.Screen
+//       name="Register"
+//       component={RegisterScreen}
+//       options={{ title: "Create Account" }}
+//     />
+//   </AuthStack.Navigator>
+// )}

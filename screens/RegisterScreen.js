@@ -2,25 +2,18 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import * as firebase from "firebase";
+import { AuthContext } from "./AuthContext";
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [error, setError] = useState(null);
+  const { signUp } = React.useContext(AuthContext);
 
-  const signUp = () => {
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(userCredentials => {
-        console.log("22", userCredentials);
+  const register = () => {
+    signUp(email, password);
 
-        return userCredentials.user.updateProfile({
-          displayName: name
-        });
-      })
-      .catch(error => setError("Error Here"));
   };
 
   return (
@@ -67,9 +60,7 @@ const RegisterScreen = () => {
       <Button
         style={styles.signUp}
         title="Sign up"
-        onPress={() => {
-          signUp();
-        }}
+        onPress={register}
       />
     </View>
   );

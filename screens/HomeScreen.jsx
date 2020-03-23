@@ -9,28 +9,22 @@ import {
   LayoutAnimation
 } from "react-native";
 import * as firebase from "firebase";
+import { AuthContext } from "./AuthContext";
 
 const HomeScreen = () => {
-  // componentDidMount() {
-  //   alert(Dimensions.get('window').width); --> width of 414
-  // }
   const [email, setEmail] = useState("");
-  // const [displayName, setDisplayName] = useState("");
+  const { signOut } = React.useContext(AuthContext);
 
   useEffect(() => {
-    // console.log("In Use Effect");
-
-    // console.log("firebase User", firebase.auth().currentUser);
-
     const { email } = firebase.auth().currentUser;
+    console.log('gimme email', email);
     console.log(firebase.auth().currentUser);
 
     setEmail(email);
-    // setDisplayName(displayName);
   });
 
-  signOutUser = () => {
-    firebase.auth().signOut();
+  const signOutUser = () => {
+    signOut();
   };
   LayoutAnimation.easeInEaseOut();
 
