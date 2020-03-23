@@ -12,8 +12,7 @@ const RegisterScreen = () => {
   const { signUp } = React.useContext(AuthContext);
 
   const register = () => {
-    signUp(email, password);
-
+    signUp(email, password, displayName);
   };
 
   return (

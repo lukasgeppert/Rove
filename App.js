@@ -155,7 +155,7 @@ export default () => {
           .catch(error => console.log("Error Here", error));
         if (firebase.auth().currentUser) setUserToken("asdf");
       },
-      signUp: (email, password) => {
+      signUp: (email, password, name) => {
         // setisLoading(false);
         firebase
           .auth()
