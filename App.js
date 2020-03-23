@@ -130,11 +130,9 @@ const RootStackScreen = ({ userToken }) => (
 export default () => {
   // const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
-  
+
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
-       console.log("hello from app", user);
-
       // navigate(user && user.email ? "Home" : "Login");
     });
   }, []);
@@ -148,7 +146,7 @@ export default () => {
   //   return <LoadingScreen />;
   // }
   const authContext = React.useMemo(() => {
-     return {
+    return {
       signIn: (email, password) => {
         // setisLoading(false);
         firebase
@@ -158,7 +156,6 @@ export default () => {
         if (firebase.auth().currentUser) setUserToken("asdf");
       },
       signUp: (email, password) => {
-        console.log("hello from signup");
         // setisLoading(false);
         firebase
           .auth()
@@ -188,31 +185,3 @@ export default () => {
     </AuthContext.Provider>
   );
 };
-
-// {userToken ? (
-//   <Tabs.Navigator>
-//     <Tabs.Screen name="Home" component={HomeStackScreen} />
-//     <Tabs.Screen name="Profile" component={ProfileStackScreen} />
-//     <Tabs.Screen name="Discover" component={DiscoverStackScreen} />
-//     <Tabs.Screen name="Post" component={PostStackScreen} />
-//     <Tabs.Screen
-//       name="Notifications"
-//       component={NotificationStackScreen}
-//     />
-
-//     <Tabs.Screen name="Chat" component={ChatStackScreen} />
-//   </Tabs.Navigator>
-// ) : (
-//   <AuthStack.Navigator>
-//     <AuthStack.Screen
-//       name="Login"
-//       component={Login}
-//       options={{ title: "Sign In" }}
-//     />
-//     <AuthStack.Screen
-//       name="Register"
-//       component={RegisterScreen}
-//       options={{ title: "Create Account" }}
-//     />
-//   </AuthStack.Navigator>
-// )}

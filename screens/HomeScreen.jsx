@@ -16,25 +16,14 @@ const HomeScreen = () => {
   const { signOut } = React.useContext(AuthContext);
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
-       console.log("hello from app", user);
-       if (user && user.email) {
-       setEmail(user.email)
-       }
-      // navigate(user && user.email ? "Home" : "Login");
+      if (user && user.email) {
+        setEmail(user.email);
+      }
     });
   }, []);
 
-  // useEffect(() => {
-  //   const { email } = firebase.auth().currentUser;
-  //   console.log('gimme email', email);
-  //   console.log(firebase.auth().currentUser);
-
-  //   setEmail(email);
-  // }, [firebase.auth().currentUser.email]);
-  
-
   const signOutUser = () => {
-    setEmail(null)
+    setEmail(null);
     signOut();
   };
   LayoutAnimation.easeInEaseOut();

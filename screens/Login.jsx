@@ -11,9 +11,6 @@ const Login = ({ navigation }) => {
   const { signIn } = React.useContext(AuthContext);
 
   const login = () => {
-    // console.log("EMAIL", email);
-    // console.log("PASSWORD", password);
-    // console.log("error", error);
     signIn(email, password);
   };
 
@@ -48,12 +45,7 @@ const Login = ({ navigation }) => {
         </View>
       </View>
 
-      <Button
-        style={styles.login}
-        title="Login"
-        onPress={login
-        }
-      />
+      <Button style={styles.login} title="Login" onPress={login} />
 
       <TouchableOpacity
         style={{ color: "red" }}
