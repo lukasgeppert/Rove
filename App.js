@@ -17,6 +17,8 @@ import Search from "./screens/Search";
 import PostScreen from "./screens/PostScreen";
 import NotificationScreen from "./screens/NotificationScreen";
 import HomeScreen from "./screens/HomeScreen";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { MaterialCommunityIcons } from "react-native-vector-icons";
 
 import { AuthContext } from "./screens/AuthContext";
 
@@ -94,13 +96,71 @@ const ChatStackScreen = () => (
 );
 const TabsScreen = () => (
   <Tabs.Navigator>
-    <Tabs.Screen name="Home" component={HomeStackScreen} />
-    <Tabs.Screen name="Profile" component={ProfileStackScreen} />
-    <Tabs.Screen name="Discover" component={DiscoverStackScreen} />
-    <Tabs.Screen name="Post" component={PostStackScreen} />
-    <Tabs.Screen name="Notifications" component={NotificationStackScreen} />
+    <Tabs.Screen
+      name="Home"
+      component={HomeStackScreen}
+      options={{
+        tabBarLabel: "Home",
+        tabBarIcon: ({ color }) => (
+          <Ionicons name="ios-home" color={color} size={24} />
+        )
+      }}
+    />
+    <Tabs.Screen
+      name="Profile"
+      component={ProfileStackScreen}
+      options={{
+        tabBarLabel: "Profile",
+        tabBarIcon: ({ color }) => (
+          <MaterialCommunityIcons name="account" color={color} size={24} />
+        )
+      }}
+    />
+    <Tabs.Screen
+      name="Discover"
+      component={DiscoverStackScreen}
+      options={{
+        tabBarLabel: "Discover",
+        tabBarIcon: ({ color }) => (
+          <MaterialCommunityIcons name="ferry" color={color} size={24} />
+        )
+      }}
+    />
+    <Tabs.Screen
+      name="Post"
+      component={PostStackScreen}
+      options={{
+        tabBarLabel: "Post",
+        tabBarIcon: ({ color }) => (
+          <MaterialCommunityIcons
+            name="plus-circle-outline"
+            color={color}
+            size={24}
+          />
+        )
+      }}
+    />
+    <Tabs.Screen
+      name="Notifications"
+      component={NotificationStackScreen}
+      options={{
+        tabBarLabel: "Notifications",
+        tabBarIcon: ({ color }) => (
+          <MaterialCommunityIcons name="bell-ring" color={color} size={24} />
+        )
+      }}
+    />
 
-    <Tabs.Screen name="Chat" component={ChatStackScreen} />
+    <Tabs.Screen
+      name="Chat"
+      component={ChatStackScreen}
+      options={{
+        tabBarLabel: "Chat",
+        tabBarIcon: ({ color }) => (
+          <MaterialCommunityIcons name="chat" color={color} size={24} />
+        )
+      }}
+    />
   </Tabs.Navigator>
 );
 const AuthScreen = () => (
