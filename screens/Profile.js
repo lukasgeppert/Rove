@@ -5,16 +5,34 @@ import {
   StyleSheet,
   Image,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  LayoutAnimation
 } from "react-native";
 import * as firebase from "firebase";
+import { AuthContext } from "./AuthContext";
+import {connect} from 'react-redux'
 
-const Profile = () => {
+const Profile = (props) => {
+  const [email, setEmail] = useState("");
+  const { signOut } = React.useContext(AuthContext);
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user && user.email) {
+        setEmail(user.email);
+      }
+    });
+  }, []);
+
+  const signOutUser = () => {
+    setEmail(null);
+    signOut();
+  };
+  LayoutAnimation.easeInEaseOut();
   return (
     <View style={styles.container}>
-      <Text>HELLO </Text>
-      <TouchableOpacity>
-        <Text>Here</Text>
+      <Text>HELLO {email}</Text>
+      <TouchableOpacity onPress={signOutUser}>
+        <Text>Logout</Text>
       </TouchableOpacity>
     </View>
   );
@@ -24,4 +42,8 @@ const styles = StyleSheet.create({
   container: { flex: 1, width: 100 + "%", height: 100 + "%" }
 });
 
-export default Profile;
+const mapState = (state) => ({
+  user: state.user
+})
+
+export default connect(mapState)(Profile);

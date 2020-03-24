@@ -19,12 +19,16 @@ import Search from "./screens/Search";
 import PostScreen from "./screens/PostScreen";
 import NotificationScreen from "./screens/NotificationScreen";
 import HomeScreen from "./screens/HomeScreen";
-
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { MaterialCommunityIcons } from "react-native-vector-icons";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { AuthContext } from "./screens/AuthContext";
-
 import * as firebase from "firebase";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+//redux imports
+import { Provider } from "react-redux";
+import { setUser } from "./store/user";
+import store from "./store/index";
 
 import { decode, encode } from "base-64";
 
@@ -45,6 +49,7 @@ const ChatStack = createStackNavigator();
 const NotificationStack = createStackNavigator();
 const PostStack = createStackNavigator();
 const RootStack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
 const HomeStackScreen = () => (
   <HomeStack.Navigator>
@@ -85,6 +90,12 @@ const ChatStackScreen = () => (
     <ChatStack.Screen name="Chat" component={ChatScreen} />
   </ChatStack.Navigator>
 );
+const DrawerScreen = () => (
+  <Drawer.Navigator initialRouteName="HomeScreen">
+    <Drawer.Screen name="Home" component={HomeScreen} />
+  </Drawer.Navigator>
+);
+
 const TabsScreen = () => (
   <Tabs.Navigator>
     <Tabs.Screen
@@ -171,14 +182,17 @@ const AuthScreen = () => (
 const RootStackScreen = ({ userToken }) => (
   <RootStack.Navigator headerMode="none">
     {userToken ? (
-      <RootStack.Screen name="App" component={TabsScreen} />
+      <>
+        <RootStack.Screen name="App" component={TabsScreen} />
+        <RootStack.Screen name="Drawer" component={DrawerScreen} />
+      </>
     ) : (
       <RootStack.Screen name="Auth" component={AuthScreen} />
     )}
   </RootStack.Navigator>
 );
 
-export default () => {
+const rootComponent = () => {
   // const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
 
@@ -204,7 +218,10 @@ export default () => {
           .auth()
           .signInWithEmailAndPassword(email, password)
           .catch(error => console.log("Error Here", error));
-        if (firebase.auth().currentUser) setUserToken("asdf");
+        if (firebase.auth().currentUser) {
+          setUserToken("asdf");
+          store.dispatch(setUser({ user: "asdf" }));
+        }
       },
       signUp: (email, password, name) => {
         // setisLoading(false);
@@ -229,10 +246,14 @@ export default () => {
   }, []);
 
   return (
-    <AuthContext.Provider value={authContext}>
-      <NavigationContainer>
-        <RootStackScreen userToken={userToken} />
-      </NavigationContainer>
-    </AuthContext.Provider>
+    <Provider store={store}>
+      <AuthContext.Provider value={authContext}>
+        <NavigationContainer>
+          <RootStackScreen userToken={userToken} />
+        </NavigationContainer>
+      </AuthContext.Provider>
+    </Provider>
   );
 };
+
+export default rootComponent;
