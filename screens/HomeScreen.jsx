@@ -5,32 +5,28 @@ import {
   StyleSheet,
   Image,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  LayoutAnimation
 } from "react-native";
 import * as firebase from "firebase";
+import { AuthContext } from "./AuthContext";
 
 const HomeScreen = () => {
-  // componentDidMount() {
-  //   alert(Dimensions.get('window').width); --> width of 414
-  // }
   const [email, setEmail] = useState("");
-  // const [displayName, setDisplayName] = useState("");
-
+  const { signOut } = React.useContext(AuthContext);
   useEffect(() => {
-    console.log("In Use Effect");
+    firebase.auth().onAuthStateChanged(user => {
+      if (user && user.email) {
+        setEmail(user.email);
+      }
+    });
+  }, []);
 
-    console.log("firebase User", firebase.auth().currentUser);
-
-    const { email, displayName } = firebase.auth().currentUser;
-    console.log(firebase.auth().currentUser);
-
-    setEmail(email);
-    // setDisplayName(displayName);
-  });
-
-  signOutUser = () => {
-    firebase.auth().signOut();
+  const signOutUser = () => {
+    setEmail(null);
+    signOut();
   };
+  LayoutAnimation.easeInEaseOut();
 
   return (
     <View style={styles.container}>

@@ -2,21 +2,16 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import * as firebase from "firebase";
+import { AuthContext } from "./AuthContext";
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const { signIn } = React.useContext(AuthContext);
 
   const login = () => {
-    // console.log("EMAIL", email);
-    // console.log("PASSWORD", password);
-    // console.log("error", error);
-
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .catch(error => setError("Error Here"));
+    signIn(email, password);
   };
 
   return (
@@ -50,17 +45,11 @@ const Login = ({ navigation }) => {
         </View>
       </View>
 
-      <Button
-        style={styles.login}
-        title="Login"
-        onPress={() => {
-          login();
-        }}
-      />
+      <Button style={styles.login} title="Login" onPress={login} />
 
       <TouchableOpacity
         style={{ color: "red" }}
-        onPress={() => navigation.navigate("Register")}
+        onPress={() => navigation.navigate("RegisterScreen")}
       >
         <Text style={styles.text}>
           New around here?

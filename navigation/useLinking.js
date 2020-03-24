@@ -9,10 +9,10 @@ export default function(containerRef) {
         path: "root",
         screens: {
           Home: "home",
-          Links: "links"
-          // Settings: "settings",
-          // Login: "login",
-          // Register: "register"
+          Links: "links",
+          Settings: "settings",
+          Login: "login",
+          Register: "register"
         }
       }
     }
