@@ -4,9 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
-
 import Fire from "./Firebase";
-
 // import LoadingScreen from "./screens/LoadingScreen";
 import ChatScreen from "./screens/ChatScreen";
 // import LoginScreen from "./screens/LoginScreen";
@@ -20,7 +18,6 @@ import PostScreen from "./screens/PostScreen";
 import NotificationScreen from "./screens/NotificationScreen";
 import HomeScreen from "./screens/HomeScreen";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { AuthContext } from "./screens/AuthContext";
 import * as firebase from "firebase";
