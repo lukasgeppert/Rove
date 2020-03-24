@@ -10,8 +10,9 @@ import {
 } from "react-native";
 import * as firebase from "firebase";
 import { AuthContext } from "./AuthContext";
+import {connect} from 'react-redux'
 
-const Profile = () => {
+const Profile = (props) => {
   const [email, setEmail] = useState("");
   const { signOut } = React.useContext(AuthContext);
   useEffect(() => {
@@ -27,7 +28,6 @@ const Profile = () => {
     signOut();
   };
   LayoutAnimation.easeInEaseOut();
-
   return (
     <View style={styles.container}>
       <Text>HELLO {email}</Text>
@@ -42,4 +42,8 @@ const styles = StyleSheet.create({
   container: { flex: 1, width: 100 + "%", height: 100 + "%" }
 });
 
-export default Profile;
+const mapState = (state) => ({
+  user: state.user
+})
+
+export default connect(mapState)(Profile);
