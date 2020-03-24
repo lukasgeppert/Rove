@@ -69,6 +69,7 @@ class Fire {
   //Add Post
   addPost = async ({ text, localUri }) => {
     const remoteUri = await this.uploadPhotoAsync(localUri);
+    console.log("Anything going on in addPost?");
 
     return new Promise((res, rej) => {
       this.firestore
@@ -82,8 +83,8 @@ class Fire {
         .then(ref => {
           res(ref);
         })
-        .catch(error => {
-          rej(error);
+        .catch(err => {
+          rej(err);
         });
     });
   };
@@ -118,11 +119,6 @@ class Fire {
   get firestore() {
     return firebase.firestore();
   }
-  //get posts
-  get postdb() {
-    return firebase.database().ref("posts");
-  }
-
   /////end of Posts group
 
   get db() {
@@ -141,5 +137,5 @@ class Fire {
     return Date.now();
   }
 }
-Fire.shared = new Fire();
+// Fire.shared = new Fire();
 export default new Fire();

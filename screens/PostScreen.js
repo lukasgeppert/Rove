@@ -10,17 +10,19 @@ import {
   SafeAreaView
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "react-native-vector-icons";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import Fire from "../Firebase";
+import Shane_Pro_Pic from "../assets/images/Shane_Pro_Pic.jpeg";
 
 const firebase = require("firebase");
 require("firebase/firestore");
 
-const PostScreen = () => {
+const PostScreen = ({ navigation }) => {
   const [text, setText] = useState("");
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("");
 
   useEffect(() => {
     getPhotoPermission();
@@ -39,15 +41,14 @@ const PostScreen = () => {
   const handlePost = () => {
     console.log("Hello From handlePost");
 
-    Fire.shared
-      .addPost({ text: text.trim(), localUri: image })
+    Fire.addPost({ text: text.trim(), localUri: image })
       .then(ref => {
         setText("");
         setImage(null);
-        // this.props.navigation.goBack()
+        navigation.goBack();
       })
       .catch(error => {
-        alert(error);
+        alert(error.message);
       });
   };
 
@@ -55,7 +56,6 @@ const PostScreen = () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      allowsMultipleSelection: true,
       aspect: [4, 3]
     });
 
@@ -67,7 +67,9 @@ const PostScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity></TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="md-arrow-back" size={24} color="#D8D9DB" />
+        </TouchableOpacity>
 
         <TouchableOpacity onPress={handlePost}>
           <Text style={{ fontWeight: "500" }}>Post</Text>

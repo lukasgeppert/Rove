@@ -2,12 +2,14 @@ import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "react-native-vector-icons";
+
 import Fire from "./Firebase";
-import LoadingScreen from "./screens/LoadingScreen";
+
+// import LoadingScreen from "./screens/LoadingScreen";
 import ChatScreen from "./screens/ChatScreen";
-import LoginScreen from "./screens/LoginScreen";
+// import LoginScreen from "./screens/LoginScreen";
 import Login from "./screens/Login";
 import RegisterScreen from "./screens/RegisterScreen";
 import Discover from "./screens/Discover";
@@ -17,27 +19,22 @@ import Search from "./screens/Search";
 import PostScreen from "./screens/PostScreen";
 import NotificationScreen from "./screens/NotificationScreen";
 import HomeScreen from "./screens/HomeScreen";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import { MaterialCommunityIcons } from "react-native-vector-icons";
 
 import { AuthContext } from "./screens/AuthContext";
 
 import * as firebase from "firebase";
 import { useState } from "react";
 import { useEffect } from "react";
-const firebaseConfig = {
-  apiKey: "AIzaSyA2dCdOeDp-by7fvr1gNTKr0pl_ZLikC-E",
-  authDomain: "rove-96d5a.firebaseapp.com",
-  databaseURL: "https://rove-96d5a.firebaseio.com",
-  projectId: "rove-96d5a",
-  storageBucket: "rove-96d5a.appspot.com",
-  messagingSenderId: "382947731268",
-  appId: "1:382947731268:web:2a332efe58420c01b45911",
-  measurementId: "G-W0J1F80PRD"
-};
 
-// Initialize Firebase
-if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+import { decode, encode } from "base-64";
+
+if (!global.btoa) {
+  global.btoa = encode;
+}
+
+if (!global.atob) {
+  global.atob = decode;
+}
 
 const AuthStack = createStackNavigator();
 const Tabs = createBottomTabNavigator();
@@ -83,12 +80,6 @@ const NotificationStackScreen = () => (
   </NotificationStack.Navigator>
 );
 
-const PostStackScreen = () => (
-  <PostStack.Navigator>
-    <PostStack.Screen name="Post" component={PostScreen} />
-  </PostStack.Navigator>
-);
-
 const ChatStackScreen = () => (
   <ChatStack.Navigator>
     <ChatStack.Screen name="Chat" component={ChatScreen} />
@@ -127,8 +118,8 @@ const TabsScreen = () => (
       }}
     />
     <Tabs.Screen
-      name="Post"
-      component={PostStackScreen}
+      name="PostModal"
+      component={PostScreen}
       options={{
         tabBarLabel: "Post",
         tabBarIcon: ({ color }) => (
