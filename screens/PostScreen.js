@@ -9,11 +9,14 @@ import {
   TextInput,
   SafeAreaView
 } from "react-native";
-import * as firebase from "firebase";
 import { Ionicons } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
+import Fire from "../Firebase";
+
+const firebase = require("firebase");
+require("firebase/firestore");
 
 const PostScreen = () => {
   const [text, setText] = useState("");
@@ -33,14 +36,40 @@ const PostScreen = () => {
     }
   };
 
-  const pickImage = async () => {};
+  const handlePost = () => {
+    console.log("Hello From handlePost");
+
+    Fire.shared
+      .addPost({ text: text.trim(), localUri: image })
+      .then(ref => {
+        setText("");
+        setImage(null);
+        // this.props.navigation.goBack()
+      })
+      .catch(error => {
+        alert(error);
+      });
+  };
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      allowsMultipleSelection: true,
+      aspect: [4, 3]
+    });
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity></TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handlePost}>
           <Text style={{ fontWeight: "500" }}>Post</Text>
         </TouchableOpacity>
       </View>
@@ -56,11 +85,19 @@ const PostScreen = () => {
           numberOfLines={4}
           style={{ flex: 1 }}
           placeholder="Want to share your travels?"
+          onChangeText={text => setText(text)}
         ></TextInput>
       </View>
-      <TouchableOpacity style={styles.photo}>
+      <TouchableOpacity style={styles.photo} onPress={pickImage}>
         <Text>*camera access button*</Text>
       </TouchableOpacity>
+
+      <View style={{ marginHorizontal: 32, marginTop: 32, height: 150 }}>
+        <Image
+          source={{ uri: image }}
+          style={{ width: "100%", height: "100%" }}
+        ></Image>
+      </View>
     </SafeAreaView>
   );
 };
