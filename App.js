@@ -227,7 +227,6 @@ const rootComponent = () => {
           .createUserWithEmailAndPassword(email, password)
           .then(userCredentials => {
             console.log("22", userCredentials);
-
             return userCredentials.user.updateProfile({
               displayName: name
             });
