@@ -88,8 +88,8 @@ const ChatStackScreen = () => (
   </ChatStack.Navigator>
 );
 const DrawerScreen = () => (
-  <Drawer.Navigator initialRouteName="HomeScreen">
-    <Drawer.Screen name="Home" component={HomeScreen} />
+  <Drawer.Navigator initialRouteName="Home">
+    <Drawer.Screen name="Home" component={TabsScreen} />
   </Drawer.Navigator>
 );
 
@@ -180,8 +180,8 @@ const RootStackScreen = ({ userToken }) => (
   <RootStack.Navigator headerMode="none">
     {userToken ? (
       <>
-        <RootStack.Screen name="App" component={TabsScreen} />
-        <RootStack.Screen name="Drawer" component={DrawerScreen} />
+        <RootStack.Screen name="App" component={DrawerScreen} />
+        {/* <RootStack.Screen name="Drawer" component={DrawerScreen} /> */}
       </>
     ) : (
       <RootStack.Screen name="Auth" component={AuthScreen} />
