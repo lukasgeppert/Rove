@@ -13,6 +13,7 @@ import { AuthContext } from "./AuthContext";
 import {connect} from 'react-redux'
 
 const Profile = (props) => {
+  console.log('props is: ', props)
   const [email, setEmail] = useState("");
   const { signOut } = React.useContext(AuthContext);
   useEffect(() => {
