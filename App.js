@@ -163,17 +163,9 @@ const TabsScreen = () => (
   </Tabs.Navigator>
 );
 const AuthScreen = () => (
-  <AuthStack.Navigator>
-    <AuthStack.Screen
-      name="Login"
-      component={Login}
-      options={{ title: "Sign In" }}
-    />
-    <AuthStack.Screen
-      name="RegisterScreen"
-      component={RegisterScreen}
-      options={{ title: "Create Account" }}
-    />
+  <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+    <AuthStack.Screen name="Login" component={Login} />
+    <AuthStack.Screen name="RegisterScreen" component={RegisterScreen} />
   </AuthStack.Navigator>
 );
 const RootStackScreen = ({ userToken }) => (

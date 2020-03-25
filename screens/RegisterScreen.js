@@ -1,10 +1,22 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  SafeAreaView,
+  Keyboard
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "react-native-vector-icons";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import * as firebase from "firebase";
 import { AuthContext } from "./AuthContext";
 
-const RegisterScreen = () => {
+const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -16,52 +28,78 @@ const RegisterScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.greeting}>{`Hello new friend`}</Text>
-
-      <View style={styles.errorMessage}>
-        {error && <Text style={styles.errorMessage}>{error}</Text>}
-      </View>
-
-      <View styles={{ marginTop: 32 }}>
-        <Text style={styles.inputTitle}>Name</Text>
-        <TextInput
-          style={styles.input}
-          required
-          onChangeText={displayName => setDisplayName(displayName)}
-          value={displayName}
+    <SafeAreaView style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Ionicons
+          name="md-arrow-back"
+          size={38}
+          color="rgb(215,106,97)"
+          style={{ marginLeft: 18 }}
         />
-      </View>
+      </TouchableOpacity>
+      <View style={styles.container}>
+        <Text style={styles.rove}>ROVE</Text>
 
-      <View styles={styles.form}>
-        <Text style={styles.inputTitle}>Email Address</Text>
-        <TextInput
-          style={styles.input}
-          required
-          autoCapitalize="none"
-          onChangeText={email => setEmail(email)}
-          value={email}
-        />
+        <Text style={styles.signUp}>SIGN UP</Text>
 
-        <View styles={{ marginTop: 32 }}>
-          <Text style={styles.inputTitle}>Password</Text>
+        <View style={styles.errorMessage}>
+          {error && <Text style={styles.errorMessage}>{error}</Text>}
+        </View>
+
+        <View>
+          <Text style={styles.inputTitle}>First & Last Name</Text>
           <TextInput
             style={styles.input}
             required
-            secureTextEntry
-            autoCapitalize="none"
-            onChangeText={password => setPassword(password)}
-            value={password}
+            onChangeText={displayName => setDisplayName(displayName)}
+            value={displayName}
           />
         </View>
-      </View>
 
-      <Button
-        style={styles.signUp}
-        title="Sign up"
-        onPress={register}
-      />
-    </View>
+        <View styles={styles.form}>
+          <Text style={styles.inputTitle}>Email Address</Text>
+          <TextInput
+            style={styles.input}
+            required
+            autoCapitalize="none"
+            onChangeText={email => setEmail(email)}
+            value={email}
+          />
+
+          <View>
+            <Text style={styles.inputTitle}>Password</Text>
+            <TextInput
+              style={styles.input}
+              required
+              secureTextEntry
+              autoCapitalize="none"
+              onChangeText={password => setPassword(password)}
+              value={password}
+            />
+          </View>
+
+          <View>
+            <Text style={styles.inputTitle}>Confirm Password</Text>
+            <TextInput
+              style={styles.input}
+              required
+              secureTextEntry
+              autoCapitalize="none"
+              onChangeText={password => setPassword(password)}
+              value={password}
+            />
+          </View>
+        </View>
+        <TouchableOpacity style={styles.button}>
+          <Text
+            style={{ color: "#FFF", fontSize: 26, fontWeight: "400" }}
+            onPress={register}
+          >
+            Continue
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -69,11 +107,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  greeting: {
-    marginTop: 32,
+  rove: {
+    marginTop: 12,
+    marginLeft: 18,
     fontSize: 18,
-    fontWeight: "400",
-    textAlign: "center"
+    fontWeight: "600",
+    textAlign: "left",
+    color: "rgb(95,84,115)"
+  },
+  signUp: {
+    marginTop: 18,
+    marginLeft: 18,
+    fontSize: 32,
+    fontWeight: "bold",
+    textAlign: "left",
+    color: "rgb(95,84,115)"
   },
   errorMessage: {
     height: 72,
@@ -81,28 +129,33 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginHorizontal: 30
   },
-  form: {
-    marginBottom: 48,
-    marginHorizontal: 30
-  },
   inputTitle: {
     color: "#8A8F9E",
-    fontSize: 10,
+    fontSize: 14,
     textTransform: "uppercase",
-    marginHorizontal: 25
+    marginHorizontal: 25,
+    marginBottom: 10
   },
   input: {
     borderBottomColor: "#8A8F9E",
     borderBottomWidth: StyleSheet.hairlineWidth,
     height: 40,
     fontSize: 17,
-    borderRadius: 50,
-    marginBottom: 25,
+    marginBottom: 40,
+    marginHorizontal: 25,
     justifyContent: "center",
     textAlign: "center"
   },
   text: {
     textAlign: "center"
+  },
+  button: {
+    marginHorizontal: 30,
+    backgroundColor: "rgb(215,106,97)",
+    borderRadius: 4,
+    height: 52,
+    alignItems: "center",
+    justifyContent: "center"
   }
 });
 

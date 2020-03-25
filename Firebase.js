@@ -31,6 +31,7 @@ class Fire {
     });
   };
 
+  // Chat
   send = messages => {
     messages.forEach(item => {
       const message = {
@@ -64,6 +65,7 @@ class Fire {
   off() {
     this.db.off();
   }
+  //end Chat
 
   //POSTING GROUP
   //Add Post
@@ -75,10 +77,12 @@ class Fire {
       this.firestore
         .collection("posts")
         .add({
+          user,
           text,
           uid: this.uid,
           timestamp: this.timestamp,
-          image: remoteUri
+          image: remoteUri,
+          responses: [responseId]
         })
         .then(ref => {
           res(ref);
