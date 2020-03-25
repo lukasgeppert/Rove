@@ -125,6 +125,53 @@ class Fire {
   }
   /////end of Posts group
 
+  //firestore users
+  addUser = async () => {
+    // const remoteUri = await this.uploadPhotoAsync(localUri);
+    // console.log("Anything going on in addPost?");
+
+    return new Promise((res, rej) => {
+      this.firestore
+        .collection("users")
+        .add({
+          uid: "UOjKnWlgrTXa4PbAQ4aYHRau42o2",
+          name: "Shane the God",
+          image: "asdf",
+          location: "Chicago",
+          follows: "Everyone",
+          interests: "Long walks along the beach",
+          aboutMe: "He has no Messiah",
+          posts: "None",
+          groups: ["EDM Lovers", "TENTACLE MONSTERS"],
+          events: ["The Tentacle Rave"]
+        })
+        .then(ref => {
+          res(ref);
+        })
+        .catch(err => {
+          rej(err);
+        });
+    });
+  };
+
+  get user() {
+    return this.firestore
+      .collection("users")
+      .where("uid", "==", "UOjKnWlgrTXa4PbAQ4aYHRau42o2")
+      .get()
+      .then(function(querySnapshot) {
+        let tempResults;
+        querySnapshot.forEach(doc => {
+          tempResults=doc.data()
+        });
+        return tempResults
+      })
+      .catch(function(error) {
+        console.log("Error getting users: ", error);
+      });
+  }
+
+  //end firestore users
   get db() {
     return firebase.database().ref("messages");
   }

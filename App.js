@@ -209,7 +209,7 @@ const rootComponent = () => {
           .catch(error => console.log("Error Here", error));
         if (firebase.auth().currentUser) {
           setUserToken("asdf");
-          store.dispatch(setUser({ user: "asdf" }));
+          store.dispatch(setUser({ uid: firebase.auth().currentUser.uid }));
         }
       },
       signUp: (email, password, name) => {
@@ -219,7 +219,6 @@ const rootComponent = () => {
           .createUserWithEmailAndPassword(email, password)
           .then(userCredentials => {
             console.log("22", userCredentials);
-
             return userCredentials.user.updateProfile({
               displayName: name
             });
