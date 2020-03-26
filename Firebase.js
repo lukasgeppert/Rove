@@ -93,6 +93,23 @@ class Fire {
     });
   };
 
+  get post() {
+    return this.firestore
+      .collection("posts")
+      .where("uid", "==", "Yihma0x3i3Mm4po7jkR7cLt34B22")
+      .get()
+      .then(function(querySnapshot) {
+        let tempResults;
+        querySnapshot.forEach(doc => {
+          tempResults = doc.data();
+        });
+        return tempResults;
+      })
+      .catch(function(error) {
+        console.log("Error getting posts: ", error);
+      });
+  }
+
   //Upload Photo
   uploadPhotoAsync = async uri => {
     const path = `photos/${this.uid}/${Date.now()}.jpg`;
@@ -162,9 +179,9 @@ class Fire {
       .then(function(querySnapshot) {
         let tempResults;
         querySnapshot.forEach(doc => {
-          tempResults=doc.data()
+          tempResults = doc.data();
         });
-        return tempResults
+        return tempResults;
       })
       .catch(function(error) {
         console.log("Error getting users: ", error);

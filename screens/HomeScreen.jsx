@@ -15,8 +15,6 @@ import { AuthContext } from "./AuthContext";
 import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
 
-const docRef = firebase.collection("posts").doc();
-
 posts = [
   {
     id: "1",

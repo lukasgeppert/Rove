@@ -187,7 +187,14 @@ const rootComponent = () => {
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
-      // navigate(user && user.email ? "Home" : "Login");
+      if (user) {
+        setUserToken("asdf");
+        store.dispatch(setUser({ uid: user.uid }));
+
+        // console.log("user logged in: ", user);
+      } else {
+        console.log("user logged out: ");
+      }
     });
   }, []);
   // useEffect(() => {
@@ -209,6 +216,8 @@ const rootComponent = () => {
           .catch(error => console.log("Error Here", error));
         if (firebase.auth().currentUser) {
           setUserToken("asdf");
+          console.log("MOTHER EFFING USER TOKEN", userToken);
+
           store.dispatch(setUser({ uid: firebase.auth().currentUser.uid }));
         }
       },

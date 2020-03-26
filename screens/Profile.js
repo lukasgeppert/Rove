@@ -10,19 +10,19 @@ import {
 } from "react-native";
 import * as firebase from "firebase";
 import { AuthContext } from "./AuthContext";
-import {connect} from 'react-redux'
+import { connect } from "react-redux";
 import Firebase from "../Firebase";
 
-const Profile = (props) => {
-  // console.log('props is: ', props)
+const Profile = props => {
+  console.log("props is: ", props);
   //Jason's Wacky Experimental Chamber
   useEffect(() => {
     async function fetchUser() {
-      const user = await Firebase.user
+      const user = await Firebase.user;
       return user;
     }
-    fetchUser().then(user => console.log("please give me information: ", user))
-  }, [])
+    fetchUser().then(user => console.log("please give me information: ", user));
+  }, []);
 
   const [email, setEmail] = useState("");
   const { signOut } = React.useContext(AuthContext);
@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
   container: { flex: 1, width: 100 + "%", height: 100 + "%" }
 });
 
-const mapState = (state) => ({
+const mapState = state => ({
   user: state.user
-})
+});
 
 export default connect(mapState)(Profile);
