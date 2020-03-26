@@ -51,6 +51,7 @@ posts = [
     image: require("../assets/images/tempImage4.jpg")
   }
 ];
+
 const HomeScreen = () => {
   renderPost = post => {
     return (
@@ -98,8 +99,26 @@ const HomeScreen = () => {
   };
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        {/* <Text style={styles.headerTitle}>Feed</Text> */}
+      <View
+        style={{
+          flexDirection: "row",
+          height: 50,
+          borderWidth: 1,
+          borderColor: "red"
+        }}
+      >
+        <View style={{ flex: 1, borderColor: "red", borderWidth: 1 }}></View>
+        <View
+          style={{
+            flex: 1.5,
+            justifyContent: "center",
+            borderColor: "red",
+            borderWidth: 1
+          }}
+        >
+          <Text style={{ textAlign: "center" }}>Title</Text>
+        </View>
+        <View style={{ flex: 1, borderColor: "red", borderWidth: 1 }}></View>
       </View>
       <FlatList
         style={styles.feed}

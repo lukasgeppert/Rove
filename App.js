@@ -1,5 +1,5 @@
 import * as React from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, CommonActions } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, Feather, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -9,7 +9,8 @@ import {
   StyleSheet,
   ScrollView,
   ImageBackground,
-  Image
+  Image,
+  SafeAreaView
 } from "react-native";
 
 // import { MaterialCommunityIcons } from "react-native-vector-icons";
@@ -38,6 +39,7 @@ import { setUser } from "./store/user";
 import store from "./store/index";
 
 import { decode, encode } from "base-64";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -97,8 +99,33 @@ const ChatStackScreen = () => (
     <ChatStack.Screen name="Chat" component={ChatScreen} />
   </ChatStack.Navigator>
 );
+function CustomDrawerContent(props) {
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView>
+        <TouchableOpacity
+          style={{ marginTop: 20 }}
+          onPress={() => props.navigation.dispatch(
+            CommonActions.navigate({
+              name: 'HomeStackScreen',
+            })
+          )}
+        >
+          <Text>Home</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{ marginTop: 20 }}
+          onPress={() => props.navigation.navigate("ChatScreen")}
+        >
+          <Text>Chat</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
 const DrawerScreen = () => (
-  <Drawer.Navigator initialRouteName="HomeScreen">
+  <Drawer.Navigator initialRouteName="TabsScreen" drawerContent={props => CustomDrawerContent(props)}>
     <Drawer.Screen
       name="Home"
       component={TabsScreen}
