@@ -10,9 +10,11 @@ import {
   FlatList
 } from "react-native";
 import * as firebase from "firebase";
+
 import { AuthContext } from "./AuthContext";
 import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
+
 posts = [
   {
     id: "1",
