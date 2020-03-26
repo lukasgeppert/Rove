@@ -2,8 +2,17 @@ import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "react-native-vector-icons";
+import { Ionicons, Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  ImageBackground,
+  Image
+} from "react-native";
+
+// import { MaterialCommunityIcons } from "react-native-vector-icons";
 import Fire from "./Firebase";
 // import LoadingScreen from "./screens/LoadingScreen";
 import ChatScreen from "./screens/ChatScreen";
@@ -17,6 +26,7 @@ import Search from "./screens/Search";
 import PostScreen from "./screens/PostScreen";
 import NotificationScreen from "./screens/NotificationScreen";
 import HomeScreen from "./screens/HomeScreen";
+import SideBar from "./screens/SideBar";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { AuthContext } from "./screens/AuthContext";
@@ -88,8 +98,35 @@ const ChatStackScreen = () => (
   </ChatStack.Navigator>
 );
 const DrawerScreen = () => (
-  <Drawer.Navigator initialRouteName="Home">
-    <Drawer.Screen name="Home" component={TabsScreen} />
+  <Drawer.Navigator initialRouteName="HomeScreen">
+    <Drawer.Screen
+      name="Home"
+      component={TabsScreen}
+      options={{
+        drawerIcon: ({ color }) => (
+          <Feather name="home" color={color} size={20} />
+        )
+      }}
+    />
+
+    <Drawer.Screen
+      name="Discover"
+      component={TabsScreen}
+      options={{
+        drawerIcon: ({ color }) => (
+          <MaterialCommunityIcons name="ferry" color={color} size={20} />
+        )
+      }}
+    />
+    <Drawer.Screen
+      name="Chat"
+      component={ChatStackScreen}
+      options={{
+        drawerIcon: ({ color }) => (
+          <Feather name="message-circle" color={color} size={20} />
+        )
+      }}
+    />
   </Drawer.Navigator>
 );
 
