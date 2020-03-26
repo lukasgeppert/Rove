@@ -77,12 +77,10 @@ class Fire {
       this.firestore
         .collection("posts")
         .add({
-          user,
           text,
           uid: this.uid,
           timestamp: this.timestamp,
-          image: remoteUri,
-          responses: [responseId]
+          image: remoteUri
         })
         .then(ref => {
           res(ref);
@@ -93,20 +91,19 @@ class Fire {
     });
   };
 
-  get post() {
+  get posts() {
     return this.firestore
       .collection("posts")
-      .where("uid", "==", "Yihma0x3i3Mm4po7jkR7cLt34B22")
       .get()
       .then(function(querySnapshot) {
-        let tempResults;
+        let tempResults = [];
+
         querySnapshot.forEach(doc => {
-          tempResults = doc.data();
+          console.log(doc.id, " => ", doc.data());
+
+          tempResults.push(doc.data());
         });
         return tempResults;
-      })
-      .catch(function(error) {
-        console.log("Error getting posts: ", error);
       });
   }
 
