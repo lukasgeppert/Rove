@@ -91,6 +91,7 @@ class Fire {
     });
   };
 
+  //gets all posts
   get posts() {
     return this.firestore
       .collection("posts")
@@ -99,7 +100,7 @@ class Fire {
         let tempResults = [];
 
         querySnapshot.forEach(doc => {
-          console.log(doc.id, " => ", doc.data());
+          // console.log(doc.id, " => ", doc.data());
 
           tempResults.push(doc.data());
         });
@@ -186,6 +187,80 @@ class Fire {
   }
 
   //end firestore users
+
+  //firestore Chats
+
+  //ChatRoom
+  addChatRoom = async type => {
+    // const remoteUri = await this.uploadPhotoAsync(localUri);
+    // console.log("Anything going on in addPost?");
+
+    return new Promise((res, rej) => {
+      this.firestore
+        .collection("chatRoom")
+        .add({
+          uids: [
+            "UOjKnWlgrTXa4PbAQ4aYHRau42o2",
+            "dGPK4Hwa0GQex9oK69jJXvOD4Nb2"
+          ],
+          type: type
+        })
+        .then(ref => {
+          res(ref);
+        })
+        .catch(err => {
+          rej(err);
+        });
+    });
+  };
+
+  //Chat Post
+  //add getChatroomId method**
+  addChatPost = async (name, text, uid, chatRoomId) => {
+    return new Promise((res, rej) => {
+      this.firestore
+        .collection("chatRoom")
+        .doc(chatRoomId)
+        .collection("messages")
+        .add({
+          uid: uid,
+          name: name,
+          text: text,
+          timestamp: this.timestamp
+        })
+        .then(ref => {
+          res(ref);
+        })
+        .catch(err => {
+          rej(err);
+        });
+    });
+  };
+
+  getChatRoomId = uid => {
+    console.log("HERE IS A UID in GETCHATROOMID", uid);
+
+    return this.firestore
+      .collection("chatRoom")
+      .where("uids", "array-contains", uid)
+      .get()
+      .then(function(querySnapshot) {
+        let tempResults = [];
+
+        querySnapshot.forEach(doc => {
+          console.log("doc.data inside getChatroomId", doc.data());
+
+          tempResults.push(doc.data());
+        });
+        console.log("tempResults for getCHatRoomId", tempResults);
+
+        return tempResults;
+      })
+      .catch(function(error) {
+        console.log("Error getting chatRoom: ", error);
+      });
+  };
+
   get db() {
     return firebase.database().ref("messages");
   }
