@@ -25,9 +25,7 @@ export default (state = initialState, action) => {
 // THUNK
 export const getMessages = chatRoomId => {
   return async dispatch => {
-    console.log('in thunk')
     const data = await Fire.getMessages(chatRoomId);
-    console.log("gimme data from thunk", data);
     dispatch(setMessages(data));
   };
 };

@@ -192,7 +192,12 @@ const rootComponent = () => {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         setUserToken("asdf");
-        store.dispatch(setUser({ uid: user.uid }));
+        store.dispatch(
+          setUser({
+            uid: user.uid,
+            name: user.displayName
+          })
+        );
 
         // console.log("user logged in: ", user);
       } else {
@@ -220,8 +225,12 @@ const rootComponent = () => {
         if (firebase.auth().currentUser) {
           setUserToken("asdf");
           console.log("MOTHER EFFING USER TOKEN", userToken);
-
-          store.dispatch(setUser({ uid: firebase.auth().currentUser.uid }));
+          console.log("gimme some shit", firebase.auth().currentUser);
+          store.dispatch(
+            setUser({
+              uid: firebase.auth().currentUser.uid
+            })
+          );
         }
       },
       signUp: (email, password, name) => {

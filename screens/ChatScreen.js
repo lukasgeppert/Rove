@@ -11,9 +11,9 @@ import Fire from "../Firebase";
 import { connect } from "react-redux";
 
 import ChatRoom from "./ChatRoom";
-import getMessages from "../store/messages";
-const ChatScreen = (props) => {
-  console.log('gimme props chatscreen', props)
+import { getMessages } from "../store/messages";
+const ChatScreen = props => {
+  const [chatRoomId, setChatRoomId] = React.useState([]);
   React.useEffect(() => {
     let chatRoomId = "";
     async function getChat() {
@@ -23,6 +23,7 @@ const ChatScreen = (props) => {
     getChat()
       .then(chatRoom => {
         chatRoomId = Object.keys(chatRoom)[0];
+        setChatRoomId(Object.keys(chatRoom));
       })
       .then(() => {
         props.fetchMessages(chatRoomId);
@@ -35,7 +36,11 @@ const ChatScreen = (props) => {
   }, []);
   return (
     <SafeAreaView>
-      <TouchableOpacity onPress={() => props.navigation.navigate("ChatRoom")}>
+      <TouchableOpacity
+        onPress={() =>
+          props.navigation.navigate("ChatRoom", { chatRoomId: chatRoomId[0] })
+        }
+      >
         <Text>Move to ChatRoom</Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -44,7 +49,6 @@ const ChatScreen = (props) => {
 
 const mapStateToProps = state => ({
   messages: state.messages
-
 });
 const mapDispatchToProps = dispatch => ({
   fetchMessages: chatRoomId => dispatch(getMessages(chatRoomId))

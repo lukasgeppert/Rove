@@ -166,7 +166,101 @@ class Fire {
         console.log("Error getting users: ", error);
       });
   }
+
   //end firestore users
+
+  //ChatRoom
+  addChatRoom = async type => {
+    // const remoteUri = await this.uploadPhotoAsync(localUri);
+    // console.log("Anything going on in addPost?");
+
+    return new Promise((res, rej) => {
+      this.firestore
+        .collection("chatRoom")
+        .add({
+          uids: [
+            "UOjKnWlgrTXa4PbAQ4aYHRau42o2",
+            "dGPK4Hwa0GQex9oK69jJXvOD4Nb2"
+          ],
+          type: type
+        })
+        .then(ref => {
+          res(ref);
+        })
+        .catch(err => {
+          rej(err);
+        });
+    });
+  };
+
+  //Chat Post
+  //add getChatroomId method**
+  addChatPost = async (name, text, uid, chatRoomId) => {
+    return new Promise((res, rej) => {
+      this.firestore
+        .collection("chatRoom")
+        .doc(chatRoomId)
+        .collection("messages")
+        .add({
+          user: {
+            name,
+            _id: uid,
+            avatar: ''
+          },
+          text: text,
+          createdAt: this.timestamp
+        })
+        .then(ref => {
+          res(ref);
+        })
+        .catch(err => {
+          rej(err);
+        });
+    });
+  };
+
+  getChatRoomId = uid => {
+
+    return this.firestore
+      .collection("chatRoom")
+      .where("uids", "array-contains", uid)
+      .get()
+      .then(function(querySnapshot) {
+        let tempResults = {};
+
+        querySnapshot.forEach(doc => {
+
+          tempResults[doc.id] = doc.data();
+        });
+
+        return tempResults;
+      })
+      .catch(function(error) {
+        console.log("Error getting chatRoom: ", error);
+      });
+  };
+
+  getMessages = chatRoomId => {
+    return this.firestore
+      .collection("chatRoom")
+      .doc(chatRoomId)
+      .collection("messages")
+      .get()
+      .then(function(querySnapshot) {
+        let tempResults = {};
+
+        querySnapshot.forEach(doc => {
+
+          tempResults[doc.id] = doc.data();
+        });
+
+        return tempResults;
+      })
+      .catch(function(error) {
+        console.log("Error getting getMessage: ", error);
+      });
+  };
+
   get db() {
     return firebase.database().ref("messages");
   }
