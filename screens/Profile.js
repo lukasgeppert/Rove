@@ -14,15 +14,17 @@ import { connect } from "react-redux";
 import Firebase from "../Firebase";
 
 const Profile = props => {
-  console.log("props is: ", props);
+  // console.log("props is: ", props);
   //Jason's Wacky Experimental Chamber
   useEffect(() => {
     async function fetchUser() {
       const user = await Firebase.user;
       return user;
     }
-    fetchUser().then(user => console.log("please give me information: ", user));
+    // fetchUser().then(user => console.log("please give me information: ", user));
   }, []);
+
+  useEffect(() => {}, []);
 
   const [email, setEmail] = useState("");
   const { signOut } = React.useContext(AuthContext);

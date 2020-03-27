@@ -17,6 +17,8 @@ import {
 import Fire from "./Firebase";
 // import LoadingScreen from "./screens/LoadingScreen";
 import ChatScreen from "./screens/ChatScreen";
+import ChatRoom from "./screens/ChatRoom";
+
 // import LoginScreen from "./screens/LoginScreen";
 import Login from "./screens/Login";
 import RegisterScreen from "./screens/RegisterScreen";
@@ -95,8 +97,9 @@ const NotificationStackScreen = () => (
 );
 
 const ChatStackScreen = () => (
-  <ChatStack.Navigator>
-    <ChatStack.Screen name="Chat" component={ChatScreen} />
+  <ChatStack.Navigator initialRouteName="ChatStack">
+    <ChatStack.Screen name="ChatStack" component={ChatScreen} />
+    <ChatStack.Screen name="ChatRoom" component={ChatRoom} />
   </ChatStack.Navigator>
 );
 function CustomDrawerContent(props) {
@@ -253,7 +256,12 @@ const rootComponent = () => {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         setUserToken("asdf");
-        store.dispatch(setUser({ uid: user.uid }));
+        store.dispatch(
+          setUser({
+            uid: user.uid,
+            name: user.displayName
+          })
+        );
 
         // console.log("user logged in: ", user);
       } else {
@@ -281,8 +289,12 @@ const rootComponent = () => {
         if (firebase.auth().currentUser) {
           setUserToken("asdf");
           console.log("MOTHER EFFING USER TOKEN", userToken);
-
-          store.dispatch(setUser({ uid: firebase.auth().currentUser.uid }));
+          console.log("gimme some shit", firebase.auth().currentUser);
+          store.dispatch(
+            setUser({
+              uid: firebase.auth().currentUser.uid
+            })
+          );
         }
       },
       signUp: (email, password, name) => {
