@@ -7,6 +7,8 @@ import { MaterialCommunityIcons } from "react-native-vector-icons";
 import Fire from "./Firebase";
 // import LoadingScreen from "./screens/LoadingScreen";
 import ChatScreen from "./screens/ChatScreen";
+import ChatRoom from "./screens/ChatRoom";
+
 // import LoginScreen from "./screens/LoginScreen";
 import Login from "./screens/Login";
 import RegisterScreen from "./screens/RegisterScreen";
@@ -83,8 +85,9 @@ const NotificationStackScreen = () => (
 );
 
 const ChatStackScreen = () => (
-  <ChatStack.Navigator>
-    <ChatStack.Screen name="Chat" component={ChatScreen} />
+  <ChatStack.Navigator initialRouteName="ChatStack">
+    <ChatStack.Screen name="ChatStack" component={ChatScreen} />
+    <ChatStack.Screen name="ChatRoom" component={ChatRoom} />
   </ChatStack.Navigator>
 );
 const DrawerScreen = () => (
