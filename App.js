@@ -1,12 +1,24 @@
 import * as React from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, CommonActions } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "react-native-vector-icons";
+import { Ionicons, Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  ImageBackground,
+  Image,
+  SafeAreaView
+} from "react-native";
+
+// import { MaterialCommunityIcons } from "react-native-vector-icons";
 import Fire from "./Firebase";
 // import LoadingScreen from "./screens/LoadingScreen";
 import ChatScreen from "./screens/ChatScreen";
+import ChatRoom from "./screens/ChatRoom";
+
 // import LoginScreen from "./screens/LoginScreen";
 import Login from "./screens/Login";
 import RegisterScreen from "./screens/RegisterScreen";
@@ -17,6 +29,7 @@ import Search from "./screens/Search";
 import PostScreen from "./screens/PostScreen";
 import NotificationScreen from "./screens/NotificationScreen";
 import HomeScreen from "./screens/HomeScreen";
+import SideBar from "./screens/SideBar";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { AuthContext } from "./screens/AuthContext";
@@ -28,6 +41,7 @@ import { setUser } from "./store/user";
 import store from "./store/index";
 
 import { decode, encode } from "base-64";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -83,13 +97,66 @@ const NotificationStackScreen = () => (
 );
 
 const ChatStackScreen = () => (
-  <ChatStack.Navigator>
-    <ChatStack.Screen name="Chat" component={ChatScreen} />
+  <ChatStack.Navigator initialRouteName="ChatStack">
+    <ChatStack.Screen name="ChatStack" component={ChatScreen} />
+    <ChatStack.Screen name="ChatRoom" component={ChatRoom} />
   </ChatStack.Navigator>
 );
+function CustomDrawerContent(props) {
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView>
+        <TouchableOpacity
+          style={{ marginTop: 20 }}
+          onPress={() => props.navigation.dispatch(
+            CommonActions.navigate({
+              name: 'HomeStackScreen',
+            })
+          )}
+        >
+          <Text>Home</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{ marginTop: 20 }}
+          onPress={() => props.navigation.navigate("ChatScreen")}
+        >
+          <Text>Chat</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
 const DrawerScreen = () => (
-  <Drawer.Navigator initialRouteName="HomeScreen">
-    <Drawer.Screen name="Home" component={HomeScreen} />
+  <Drawer.Navigator initialRouteName="TabsScreen" drawerContent={props => CustomDrawerContent(props)}>
+    <Drawer.Screen
+      name="Home"
+      component={TabsScreen}
+      options={{
+        drawerIcon: ({ color }) => (
+          <Feather name="home" color={color} size={20} />
+        )
+      }}
+    />
+
+    <Drawer.Screen
+      name="Discover"
+      component={TabsScreen}
+      options={{
+        drawerIcon: ({ color }) => (
+          <MaterialCommunityIcons name="ferry" color={color} size={20} />
+        )
+      }}
+    />
+    <Drawer.Screen
+      name="Chat"
+      component={ChatStackScreen}
+      options={{
+        drawerIcon: ({ color }) => (
+          <Feather name="message-circle" color={color} size={20} />
+        )
+      }}
+    />
   </Drawer.Navigator>
 );
 
@@ -172,8 +239,8 @@ const RootStackScreen = ({ userToken }) => (
   <RootStack.Navigator headerMode="none">
     {userToken ? (
       <>
-        <RootStack.Screen name="App" component={TabsScreen} />
-        <RootStack.Screen name="Drawer" component={DrawerScreen} />
+        <RootStack.Screen name="App" component={DrawerScreen} />
+        {/* <RootStack.Screen name="Drawer" component={DrawerScreen} /> */}
       </>
     ) : (
       <RootStack.Screen name="Auth" component={AuthScreen} />
@@ -189,7 +256,12 @@ const rootComponent = () => {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         setUserToken("asdf");
-        store.dispatch(setUser({ uid: user.uid }));
+        store.dispatch(
+          setUser({
+            uid: user.uid,
+            name: user.displayName
+          })
+        );
 
         // console.log("user logged in: ", user);
       } else {
@@ -217,8 +289,12 @@ const rootComponent = () => {
         if (firebase.auth().currentUser) {
           setUserToken("asdf");
           console.log("MOTHER EFFING USER TOKEN", userToken);
-
-          store.dispatch(setUser({ uid: firebase.auth().currentUser.uid }));
+          console.log("gimme some shit", firebase.auth().currentUser);
+          store.dispatch(
+            setUser({
+              uid: firebase.auth().currentUser.uid
+            })
+          );
         }
       },
       signUp: (email, password, name) => {

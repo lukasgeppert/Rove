@@ -3,57 +3,56 @@ import {
   Platform,
   KeyboardAvoidingView,
   SafeAreaView,
-  Keyboard
+  TouchableOpacity,
+  Keyboard,
+  Text
 } from "react-native";
-import { GiftedChat } from "react-native-gifted-chat";
 import Fire from "../Firebase";
+import firebase from "firebase"
+import { connect } from "react-redux";
 
-export default class ChatScreen extends React.Component {
-  state = {
-    messages: []
-  };
-
-  get user() {
-    // console.log(this.props.route.params.name);
-    return {
-      _id: Fire.uid,
-      name: Fire.name
-    };
-  }
-  componentDidMount() {
-    Fire.get(message =>
-      this.setState(previous => ({
-        messages: GiftedChat.append(previous.messages, message)
-      }))
-    );
-  }
-
-  componentWillUnmount() {
-    Fire.off();
-  }
-
-  render() {
-    const chat = (
-      <GiftedChat
-        messages={this.state.messages}
-        onSend={Fire.send}
-        user={this.user}
-        renderUsernameOnMessage={true}
-      />
-    );
-    if (Platform.OS === "android") {
-      return (
-        <KeyboardAvoidingView
-          style={{ flex: 1 }}
-          behavior="padding"
-          keyboardVerticalOffset={30}
-          enabled
-        >
-          {chat}
-        </KeyboardAvoidingView>
-      );
+import ChatRoom from "./ChatRoom";
+import { getMessages } from "../store/messages";
+const ChatScreen = props => {
+  const [chatRoomId, setChatRoomId] = React.useState([]);
+  const [messages, setMessages] = React.useState([])
+  React.useEffect(() => {
+    let chatRoomId = "";
+    async function getChat() {
+      const chatRoom = await Fire.getChatRoomId("UOjKnWlgrTXa4PbAQ4aYHRau42o2");
+      return chatRoom;
     }
+    getChat()
+      .then(chatRoom => {
+        chatRoomId = Object.keys(chatRoom)[0];
+        setChatRoomId(Object.keys(chatRoom));
+      })
+      .then(() => {
+        props.fetchMessages(chatRoomId);
+      });
+  }, []);
+  React.useEffect(() => {
+    return () => {
+      Fire.off();
+    };
+  }, []);
+  return (
+    <SafeAreaView>
+      <TouchableOpacity
+        onPress={() =>
+          props.navigation.navigate("ChatRoom", { chatRoomId: chatRoomId[0] })
+        }
+      >
+        <Text>Move to ChatRoom</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
+  );
+};
 
-    return <SafeAreaView style={{ flex: 1 }}>{chat}</SafeAreaView>;
-  }
-}
+const mapStateToProps = state => ({
+  messages: state.messages
+});
+const mapDispatchToProps = dispatch => ({
+  fetchMessages: chatRoomId => dispatch(getMessages(chatRoomId))
+});
+export default connect(mapStateToProps, mapDispatchToProps)(ChatScreen);
