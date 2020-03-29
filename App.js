@@ -171,9 +171,9 @@ const AuthScreen = () => (
     <AuthStack.Screen name="RegisterScreen" component={RegisterScreen} />
   </AuthStack.Navigator>
 );
-const RootStackScreen = ({ userToken }) => (
+const RootStackScreen = ({ user }) => (
   <RootStack.Navigator headerMode="none">
-    {userToken ? (
+    {user ? (
       <>
         <RootStack.Screen name="App" component={TabsScreen} />
         <RootStack.Screen name="Drawer" component={DrawerScreen} />
@@ -186,12 +186,10 @@ const RootStackScreen = ({ userToken }) => (
 
 const rootComponent = () => {
   // const [isLoading, setIsLoading] = useState(true);
-  const [userToken, setUserToken] = useState(null);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        setUserToken("asdf");
         store.dispatch(
           setUser({
             uid: user.uid,
@@ -199,9 +197,9 @@ const rootComponent = () => {
           })
         );
 
-        // console.log("user logged in: ", user);
+        console.log("user logged in: ", user);
       } else {
-        console.log("user logged out: ");
+        console.log("user logged out: ", user);
       }
     });
   }, []);
@@ -223,8 +221,6 @@ const rootComponent = () => {
           .signInWithEmailAndPassword(email, password)
           .catch(error => console.log("Error Here", error));
         if (firebase.auth().currentUser) {
-          setUserToken("asdf");
-          console.log("MOTHER EFFING USER TOKEN", userToken);
           console.log("gimme some shit", firebase.auth().currentUser);
           store.dispatch(
             setUser({
@@ -245,11 +241,9 @@ const rootComponent = () => {
             });
           })
           .catch(error => console.log("Error Here", error));
-        setUserToken("asdf");
       },
       signOut: () => {
         firebase.auth().signOut();
-        setUserToken(null);
       }
     };
   }, []);
@@ -258,7 +252,7 @@ const rootComponent = () => {
     <Provider store={store}>
       <AuthContext.Provider value={authContext}>
         <NavigationContainer>
-          <RootStackScreen userToken={userToken} />
+          <RootStackScreen />
         </NavigationContainer>
       </AuthContext.Provider>
     </Provider>

@@ -14,6 +14,7 @@ import ChatRoom from "./ChatRoom";
 import { getMessages } from "../store/messages";
 const ChatScreen = props => {
   const [chatRoomId, setChatRoomId] = React.useState([]);
+
   React.useEffect(() => {
     let chatRoomId = "";
     async function getChat() {
