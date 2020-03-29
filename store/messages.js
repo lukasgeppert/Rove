@@ -26,6 +26,9 @@ export default (state = initialState, action) => {
 export const getMessages = chatRoomId => {
   return async dispatch => {
     const data = await Fire.getMessages(chatRoomId);
+    const data2 = await Fire.updatesOn(chatRoomId);
+    console.log("data is: ", data);
+    console.log("data2 is: ", data2);
     dispatch(setMessages(data));
   };
 };

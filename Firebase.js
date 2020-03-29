@@ -27,16 +27,6 @@ class Fire {
     });
   };
   // Chat
-  send = messages => {
-    messages.forEach(item => {
-      const message = {
-        text: item.text,
-        timestamp: firebase.database.ServerValue.TIMESTAMP,
-        user: item.user
-      };
-      this.db.push(message);
-    });
-  };
   parse = message => {
     console.log("message is: ", message);
     const { user, text, timestamp } = message.val();
@@ -49,12 +39,13 @@ class Fire {
       user
     };
   };
-  get = callback => {
-    this.db.on("child_added", snapshot => callback(this.parse(snapshot)));
-  };
-  off() {
-    this.db.off();
-  }
+
+  // get = callback => {
+  //   this.db.on("child_added", snapshot => callback(this.parse(snapshot)));
+  // };
+  // off() {
+  //   this.db.off();
+  // }
   //end Chat
   //POSTING GROUP
   //Add Post
@@ -119,9 +110,6 @@ class Fire {
       );
     });
   };
-  get firestore() {
-    return firebase.firestore();
-  }
   /////end of Posts group
   //firestore users
   addUser = async () => {
@@ -205,7 +193,7 @@ class Fire {
           user: {
             name,
             _id: uid,
-            avatar: ''
+            avatar: ""
           },
           text: text,
           createdAt: this.timestamp
@@ -220,7 +208,6 @@ class Fire {
   };
 
   getChatRoomId = uid => {
-
     return this.firestore
       .collection("chatRoom")
       .where("uids", "array-contains", uid)
@@ -229,7 +216,6 @@ class Fire {
         let tempResults = {};
 
         querySnapshot.forEach(doc => {
-
           tempResults[doc.id] = doc.data();
         });
 
@@ -241,19 +227,17 @@ class Fire {
   };
 
   getMessages = chatRoomId => {
-    return this.firestore
+    return firebase
+      .firestore()
       .collection("chatRoom")
       .doc(chatRoomId)
       .collection("messages")
       .get()
       .then(function(querySnapshot) {
         let tempResults = {};
-
         querySnapshot.forEach(doc => {
-
           tempResults[doc.id] = doc.data();
         });
-
         return tempResults;
       })
       .catch(function(error) {
@@ -261,8 +245,28 @@ class Fire {
       });
   };
 
-  get db() {
-    return firebase.database().ref("messages");
+  updatesOn = chatRoomId => {
+    return firebase
+      .firestore()
+      .collection("chatRoom")
+      .doc(chatRoomId)
+      .collection("messages")
+      .onSnapshot(querySnapshot => {
+        let tempResults = {};
+        querySnapshot.forEach(doc => {
+          tempResults[doc.id] = doc.data();
+        });
+        console.log("tempResults in updatesOn is: ", tempResults);
+        return tempResults;
+      });
+  };
+
+  get = callback => {
+    this.db.on("child_added", snapshot => callback(this.parse(snapshot)));
+  };
+  //DB invoked
+  get firestore() {
+    return firebase.firestore();
   }
   get name() {
     return (firebase.auth().currentUser || {}).displayName;

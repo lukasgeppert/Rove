@@ -9,22 +9,37 @@ import {
 import { connect } from "react-redux";
 import { GiftedChat } from "react-native-gifted-chat";
 import Fire from "../Firebase";
+import firebase from "firebase";
+
+//TODO: Figure out why chat not in order
 export const ChatRoom = props => {
   const [messages, setMessages] = useState([]);
   useEffect(() => {
-    let messageArr = [];
-    for (let i = 0; i < Object.keys(props.messages).length; i++) {
-      let idKey = Object.keys(props.messages)[i];
-      let newObj = {
-        _id: idKey,
-        text: props.messages[idKey].text,
-        createdAt: props.messages[idKey].createdAt,
-        user: props.messages[idKey].user
-      };
-      messageArr.push(newObj);
-    }
-
-    setMessages(messageArr);
+    let unsub = firebase
+      .firestore()
+      .collection("chatRoom")
+      .doc(props.route.params.chatRoomId)
+      .collection("messages")
+      .onSnapshot(querySnapshot => {
+        let tempResults = {};
+        querySnapshot.forEach(doc => {
+          tempResults[doc.id] = doc.data();
+        });
+        let messageArr = [];
+        for (let i = 0; i < Object.keys(tempResults).length; i++) {
+          let idKey = Object.keys(tempResults)[i];
+          let newObj = {
+            _id: idKey,
+            text: tempResults[idKey].text,
+            createdAt: tempResults[idKey].createdAt,
+            user: tempResults[idKey].user
+          };
+          messageArr.push(newObj);
+        }
+        setMessages(messageArr);
+        return tempResults;
+      });
+    return () => unsub();
   }, []);
   const grabUser = () => {
     // console.log(this.props.route.params.name);
@@ -33,16 +48,19 @@ export const ChatRoom = props => {
       name: props.user.name
     };
   };
-  console.log("props", props);
   const chat = (
     <GiftedChat
       messages={messages}
       onSend={message => {
-          console.log('message', message)
-        Fire.addChatPost(props.user.name, message[0].text, props.user.uid, props.route.params.chatRoomId );
+        Fire.addChatPost(
+          props.user.name,
+          message[0].text,
+          props.user.uid,
+          props.route.params.chatRoomId
+        );
       }}
-        user={grabUser()}
-        renderUsernameOnMessage={true}
+      user={grabUser()}
+      renderUsernameOnMessage={true}
     />
   );
   if (Platform.OS === "android") {
