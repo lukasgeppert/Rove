@@ -12,6 +12,8 @@ import {
   FlatList
 } from "react-native";
 import Fire from "../Firebase";
+import { Ionicons, Feather } from "@expo/vector-icons";
+
 import firebase from "firebase";
 import { connect } from "react-redux";
 
@@ -34,16 +36,23 @@ const ChatScreen = props => {
     return (
       <View>
         <View style={styles.messageItem}>
-          <Image source={dummyChat.avatar} style={styles.avatar}></Image>
-
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-around",
-              alignItems: "center"
-            }}
-          >
-            <Text style={styles.name}>{dummyChat.name}</Text>
+          <Image source={dummyChat.avatar} style={styles.avatar} />
+          <View style={{ flexDirection: "row" }}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-around",
+                alignItems: "center"
+              }}
+            >
+              <Text style={styles.name}>{dummyChat.name}</Text>
+              {/* <Feather
+                name="trash"
+                size={24}
+                color="#737888"
+                style={{ marginLeft: 50, alignItems: "flex-end" }}
+              /> */}
+            </View>
           </View>
         </View>
       </View>
