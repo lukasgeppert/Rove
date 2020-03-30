@@ -98,7 +98,7 @@ const NotificationStackScreen = () => (
 
 const ChatStackScreen = () => (
   <ChatStack.Navigator initialRouteName="ChatStack">
-    <ChatStack.Screen name="ChatStack" component={ChatScreen} />
+    <ChatStack.Screen name="Messages" component={ChatScreen} />
     <ChatStack.Screen name="ChatRoom" component={ChatRoom} />
   </ChatStack.Navigator>
 );
@@ -108,13 +108,12 @@ function CustomDrawerContent(props) {
       <ScrollView>
         <TouchableOpacity
           style={{ marginTop: 20 }}
-          onPress={() =>
-            props.navigation.dispatch(
-              CommonActions.navigate({
-                name: "HomeStackScreen"
-              })
-            )
-          }
+          onPress={() => props.navigation.dispatch(
+            CommonActions.navigate({
+              name: 'HomeStackScreen',
+            })
+          )}
+
         >
           <Text>Home</Text>
         </TouchableOpacity>
@@ -130,10 +129,8 @@ function CustomDrawerContent(props) {
 }
 
 const DrawerScreen = () => (
-  <Drawer.Navigator
-    initialRouteName="TabsScreen"
-    drawerContent={props => CustomDrawerContent(props)}
-  >
+  <Drawer.Navigator initialRouteName="TabsScreen" drawerContent={props => CustomDrawerContent(props)}>
+
     <Drawer.Screen
       name="Home"
       component={TabsScreen}
@@ -292,7 +289,6 @@ const rootComponent = () => {
           .catch(error => console.log("Error Here", error));
         if (firebase.auth().currentUser) {
           setUserToken("asdf");
-          console.log("gimme something", firebase.auth().currentUser);
           store.dispatch(
             setUser({
               uid: firebase.auth().currentUser.uid

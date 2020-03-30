@@ -10,7 +10,6 @@ import {
   FlatList
 } from "react-native";
 import * as firebase from "firebase";
-
 import { AuthContext } from "./AuthContext";
 import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
@@ -113,7 +112,6 @@ const HomeScreen = () => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -137,7 +135,7 @@ const styles = StyleSheet.create({
   feedItem: {
     backgroundColor: "#FFF",
     borderRadius: 5,
-    padding: 8,
+    padding: 10,
     flexDirection: "row",
     marginVertical: 8
   },
