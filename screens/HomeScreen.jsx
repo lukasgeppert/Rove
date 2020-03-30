@@ -10,26 +10,48 @@ import {
   FlatList
 } from "react-native";
 import * as firebase from "firebase";
-import Firebase from "../Firebase";
-
 import { AuthContext } from "./AuthContext";
 import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
-
-const HomeScreen = props => {
-  // console.log("props is: ", props);
-  //Jason's Wacky Experimental Chamber
-  const [posts, setPosts] = useState([]);
-
-  useEffect(() => {
-    async function fetchPosts() {
-      const posts = await Firebase.posts;
-      return posts;
-    }
-    fetchPosts().then(posts => setPosts(posts));
-    console.log("please give me information: ", posts);
-  }, []);
-
+posts = [
+  {
+    id: "1",
+    name: "Shane",
+    text:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    timestamp: 1569109273726,
+    avatar: require("../assets/images/Shane_Pro_Pic.jpeg"),
+    image: require("../assets/images/tempImage1.jpg")
+  },
+  {
+    id: "2",
+    name: "Jason",
+    text:
+      "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    timestamp: 1569109273726,
+    avatar: require("../assets/images/Shane_Pro_Pic.jpeg"),
+    image: require("../assets/images/tempImage2.jpg")
+  },
+  {
+    id: "3",
+    name: "Milos",
+    text:
+      "Amet mattis vulputate enim nulla aliquet porttitor lacus luctus. Vel elit scelerisque mauris pellentesque pulvinar pellentesque habitant.",
+    timestamp: 1569109273726,
+    avatar: require("../assets/images/Shane_Pro_Pic.jpeg"),
+    image: require("../assets/images/tempImage3.jpg")
+  },
+  {
+    id: "4",
+    name: "Wario",
+    text:
+      "At varius vel pharetra vel turpis nunc eget lorem. Lorem mollis aliquam ut porttitor leo a diam sollicitudin tempor. Adipiscing tristique risus nec feugiat in fermentum.",
+    timestamp: 1569109273726,
+    avatar: require("../assets/images/Shane_Pro_Pic.jpeg"),
+    image: require("../assets/images/tempImage4.jpg")
+  }
+];
+const HomeScreen = () => {
   renderPost = post => {
     return (
       <View style={styles.feedItem}>
@@ -43,7 +65,7 @@ const HomeScreen = props => {
             }}
           >
             <View>
-              <Text style={styles.name}>{post.uid}</Text>
+              <Text style={styles.name}>{post.name}</Text>
               <Text style={styles.timestamp}>
                 {moment(post.timestamp).fromNow()}
               </Text>
@@ -52,7 +74,7 @@ const HomeScreen = props => {
           </View>
           <Text style={styles.post}>{post.text}</Text>
           <Image
-            source={{ uri: post.image }}
+            source={post.image}
             style={styles.postImage}
             resizeMode="cover"
           />
@@ -89,7 +111,6 @@ const HomeScreen = props => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -113,7 +134,7 @@ const styles = StyleSheet.create({
   feedItem: {
     backgroundColor: "#FFF",
     borderRadius: 5,
-    padding: 8,
+    padding: 10,
     flexDirection: "row",
     marginVertical: 8
   },
@@ -148,72 +169,3 @@ const styles = StyleSheet.create({
 
 export default HomeScreen;
 
-//   const [email, setEmail] = useState("");
-//   const { signOut } = React.useContext(AuthContext);
-//   useEffect(() => {
-//     firebase.auth().onAuthStateChanged(user => {
-//       if (user && user.email) {
-//         setEmail(user.email);
-//       }
-//     });
-//   }, []);
-
-//   const signOutUser = () => {
-//     setEmail(null);
-//     signOut();
-//   };
-//   LayoutAnimation.easeInEaseOut();
-
-//   return (
-//     <View style={styles.container}>
-//       <Text>HELLO {email}</Text>
-//       <TouchableOpacity onPress={signOutUser}>
-//         <Text>Logout</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: { flex: 1, width: 100 + "%", height: 100 + "%" }
-// });
-
-//DUMMY DATA POSTS
-// posts = [
-//   {
-//     id: "1",
-//     name: "Shane",
-//     text:
-//       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-//     timestamp: 1569109273726,
-//     avatar: require("../assets/images/Shane_Pro_Pic.jpeg"),
-//     image: require("../assets/images/tempImage1.jpg")
-//   },
-//   {
-//     id: "2",
-//     name: "Jason",
-//     text:
-//       "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-//     timestamp: 1569109273726,
-//     avatar: require("../assets/images/Shane_Pro_Pic.jpeg"),
-//     image: require("../assets/images/tempImage2.jpg")
-//   },
-//   {
-//     id: "3",
-//     name: "Milos",
-//     text:
-//       "Amet mattis vulputate enim nulla aliquet porttitor lacus luctus. Vel elit scelerisque mauris pellentesque pulvinar pellentesque habitant.",
-//     timestamp: 1569109273726,
-//     avatar: require("../assets/images/Shane_Pro_Pic.jpeg"),
-//     image: require("../assets/images/tempImage3.jpg")
-//   },
-//   {
-//     id: "4",
-//     name: "Wario",
-//     text:
-//       "At varius vel pharetra vel turpis nunc eget lorem. Lorem mollis aliquam ut porttitor leo a diam sollicitudin tempor. Adipiscing tristique risus nec feugiat in fermentum.",
-//     timestamp: 1569109273726,
-//     avatar: require("../assets/images/Shane_Pro_Pic.jpeg"),
-//     image: require("../assets/images/tempImage4.jpg")
-//   }
-// ];

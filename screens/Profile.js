@@ -36,6 +36,10 @@ const Profile = props => {
     );
   }, []);
 
+  useEffect(() => {
+
+  }, []);
+
   const [email, setEmail] = useState("");
   const { signOut } = React.useContext(AuthContext);
   useEffect(() => {
