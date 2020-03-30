@@ -26,8 +26,8 @@ class Fire {
       // }
     });
   };
-  // Chat
 
+  // Chat
   parse = message => {
     console.log("message is: ", message);
     const { user, text, timestamp } = message.val();
@@ -57,12 +57,11 @@ class Fire {
       this.firestore
         .collection("posts")
         .add({
-          user,
+          name: this.name,
           text,
           uid: this.uid,
           timestamp: this.timestamp,
-          image: remoteUri,
-          responses: [responseId]
+          image: remoteUri
         })
         .then(ref => {
           res(ref);
@@ -81,12 +80,38 @@ class Fire {
         let tempResults;
         querySnapshot.forEach(doc => {
           tempResults = doc.data();
+          console.log("GIMME TEMP RESULTS", tempResults);
         });
         return tempResults;
       })
       .catch(function(error) {
         console.log("Error getting posts: ", error);
       });
+  }
+
+  get posts() {
+    console.log("Current User in Get POsts", firebase.auth().currentUser);
+
+    return (
+      this.firestore
+        .collection("posts")
+        .orderBy("timestamp", "desc")
+        // .where("uid", "==", "Yihma0x3i3Mm4po7jkR7cLt34B22")
+        .get()
+        .then(function(querySnapshot) {
+          let tempResults = [];
+
+          querySnapshot.forEach(doc => {
+            // console.log(doc.id, " => ", doc.data());
+
+            tempResults.push(doc.data());
+          });
+          return tempResults;
+        })
+        .catch(function(error) {
+          console.log("Error getting posts: ", error);
+        })
+    );
   }
   //Upload Photo
   uploadPhotoAsync = async uri => {
@@ -264,7 +289,6 @@ class Fire {
       });
   };
 
-
   //ChatRoom
   addChatRoom = async type => {
     // const remoteUri = await this.uploadPhotoAsync(localUri);
@@ -382,6 +406,9 @@ class Fire {
   get uid() {
     return (firebase.auth().currentUser || {}).uid;
   }
+  // get avatar() {
+  //   return (firebase.auth().currentUser || {}).
+  // }
   get timestamp() {
     return Date.now();
   }

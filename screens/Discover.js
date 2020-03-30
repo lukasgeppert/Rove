@@ -10,13 +10,18 @@ import {
   Button,
   FlatList
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 cities = [
   {
     id: "1",
     name: "Chicago",
     text: "The Second City",
-    image: require("../assets/images/city-of-chicago.jpg")
+    image: require("../assets/images/city-of-chicago.jpg"),
+    cost: "100 / M",
+    weather: "60* F",
+    internet: "14 MBPS",
+    rovers: 160
   },
   {
     id: "2",
@@ -75,6 +80,10 @@ const Discover = ({ navigation }) => {
                 style={styles.cityImage}
                 resizeMode="cover"
               />
+              <View>
+                <Text style={styles.name}>{city.cost}</Text>
+                <Text style={styles.name}>{city.weather}</Text>
+              </View>
             </View>
             <Button
               title="Details"
@@ -95,6 +104,7 @@ const Discover = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Button title="Search" onPress={() => navigation.push("Search")} />
+        <Ionicons name="add-outline" />
       </View>
       <FlatList
         style={styles.feed}

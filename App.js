@@ -108,12 +108,13 @@ function CustomDrawerContent(props) {
       <ScrollView>
         <TouchableOpacity
           style={{ marginTop: 20 }}
-          onPress={() => props.navigation.dispatch(
-            CommonActions.navigate({
-              name: 'HomeStackScreen',
-            })
-          )}
-
+          onPress={() =>
+            props.navigation.dispatch(
+              CommonActions.navigate({
+                name: "HomeStackScreen"
+              })
+            )
+          }
         >
           <Text>Home</Text>
         </TouchableOpacity>
@@ -129,8 +130,10 @@ function CustomDrawerContent(props) {
 }
 
 const DrawerScreen = () => (
-  <Drawer.Navigator initialRouteName="TabsScreen" drawerContent={props => CustomDrawerContent(props)}>
-
+  <Drawer.Navigator
+    initialRouteName="TabsScreen"
+    drawerContent={props => CustomDrawerContent(props)}
+  >
     <Drawer.Screen
       name="Home"
       component={TabsScreen}
@@ -263,10 +266,9 @@ const rootComponent = () => {
             name: user.displayName
           })
         );
-
-        console.log("user logged in: ", user);
+        // console.log("user logged in: ", user);
       } else {
-        console.log("user logged out: ", user);
+        // console.log("user logged out: ", user);
       }
     });
   }, []);
