@@ -240,9 +240,9 @@ const AuthScreen = () => (
     <AuthStack.Screen name="RegisterScreen" component={RegisterScreen} />
   </AuthStack.Navigator>
 );
-const RootStackScreen = ({ user }) => (
+const RootStackScreen = ({ userToken }) => (
   <RootStack.Navigator headerMode="none">
-    {user ? (
+    {userToken ? (
       <>
         <RootStack.Screen name="App" component={DrawerScreen} />
         {/* <RootStack.Screen name="Drawer" component={DrawerScreen} /> */}
@@ -255,7 +255,7 @@ const RootStackScreen = ({ user }) => (
 
 const rootComponent = () => {
   // const [isLoading, setIsLoading] = useState(true);
-
+  const [userToken, setUserToken] = useState(null);
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
@@ -292,8 +292,7 @@ const rootComponent = () => {
           .catch(error => console.log("Error Here", error));
         if (firebase.auth().currentUser) {
           setUserToken("asdf");
-          console.log("MOTHER EFFING USER TOKEN", userToken);
-          console.log("gimme some shit", firebase.auth().currentUser);
+          console.log("gimme something", firebase.auth().currentUser);
           store.dispatch(
             setUser({
               uid: firebase.auth().currentUser.uid
@@ -313,9 +312,11 @@ const rootComponent = () => {
             });
           })
           .catch(error => console.log("Error Here", error));
+        setUserToken("asdf");
       },
       signOut: () => {
         firebase.auth().signOut();
+        setUserToken(null);
       }
     };
   }, []);
@@ -324,7 +325,7 @@ const rootComponent = () => {
     <Provider store={store}>
       <AuthContext.Provider value={authContext}>
         <NavigationContainer>
-          <RootStackScreen />
+          <RootStackScreen userToken={userToken} />
         </NavigationContainer>
       </AuthContext.Provider>
     </Provider>

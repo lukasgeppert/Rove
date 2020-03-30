@@ -1,26 +1,23 @@
 import React, { useState } from "react";
-
 import {
   View,
   Text,
   StyleSheet,
-  Button,
   SafeAreaView,
-  Keyboard
+  Keyboard,
+  Button
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "react-native-vector-icons";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import * as firebase from "firebase";
 import { AuthContext } from "./AuthContext";
 
-const DismissKeyboard = ({ children }) => (
-  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    {children}
-  </TouchableWithoutFeedback>
-);
+// const DismissKeyboard = ({ children }) => (
+//   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+//     {children}
+//   </TouchableWithoutFeedback>
+// );
 
 const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -31,18 +28,17 @@ const RegisterScreen = ({ navigation }) => {
   const { signUp } = React.useContext(AuthContext);
 
   const register = () => {
-    console.log("Anything here in Register?");
-
+    console.log("HELLO IS ANYONE THERE");
     if (password === confirmPassword) {
       signUp(email, password, displayName);
     } else {
-      setError("PAsswords do not match");
+      setError("Passwords do not match");
     }
   };
 
   return (
-    <DismissKeyboard>
-      <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons
             name="md-arrow-back"
@@ -51,72 +47,63 @@ const RegisterScreen = ({ navigation }) => {
             style={{ marginLeft: 18 }}
           />
         </TouchableOpacity>
-        <View style={styles.container}>
-          <Text style={styles.rove}>ROVE</Text>
+        <Text style={styles.rove}>ROVE</Text>
+        <Text style={styles.signUp}>SIGN UP</Text>
+        <View style={styles.errorMessage}>
+          {error && <Text style={styles.errorMessage}>{error}</Text>}
+        </View>
 
-          <Text style={styles.signUp}>SIGN UP</Text>
+        <View styles={styles.form}>
+          <Text style={styles.inputTitle}>First & Last Name</Text>
+          <TextInput
+            style={styles.input}
+            required
+            onChangeText={displayName => setDisplayName(displayName)}
+            value={displayName}
+          />
 
-          <View style={styles.errorMessage}>
-            {error && <Text style={styles.errorMessage}>{error}</Text>}
+          <Text style={styles.inputTitle}>Email Address</Text>
+          <TextInput
+            style={styles.input}
+            required
+            autoCapitalize="none"
+            onChangeText={email => setEmail(email)}
+            value={email}
+          />
+
+          <View>
+            <Text style={styles.inputTitle}>Password</Text>
+            <TextInput
+              style={styles.input}
+              required
+              secureTextEntry
+              autoCapitalize="none"
+              onChangeText={password => setPassword(password)}
+              value={password}
+            />
           </View>
 
           <View>
-            <Text style={styles.inputTitle}>First & Last Name</Text>
+            <Text style={styles.inputTitle}>Confirm Password</Text>
             <TextInput
               style={styles.input}
               required
-              onChangeText={displayName => setDisplayName(displayName)}
-              value={displayName}
-            />
-          </View>
-
-          <View styles={styles.form}>
-            <Text style={styles.inputTitle}>Email Address</Text>
-            <TextInput
-              style={styles.input}
-              required
+              secureTextEntry
               autoCapitalize="none"
-              onChangeText={email => setEmail(email)}
-              value={email}
+              onChangeText={confirmPassword =>
+                setConfirmPassword(confirmPassword)
+              }
+              value={confirmPassword}
             />
-
-            <View>
-              <Text style={styles.inputTitle}>Password</Text>
-              <TextInput
-                style={styles.input}
-                required
-                secureTextEntry
-                autoCapitalize="none"
-                onChangeText={password => setPassword(password)}
-                value={password}
-              />
-            </View>
-
-            <View>
-              <Text style={styles.inputTitle}>Confirm Password</Text>
-              <TextInput
-                style={styles.input}
-                required
-                secureTextEntry
-                autoCapitalize="none"
-                onChangeText={confirmPassword =>
-                  setConfirmPassword(confirmPassword)
-                }
-                value={confirmPassword}
-              />
-            </View>
           </View>
-          <TouchableOpacity style={styles.button}>
-            <Text
-              style={{ color: "#FFF", fontSize: 26, fontWeight: "400" }}
-              onPress={register}
-            >
-              Continue
-            </Text>
-          </TouchableOpacity>
         </View>
-      </SafeAreaView>
-    </DismissKeyboard>
+        <Button
+          style={styles.button}
+          title="Continue"
+          onPress={register}
+        ></Button>
+      </View>
+    </SafeAreaView>
   );
 };
 
