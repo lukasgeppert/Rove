@@ -58,6 +58,7 @@ const ChatScreen = props => {
       </View>
     );
   };
+  
   const [chatRoomId, setChatRoomId] = React.useState([]);
   const [messages, setMessages] = React.useState([]);
   React.useEffect(() => {
