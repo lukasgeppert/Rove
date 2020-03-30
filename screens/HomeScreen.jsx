@@ -132,7 +132,7 @@
 
 // export default HomeScreen;
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, isValidElement } from "react";
 import {
   View,
   Text,
@@ -141,7 +141,9 @@ import {
   Dimensions,
   TouchableOpacity,
   LayoutAnimation,
-  FlatList
+  FlatList,
+  ScrollView,
+  RefreshControl
 } from "react-native";
 import * as firebase from "firebase";
 import Firebase from "../Firebase";
@@ -153,16 +155,32 @@ import moment from "moment";
 const HomeScreen = props => {
   // console.log("props is: ", props);
   const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   let keyCounter = 0;
-
+  async function fetchPosts() {
+    const posts = await Firebase.posts;
+    return posts;
+  }
   useEffect(() => {
-    async function fetchPosts() {
-      const posts = await Firebase.posts;
-      return posts;
-    }
-    fetchPosts().then(posts => setPosts(posts));
+    setIsLoading(true);
+
+    fetchPosts()
+      .then(posts => setPosts(posts))
+      .finally(() => setIsLoading(false));
   }, []);
 
+  // function wait(timeout) {
+  //   return new Promise(resolve => {
+  //     setTimeout(resolve, timeout);
+  //   });
+  // }
+  // // const [refreshing, setRefreshing] = React.useState(false);
+
+  // // const onRefresh = React.useCallback(() => {
+  // //   setRefreshing(true);
+
+  // //   wait(2000).then(() => setRefreshing(false));
+  // // }, [refreshing]);
   renderPost = post => {
     console.log("Post", post);
     return (
@@ -209,6 +227,11 @@ const HomeScreen = props => {
     );
   };
   return (
+    // <ScrollView
+    //   refreshControl={
+    //     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    //   }
+    // >
     <View style={styles.container}>
       <View style={styles.header}>
         {/* <Text style={styles.headerTitle}>Feed</Text> */}
@@ -217,10 +240,15 @@ const HomeScreen = props => {
         style={styles.feed}
         data={posts}
         renderItem={({ item }) => renderPost(item)}
-        keyExtractor={item => item.id}
+        keyExtractor={(index, item) => item.toString()}
+        refreshControl={
+          <RefreshControl refreshing={isLoading} onRefresh={() => fetchPosts().then(posts => setPosts(posts))
+            .finally(() => setIsLoading(false))} />
+        }
         showsVerticalScrollIndicator={false}
       />
     </View>
+    // </ScrollView>
   );
 };
 
