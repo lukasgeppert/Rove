@@ -24,17 +24,7 @@ const Profile = props => {
     // fetchUser().then(user => console.log("please give me information: ", user));
   }, []);
 
-  useEffect(() => {
-    async function getChat() {
-      const chatRoom = await Firebase.getChatRoomId(
-        "UOjKnWlgrTXa4PbAQ4aYHRau42o2"
-      );
-      return chatRoom;
-    }
-    getChat().then(chatRoom =>
-      console.log("please give me information about ChatROOOM: ", chatRoom)
-    );
-  }, []);
+  useEffect(() => {}, []);
 
   useEffect(() => {
 

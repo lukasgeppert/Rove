@@ -57,10 +57,12 @@ class Fire {
       this.firestore
         .collection("posts")
         .add({
+          user,
           text,
           uid: this.uid,
           timestamp: this.timestamp,
-          image: remoteUri
+          image: remoteUri,
+          responses: [responseId]
         })
         .then(ref => {
           res(ref);
@@ -70,21 +72,20 @@ class Fire {
         });
     });
   };
-
-  //gets all posts
-  get posts() {
+  get post() {
     return this.firestore
       .collection("posts")
+      .where("uid", "==", "Yihma0x3i3Mm4po7jkR7cLt34B22")
       .get()
       .then(function(querySnapshot) {
-        let tempResults = [];
-
+        let tempResults;
         querySnapshot.forEach(doc => {
-          // console.log(doc.id, " => ", doc.data());
-
-          tempResults.push(doc.data());
+          tempResults = doc.data();
         });
         return tempResults;
+      })
+      .catch(function(error) {
+        console.log("Error getting posts: ", error);
       });
   }
   //Upload Photo
@@ -157,8 +158,6 @@ class Fire {
 
   //end firestore users
 
-  //firestore Chats
-
   //ChatRoom
   addChatRoom = async (type, name) => {
     // const remoteUri = await this.uploadPhotoAsync(localUri);
@@ -194,10 +193,13 @@ class Fire {
         .doc(chatRoomId)
         .collection("messages")
         .add({
-          uid: uid,
-          name: name,
+          user: {
+            name,
+            _id: uid,
+            avatar: ""
+          },
           text: text,
-          timestamp: this.timestamp
+          createdAt: this.timestamp
         })
         .then(ref => {
           res(ref);
@@ -209,21 +211,16 @@ class Fire {
   };
 
   getChatRoomId = uid => {
-    console.log("HERE IS A UID in GETCHATROOMID", uid);
-
     return this.firestore
       .collection("chatRoom")
       .where("uids", "array-contains", uid)
       .get()
       .then(function(querySnapshot) {
-        let tempResults = [];
+        let tempResults = {};
 
         querySnapshot.forEach(doc => {
-          console.log("doc.data inside getChatroomId", doc.data());
-
-          tempResults.push(doc.data());
+          tempResults[doc.id] = doc.data();
         });
-        console.log("tempResults for getCHatRoomId", tempResults);
 
         return tempResults;
       })
@@ -232,9 +229,41 @@ class Fire {
       });
   };
 
-  get db() {
-    return firebase.database().ref("messages");
-  }
+  getMessages = chatRoomId => {
+    return firebase
+      .firestore()
+      .collection("chatRoom")
+      .doc(chatRoomId)
+      .collection("messages")
+      .get()
+      .then(function(querySnapshot) {
+        let tempResults = {};
+        querySnapshot.forEach(doc => {
+          tempResults[doc.id] = doc.data();
+        });
+        return tempResults;
+      })
+      .catch(function(error) {
+        console.log("Error getting getMessage: ", error);
+      });
+  };
+
+  updatesOn = chatRoomId => {
+    return firebase
+      .firestore()
+      .collection("chatRoom")
+      .doc(chatRoomId)
+      .collection("messages")
+      .onSnapshot(querySnapshot => {
+        let tempResults = {};
+        querySnapshot.forEach(doc => {
+          tempResults[doc.id] = doc.data();
+        });
+        console.log("tempResults in updatesOn is: ", tempResults);
+        return tempResults;
+      });
+  };
+
 
   //ChatRoom
   addChatRoom = async type => {

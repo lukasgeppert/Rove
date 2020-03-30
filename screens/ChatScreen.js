@@ -59,6 +59,7 @@ const ChatScreen = props => {
     );
   };
   
+
   const [chatRoomId, setChatRoomId] = React.useState([]);
   const [messages, setMessages] = React.useState([]);
   React.useEffect(() => {
@@ -69,7 +70,6 @@ const ChatScreen = props => {
     }
     getChat()
       .then(chatRoom => {
-        console.log("gimme some chatRoom", chatRoom);
         chatRoomId = Object.keys(chatRoom)[0];
         setChatRoomId(Object.keys(chatRoom));
       })
@@ -168,3 +168,4 @@ const styles = StyleSheet.create({
     marginHorizontal: 5
   }
 });
+

@@ -13,6 +13,7 @@ import * as firebase from "firebase";
 import { AuthContext } from "./AuthContext";
 import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
+
 posts = [
   {
     id: "1",
@@ -169,3 +170,169 @@ const styles = StyleSheet.create({
 
 export default HomeScreen;
 
+// import React, { useEffect, useState } from "react";
+// import {
+//   View,
+//   Text,
+//   StyleSheet,
+//   Image,
+//   Dimensions,
+//   TouchableOpacity,
+//   LayoutAnimation,
+//   FlatList
+// } from "react-native";
+// import * as firebase from "firebase";
+// import Firebase from "../Firebase";
+
+// import { AuthContext } from "./AuthContext";
+// import { Ionicons } from "@expo/vector-icons";
+// import moment from "moment";
+
+// const HomeScreen = props => {
+//   // console.log("props is: ", props);
+//   const [posts, setPosts] = useState([]);
+
+//   useEffect(() => {
+//     async function fetchPosts() {
+//       const posts = await Firebase.posts;
+//       return posts;
+//     }
+//     fetchPosts().then(posts => setPosts(posts));
+//     console.log("please give me information: ", posts);
+//   }, []);
+
+//   renderPost = post => {
+//     return (
+//       <View style={styles.feedItem}>
+//         <Image source={post.avatar} style={styles.avatar}></Image>
+//         <View style={{ flex: 1 }}>
+//           <View
+//             style={{
+//               flexDirection: "row",
+//               justifyContent: "space-between",
+//               alignItems: "center"
+//             }}
+//           >
+//             <View>
+//               <Text style={styles.name}>{post.uid}</Text>
+//               <Text style={styles.timestamp}>
+//                 {moment(post.timestamp).fromNow()}
+//               </Text>
+//             </View>
+//             <Ionicons name="ios-more" size={24} color="#737888" />
+//           </View>
+//           <Text style={styles.post}>{post.text}</Text>
+//           <Image
+//             source={{ uri: post.image }}
+//             style={styles.postImage}
+//             resizeMode="cover"
+//           />
+//           <View style={{ flexDirection: "row" }}>
+//             <Ionicons
+//               name="ios-heart-empty"
+//               size={24}
+//               color="#737888"
+//               style={{ marginRight: 16 }}
+//             />
+//             {/* <Ionicons
+//               name="ios-chatboxes"
+//               size={24}
+//               color="#737888"
+//               style={{ marginRight: 16 }}
+//             /> */}
+//           </View>
+//         </View>
+//       </View>
+//     );
+//   };
+//   return (
+//     <View style={styles.container}>
+//       <View
+//         style={{
+//           flexDirection: "row",
+//           height: 50,
+//           borderWidth: 1,
+//           borderColor: "red"
+//         }}
+//       >
+//         <View style={{ flex: 1, borderColor: "red", borderWidth: 1 }}></View>
+//         <View
+//           style={{
+//             flex: 1.5,
+//             justifyContent: "center",
+//             borderColor: "red",
+//             borderWidth: 1
+//           }}
+//         >
+//           <Text style={{ textAlign: "center" }}>Title</Text>
+//         </View>
+//         <View style={{ flex: 1, borderColor: "red", borderWidth: 1 }}></View>
+//       </View>
+//       <FlatList
+//         style={styles.feed}
+//         data={posts}
+//         renderItem={({ item }) => renderPost(item)}
+//         keyExtractor={item => item.id}
+//         showsVerticalScrollIndicator={false}
+//       />
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: "#EFECF4"
+//   },
+//   header: {
+//     backgroundColor: "#FFF",
+//     alignItems: "center",
+//     justifyContent: "center",
+//     borderBottomWidth: 1,
+//     borderBottomColor: "#EBECF4",
+//     shadowColor: "#454D64",
+//     shadowOffset: { height: 5 },
+//     shadowRadius: 15,
+//     shadowOpacity: 0.2,
+//     zIndex: 0
+//   },
+//   feed: {
+//     marginHorizontal: 16
+//   },
+//   feedItem: {
+//     backgroundColor: "#FFF",
+//     borderRadius: 5,
+//     padding: 8,
+//     flexDirection: "row",
+//     marginVertical: 8
+//   },
+//   avatar: {
+//     width: 36,
+//     height: 36,
+//     borderRadius: 18,
+//     marginRight: 16
+//   },
+//   name: {
+//     fontSize: 15,
+//     fontWeight: "500",
+//     color: "#454D65"
+//   },
+//   timestamp: {
+//     fontSize: 11,
+//     color: "#C4C6CE",
+//     marginTop: 4
+//   },
+//   post: {
+//     marginTop: 16,
+//     fontSize: 14,
+//     color: "#838899"
+//   },
+//   postImage: {
+//     width: undefined,
+//     height: 150,
+//     borderRadius: 5,
+//     marginVertical: 16
+//   }
+// });
+
+// export default HomeScreen;
