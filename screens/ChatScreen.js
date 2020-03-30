@@ -8,14 +8,14 @@ import {
   Text
 } from "react-native";
 import Fire from "../Firebase";
-import firebase from "firebase"
+import firebase from "firebase";
 import { connect } from "react-redux";
 
 import ChatRoom from "./ChatRoom";
 import { getMessages } from "../store/messages";
 const ChatScreen = props => {
   const [chatRoomId, setChatRoomId] = React.useState([]);
-  const [messages, setMessages] = React.useState([])
+  const [messages, setMessages] = React.useState([]);
   React.useEffect(() => {
     let chatRoomId = "";
     async function getChat() {

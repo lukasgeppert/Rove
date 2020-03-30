@@ -27,7 +27,6 @@ class Fire {
     });
   };
   // Chat
-
   parse = message => {
     console.log("message is: ", message);
     const { user, text, timestamp } = message.val();
@@ -228,7 +227,8 @@ class Fire {
   };
 
   getMessages = chatRoomId => {
-    return firebase.firestore()
+    return firebase
+      .firestore()
       .collection("chatRoom")
       .doc(chatRoomId)
       .collection("messages")
@@ -246,7 +246,8 @@ class Fire {
   };
 
   updatesOn = chatRoomId => {
-    return firebase.firestore()
+    return firebase
+      .firestore()
       .collection("chatRoom")
       .doc(chatRoomId)
       .collection("messages")
@@ -255,7 +256,7 @@ class Fire {
         querySnapshot.forEach(doc => {
           tempResults[doc.id] = doc.data();
         });
-        console.log('tempResults in updatesOn is: ', tempResults)
+        console.log("tempResults in updatesOn is: ", tempResults);
         return tempResults;
       });
   };

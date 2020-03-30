@@ -108,11 +108,13 @@ function CustomDrawerContent(props) {
       <ScrollView>
         <TouchableOpacity
           style={{ marginTop: 20 }}
-          onPress={() => props.navigation.dispatch(
-            CommonActions.navigate({
-              name: 'HomeStackScreen',
-            })
-          )}
+          onPress={() =>
+            props.navigation.dispatch(
+              CommonActions.navigate({
+                name: "HomeStackScreen"
+              })
+            )
+          }
         >
           <Text>Home</Text>
         </TouchableOpacity>
@@ -128,7 +130,10 @@ function CustomDrawerContent(props) {
 }
 
 const DrawerScreen = () => (
-  <Drawer.Navigator initialRouteName="TabsScreen" drawerContent={props => CustomDrawerContent(props)}>
+  <Drawer.Navigator
+    initialRouteName="TabsScreen"
+    drawerContent={props => CustomDrawerContent(props)}
+  >
     <Drawer.Screen
       name="Home"
       component={TabsScreen}
@@ -251,7 +256,6 @@ const RootStackScreen = ({ userToken }) => (
 const rootComponent = () => {
   // const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
-
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
@@ -263,9 +267,9 @@ const rootComponent = () => {
           })
         );
 
-        // console.log("user logged in: ", user);
+        console.log("user logged in: ", user);
       } else {
-        console.log("user logged out: ");
+        console.log("user logged out: ", user);
       }
     });
   }, []);
@@ -288,8 +292,7 @@ const rootComponent = () => {
           .catch(error => console.log("Error Here", error));
         if (firebase.auth().currentUser) {
           setUserToken("asdf");
-          console.log("MOTHER EFFING USER TOKEN", userToken);
-          console.log("gimme some shit", firebase.auth().currentUser);
+          console.log("gimme something", firebase.auth().currentUser);
           store.dispatch(
             setUser({
               uid: firebase.auth().currentUser.uid
