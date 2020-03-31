@@ -11,8 +11,6 @@ const Login = ({ navigation }) => {
   const { signIn } = React.useContext(AuthContext);
 
   const login = () => {
-    console.log("Hello from log in");
-
     signIn(email, password);
   };
 

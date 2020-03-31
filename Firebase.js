@@ -27,32 +27,10 @@ class Fire {
     });
   };
 
-  // Chat
-  parse = message => {
-    console.log("message is: ", message);
-    const { user, text, timestamp } = message.val();
-    const { key: _id } = message;
-    const createdAt = new Date(timestamp);
-    return {
-      _id,
-      createdAt,
-      text,
-      user
-    };
-  };
-
-  // get = callback => {
-  //   this.db.on("child_added", snapshot => callback(this.parse(snapshot)));
-  // };
-  // off() {
-  //   this.db.off();
-  // }
-  //end Chat
   //POSTING GROUP
   //Add Post
   addPost = async ({ text, localUri }) => {
     const remoteUri = await this.uploadPhotoAsync(localUri);
-    console.log("Anything going on in addPost?");
     return new Promise((res, rej) => {
       this.firestore
         .collection("posts")
@@ -71,6 +49,7 @@ class Fire {
         });
     });
   };
+
   get post() {
     return this.firestore
       .collection("posts")
@@ -80,7 +59,6 @@ class Fire {
         let tempResults;
         querySnapshot.forEach(doc => {
           tempResults = doc.data();
-          console.log("GIMME TEMP RESULTS", tempResults);
         });
         return tempResults;
       })
@@ -90,8 +68,6 @@ class Fire {
   }
 
   get posts() {
-    console.log("Current User in Get POsts", firebase.auth().currentUser);
-
     return (
       this.firestore
         .collection("posts")
@@ -102,8 +78,6 @@ class Fire {
           let tempResults = [];
 
           querySnapshot.forEach(doc => {
-            // console.log(doc.id, " => ", doc.data());
-
             tempResults.push(doc.data());
           });
           return tempResults;
@@ -113,6 +87,7 @@ class Fire {
         })
     );
   }
+
   //Upload Photo
   uploadPhotoAsync = async uri => {
     const path = `photos/${this.uid}/${Date.now()}.jpg`;
@@ -137,19 +112,18 @@ class Fire {
     });
   };
   /////end of Posts group
+
   //firestore users
   addUser = async () => {
-    // const remoteUri = await this.uploadPhotoAsync(localUri);
-    // console.log("Anything going on in addPost?");
     return new Promise((res, rej) => {
       this.firestore
         .collection("users")
-        .add({
+        .doc("UOjKnWlgrTXa4PbAQ4aYHRau42o2")
+        .set({
           uid: "UOjKnWlgrTXa4PbAQ4aYHRau42o2",
           name: "Shane the God",
           image: "asdf",
           location: "Chicago",
-          follows: "Everyone",
           interests: "Long walks along the beach",
           aboutMe: "He has no Messiah",
           posts: "None",
@@ -164,10 +138,67 @@ class Fire {
         });
     });
   };
-  get user() {
+
+  // addFollow = async followerListId => {
+  //   return new Promise((res, rej) => {
+  //     this.firestore
+  //       .collection("following")
+  //       .doc(followerListId)
+  //       .collection("userFollowing")
+  //       .add({
+  //         uids: ["UOjKnWlgrTXa4PbAQ4aYHRau42o2", "dGPK4Hwa0GQex9oK69jJXvOD4Nb2"]
+  //       });
+  //   });
+  // };
+
+  // 1. followers
+  //     -followed
+  //       -follower: true
+
+  // 2. following
+  //     -follower
+  //       -followed: true
+
+  getFollowers = uid => {
+    return new Promise((res, rej) => {
+      this.firestore
+        .collection("users")
+        .doc(uid)
+        .collection("followers")
+        .get();
+    });
+  };
+
+  getFollowing = () => {
+    return new Promise((res, rej) => {
+      this.firestore
+        .collection("users")
+        .doc(uid)
+        .collection("followers")
+        .get();
+    });
+  };
+
+  follow = uid => {
+    return new Promise((res, rej) => {
+      this.firestore
+        .collection("users")
+        .doc("YWKmeTXB0ns06fELLrWq")
+        .collection("followers")
+        .add({
+          user: {
+            name,
+            _id: uid,
+            avatar: ""
+          }
+        });
+    });
+  };
+
+  getUser(uid) {
     return this.firestore
       .collection("users")
-      .where("uid", "==", "UOjKnWlgrTXa4PbAQ4aYHRau42o2")
+      .doc(uid)
       .get()
       .then(function(querySnapshot) {
         let tempResults;
@@ -180,14 +211,10 @@ class Fire {
         console.log("Error getting users: ", error);
       });
   }
-
   //end firestore users
 
   //ChatRoom
   addChatRoom = async (type, name) => {
-    // const remoteUri = await this.uploadPhotoAsync(localUri);
-    // console.log("Anything going on in addPost?");
-
     return new Promise((res, rej) => {
       this.firestore
         .collection("chatRoom")
@@ -210,7 +237,6 @@ class Fire {
   };
 
   //Chat Post
-  //add getChatroomId method**
   addChatPost = async (name, text, uid, chatRoomId) => {
     return new Promise((res, rej) => {
       this.firestore
@@ -284,25 +310,21 @@ class Fire {
         querySnapshot.forEach(doc => {
           tempResults[doc.id] = doc.data();
         });
-        console.log("tempResults in updatesOn is: ", tempResults);
         return tempResults;
       });
   };
 
-  //ChatRoom
-  addChatRoom = async type => {
+  addCity = async (name, te) => {
     // const remoteUri = await this.uploadPhotoAsync(localUri);
-    // console.log("Anything going on in addPost?");
-
     return new Promise((res, rej) => {
       this.firestore
-        .collection("chatRoom")
+        .collection("cities")
         .add({
-          uids: [
-            "UOjKnWlgrTXa4PbAQ4aYHRau42o2",
-            "dGPK4Hwa0GQex9oK69jJXvOD4Nb2"
-          ],
-          type: type
+          name: this.name,
+          text,
+          uid: this.uid,
+          timestamp: this.timestamp,
+          image: remoteUri
         })
         .then(ref => {
           res(ref);
@@ -311,86 +333,6 @@ class Fire {
           rej(err);
         });
     });
-  };
-
-  //Chat Post
-  //add getChatroomId method**
-  addChatPost = async (name, text, uid, chatRoomId) => {
-    return new Promise((res, rej) => {
-      this.firestore
-        .collection("chatRoom")
-        .doc(chatRoomId)
-        .collection("messages")
-        .add({
-          user: {
-            name,
-            _id: uid,
-            avatar: ""
-          },
-          text: text,
-          createdAt: this.timestamp
-        })
-        .then(ref => {
-          res(ref);
-        })
-        .catch(err => {
-          rej(err);
-        });
-    });
-  };
-
-  getChatRoomId = uid => {
-    return this.firestore
-      .collection("chatRoom")
-      .where("uids", "array-contains", uid)
-      .get()
-      .then(function(querySnapshot) {
-        let tempResults = {};
-
-        querySnapshot.forEach(doc => {
-          tempResults[doc.id] = doc.data();
-        });
-
-        return tempResults;
-      })
-      .catch(function(error) {
-        console.log("Error getting chatRoom: ", error);
-      });
-  };
-
-  getMessages = chatRoomId => {
-    return firebase
-      .firestore()
-      .collection("chatRoom")
-      .doc(chatRoomId)
-      .collection("messages")
-      .get()
-      .then(function(querySnapshot) {
-        let tempResults = {};
-        querySnapshot.forEach(doc => {
-          tempResults[doc.id] = doc.data();
-        });
-        return tempResults;
-      })
-      .catch(function(error) {
-        console.log("Error getting getMessage: ", error);
-      });
-  };
-
-  updatesOn = chatRoomId => {
-    return firebase
-      .firestore()
-      .collection("chatRoom")
-      .doc(chatRoomId)
-      .collection("messages")
-      .onSnapshot(querySnapshot => {
-        let tempResults = {};
-        querySnapshot.forEach(doc => {
-          tempResults[doc.id] = doc.data();
-        });
-        console.log("tempResults in updatesOn is: ", tempResults);
-        return tempResults;
-      });
   };
 
   get = callback => {

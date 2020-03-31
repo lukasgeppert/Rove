@@ -254,7 +254,6 @@ const RootStackScreen = ({ userToken }) => (
 );
 
 const rootComponent = () => {
-  // const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
@@ -272,19 +271,12 @@ const rootComponent = () => {
       }
     });
   }, []);
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 1000);
-  // }, []);
 
-  // if (isLoading) {
-  //   return <LoadingScreen />;
-  // }
   const authContext = React.useMemo(() => {
     return {
       signIn: (email, password) => {
-        // setisLoading(false);
+        console.log("Sign in occurring here!");
+
         firebase
           .auth()
           .signInWithEmailAndPassword(email, password)
@@ -299,12 +291,10 @@ const rootComponent = () => {
         }
       },
       signUp: (email, password, name) => {
-        // setisLoading(false);
         firebase
           .auth()
           .createUserWithEmailAndPassword(email, password)
           .then(userCredentials => {
-            console.log("22", userCredentials);
             return userCredentials.user.updateProfile({
               displayName: name
             });

@@ -58,7 +58,6 @@ const ChatScreen = props => {
       </View>
     );
   };
-  
 
   const [chatRoomId, setChatRoomId] = React.useState([]);
   const [messages, setMessages] = React.useState([]);
@@ -168,4 +167,3 @@ const styles = StyleSheet.create({
     marginHorizontal: 5
   }
 });
-

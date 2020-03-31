@@ -41,8 +41,8 @@ export const ChatRoom = props => {
       });
     return () => unsub();
   }, []);
+
   const grabUser = () => {
-    // console.log(this.props.route.params.name);
     return {
       _id: props.user.uid,
       name: props.user.name

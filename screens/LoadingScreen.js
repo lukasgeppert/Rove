@@ -9,8 +9,6 @@ export default LoadingScreen = () => {
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
-      // console.log("user at loading screen", user);
-
       navigate(user && user.email ? "Home" : "Login");
     });
   });
