@@ -108,12 +108,13 @@ function CustomDrawerContent(props) {
       <ScrollView>
         <TouchableOpacity
           style={{ marginTop: 20 }}
-          onPress={() => props.navigation.dispatch(
-            CommonActions.navigate({
-              name: 'HomeStackScreen',
-            })
-          )}
-
+          onPress={() =>
+            props.navigation.dispatch(
+              CommonActions.navigate({
+                name: "HomeStackScreen"
+              })
+            )
+          }
         >
           <Text>Home</Text>
         </TouchableOpacity>
@@ -129,8 +130,10 @@ function CustomDrawerContent(props) {
 }
 
 const DrawerScreen = () => (
-  <Drawer.Navigator initialRouteName="TabsScreen" drawerContent={props => CustomDrawerContent(props)}>
-
+  <Drawer.Navigator
+    initialRouteName="TabsScreen"
+    drawerContent={props => CustomDrawerContent(props)}
+  >
     <Drawer.Screen
       name="Home"
       component={TabsScreen}
@@ -251,7 +254,6 @@ const RootStackScreen = ({ userToken }) => (
 );
 
 const rootComponent = () => {
-  // const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
@@ -263,26 +265,18 @@ const rootComponent = () => {
             name: user.displayName
           })
         );
-
-        console.log("user logged in: ", user);
+        // console.log("user logged in: ", user);
       } else {
-        console.log("user logged out: ", user);
+        // console.log("user logged out: ", user);
       }
     });
   }, []);
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 1000);
-  // }, []);
 
-  // if (isLoading) {
-  //   return <LoadingScreen />;
-  // }
   const authContext = React.useMemo(() => {
     return {
       signIn: (email, password) => {
-        // setisLoading(false);
+        console.log("Sign in occurring here!");
+
         firebase
           .auth()
           .signInWithEmailAndPassword(email, password)
@@ -297,12 +291,10 @@ const rootComponent = () => {
         }
       },
       signUp: (email, password, name) => {
-        // setisLoading(false);
         firebase
           .auth()
           .createUserWithEmailAndPassword(email, password)
           .then(userCredentials => {
-            console.log("22", userCredentials);
             return userCredentials.user.updateProfile({
               displayName: name
             });

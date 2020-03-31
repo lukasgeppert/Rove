@@ -17,6 +17,7 @@ import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import Fire from "../Firebase";
+import { set } from "react-native-reanimated";
 
 const firebase = require("firebase");
 require("firebase/firestore");
@@ -28,8 +29,9 @@ const DismissKeyboard = ({ children }) => (
 );
 
 const PostScreen = ({ navigation }) => {
+  const [name, setName] = useState("");
   const [text, setText] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(" ");
 
   useEffect(() => {
     getPhotoPermission();
@@ -46,12 +48,11 @@ const PostScreen = ({ navigation }) => {
   };
 
   const handlePost = () => {
-    console.log("Hello From handlePost");
-
-    Fire.addPost({ text: text.trim(), localUri: image })
+    Fire.addPost({ name: name, text: text.trim(), localUri: image })
       .then(ref => {
+        setName("");
         setText("");
-        setImage(null);
+        setImage(" ");
         navigation.goBack();
       })
       .catch(error => {
