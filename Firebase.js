@@ -236,9 +236,9 @@ class Fire {
       .collection("friends")
       .get()
       .then(function(querySnapshot) {
-        let tempResults;
+        let tempResults = [];
         querySnapshot.forEach(doc => {
-          tempResults = doc.data();
+          tempResults.push(doc.data());
         });
 
         return tempResults;

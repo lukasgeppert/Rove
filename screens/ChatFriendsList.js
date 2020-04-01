@@ -10,14 +10,18 @@ import {
 } from "react-native";
 import * as firebase from "firebase";
 import Firebase from "../Firebase";
+import { useSelector } from "react-redux";
 
 // To Do  - Plug in Redux
 
 const ChatFriendsList = props => {
+  const user = useSelector(state => state.user);
+  console.log("UID", user.uid);
+
   const [friends, setFriends] = useState([]);
 
   const fetchFriends = async () => {
-    const friends = await Firebase.getFriends(props.user.uid);
+    const friends = await Firebase.getFriends(user.uid);
     console.log("F is for Friends who do stuff together", friends);
 
     return friends;

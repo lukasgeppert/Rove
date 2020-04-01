@@ -75,21 +75,21 @@ const Profile = props => {
   //   );
   // }, []);
 
-  // useEffect(() => {
-  //   Fire.sendFriendRequest("UOjKnWlgrTXa4PbAQ4aYHRau42o2", "Shane");
-  // }, []);
+  useEffect(() => {
+    Fire.sendFriendRequest("UOjKnWlgrTXa4PbAQ4aYHRau42o2", "Shane");
+  }, []);
 
-  // useEffect(() => {
-  //   Fire.sendFriendRequest("mkqSACTTJnYjMgD7pTqgoj9N26o1", "Milos");
-  // }, []);
+  useEffect(() => {
+    Fire.sendFriendRequest("mkqSACTTJnYjMgD7pTqgoj9N26o1", "Milos");
+  }, []);
 
-  // useEffect(() => {
-  //   Fire.acceptFriendRequest("UOjKnWlgrTXa4PbAQ4aYHRau42o2", "Shane");
-  // }, []);
+  useEffect(() => {
+    Fire.acceptFriendRequest("UOjKnWlgrTXa4PbAQ4aYHRau42o2", "Shane");
+  }, []);
 
-  // useEffect(() => {
-  //   Fire.acceptFriendRequest("mkqSACTTJnYjMgD7pTqgoj9N26o1", "Milos");
-  // }, []);
+  useEffect(() => {
+    Fire.acceptFriendRequest("mkqSACTTJnYjMgD7pTqgoj9N26o1", "Milos");
+  }, []);
 
   // useEffect(() => {
   //   Fire.deleteFriend("UOjKnWlgrTXa4PbAQ4aYHRau42o2");
