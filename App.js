@@ -29,6 +29,7 @@ import Search from "./screens/Search";
 import PostScreen from "./screens/PostScreen";
 import NotificationScreen from "./screens/NotificationScreen";
 import HomeScreen from "./screens/HomeScreen";
+import ChatFriendsList from "./screens/ChatFriendsList";
 import SideBar from "./screens/SideBar";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -87,19 +88,20 @@ const DiscoverStackScreen = () => (
   </DiscoverStack.Navigator>
 );
 
-const NotificationStackScreen = () => (
-  <NotificationStack.Navigator>
-    <NotificationStack.Screen
-      name="Notifications"
-      component={NotificationScreen}
-    />
-  </NotificationStack.Navigator>
-);
+// const NotificationStackScreen = () => (
+//   <NotificationStack.Navigator>
+//     <NotificationStack.Screen
+//       name="Notifications"
+//       component={NotificationScreen}
+//     />
+//   </NotificationStack.Navigator>
+// );
 
 const ChatStackScreen = () => (
   <ChatStack.Navigator initialRouteName="ChatStack">
     <ChatStack.Screen name="Messages" component={ChatScreen} />
     <ChatStack.Screen name="ChatRoom" component={ChatRoom} />
+    <ChatStack.Screen name="ChatFriendsList" component={ChatFriendsList} />
   </ChatStack.Navigator>
 );
 function CustomDrawerContent(props) {
@@ -211,7 +213,7 @@ const TabsScreen = () => (
         )
       }}
     />
-    <Tabs.Screen
+    {/* <Tabs.Screen
       name="Notifications"
       component={NotificationStackScreen}
       options={{
@@ -220,7 +222,7 @@ const TabsScreen = () => (
           <MaterialCommunityIcons name="bell-ring" color={color} size={24} />
         )
       }}
-    />
+    /> */}
 
     <Tabs.Screen
       name="Chat"

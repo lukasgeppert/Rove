@@ -159,40 +159,181 @@ class Fire {
   //     -follower
   //       -followed: true
 
-  getFollowers = uid => {
-    return new Promise((res, rej) => {
-      this.firestore
-        .collection("users")
-        .doc(uid)
-        .collection("followers")
-        .get();
-    });
-  };
+  // getFollowers = uid => {
+  //   return this.firestore
+  //     .collection("users")
+  //     .doc(uid)
+  //     .collection("followers")
+  //     .get()
+  //     .then(function(querySnapshot) {
+  //       let tempResults;
+  //       querySnapshot.forEach(doc => {
+  //         tempResults = doc.data();
+  //       });
 
-  getFollowing = () => {
-    return new Promise((res, rej) => {
-      this.firestore
-        .collection("users")
-        .doc(uid)
-        .collection("followers")
-        .get();
-    });
-  };
+  //       return tempResults;
+  //     })
+  //     .catch(function(error) {
+  //       console.log("Error getting followers: ", error);
+  //     });
+  // };
 
-  follow = uid => {
-    return new Promise((res, rej) => {
-      this.firestore
-        .collection("users")
-        .doc("YWKmeTXB0ns06fELLrWq")
-        .collection("followers")
-        .add({
-          user: {
-            name,
-            _id: uid,
-            avatar: ""
-          }
+  // getFollowing = uid => {
+  //   return this.firestore
+  //     .collection("users")
+  //     .doc(uid)
+  //     .collection("following")
+  //     .get()
+  //     .then(function(querySnapshot) {
+  //       let tempResults;
+  //       querySnapshot.forEach(doc => {
+  //         tempResults = doc.data();
+  //       });
+  //       return tempResults;
+  //     })
+  //     .catch(function(error) {
+  //       console.log("Error getting following: ", error);
+  //     });
+  // };
+
+  // follow = (uid, name) => {
+  //   return this.firestore
+  //     .collection("users")
+  //     .doc("UOjKnWlgrTXa4PbAQ4aYHRau42o2")
+  //     .collection("followers")
+  //     .add({
+  //       user: {
+  //         name: name,
+  //         _id: uid,
+  //         avatar: "../assets/images/Shane_Pro_Pic.jpeg"
+  //       }
+  //     });
+  // };
+
+  getPendingFriends = uid => {
+    return this.firestore
+      .collection("users")
+      .doc(uid)
+      .collection("pendingFriends")
+      .get()
+      .then(function(querySnapshot) {
+        let tempResults;
+        querySnapshot.forEach(doc => {
+          tempResults = doc.data();
         });
-    });
+
+        return tempResults;
+      })
+      .catch(function(error) {
+        console.log("Error getting pending friends: ", error);
+      });
+  };
+
+  getFriends = uid => {
+    return this.firestore
+      .collection("users")
+      .doc(uid)
+      .collection("friends")
+      .get()
+      .then(function(querySnapshot) {
+        let tempResults;
+        querySnapshot.forEach(doc => {
+          tempResults = doc.data();
+        });
+
+        return tempResults;
+      })
+      .catch(function(error) {
+        console.log("Error getting friends: ", error);
+      });
+  };
+
+  sendFriendRequest = (uid, name) => {
+    console.log("Sending Friend Request from Firebase");
+
+    this.firestore
+      .collection("users")
+      .doc(this.uid)
+      .collection("pendingFriends")
+      .doc(uid)
+      .set({
+        friend: {
+          name: name,
+          _id: uid,
+          type: "outgoing"
+        }
+      });
+
+    this.firestore
+      .collection("users")
+      .doc(uid)
+      .collection("pendingFriends")
+      .doc(this.uid)
+      .set({
+        friend: {
+          name: this.name,
+          _id: this.uid,
+          type: "incoming"
+        }
+      });
+  };
+
+  acceptFriendRequest = (uid, name) => {
+    this.firestore
+      .collection("users")
+      .doc(this.uid)
+      .collection("friends")
+      .doc(uid)
+      .set({
+        friend: {
+          name: name,
+          _id: uid
+          // type: "outgoing"
+        }
+      });
+
+    this.firestore
+      .collection("users")
+      .doc(uid)
+      .collection("friends")
+      .doc(this.uid)
+      .set({
+        friend: {
+          name: this.name,
+          _id: this.uid
+          // type: "incoming"
+        }
+      });
+
+    this.firestore
+      .collection("users")
+      .doc(this.uid)
+      .collection("pendingFriends")
+      .doc(uid)
+      .delete();
+
+    this.firestore
+      .collection("users")
+      .doc(uid)
+      .collection("pendingFriends")
+      .doc(this.uid)
+      .delete();
+  };
+
+  deleteFriend = uid => {
+    this.firestore
+      .collection("users")
+      .doc(this.uid)
+      .collection("friends")
+      .doc(uid)
+      .delete();
+
+    this.firestore
+      .collection("users")
+      .doc(uid)
+      .collection("friends")
+      .doc(this.uid)
+      .delete();
   };
 
   getUser(uid) {
