@@ -32,9 +32,10 @@ const ChatFriendsList = props => {
   }, []);
 
   const renderFriend = friend => {
+    console.log('gimme friend', friend)
     return (
       <View>
-        <Text>{friend.name}</Text>
+        <Text>{friend.friend.name}</Text>
       </View>
     );
   };
