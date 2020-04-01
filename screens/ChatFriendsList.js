@@ -9,7 +9,7 @@ import {
   FlatList
 } from "react-native";
 import * as firebase from "firebase";
-import Firebase from "../Firebase";
+import Fire from "../Firebase";
 import { useSelector } from "react-redux";
 
 // To Do  - Plug in Redux
@@ -21,7 +21,7 @@ const ChatFriendsList = props => {
   const [friends, setFriends] = useState([]);
 
   const fetchFriends = async () => {
-    const friends = await Firebase.getFriends(user.uid);
+    const friends = await Fire.getFriends(user.uid);
     console.log("F is for Friends who do stuff together", friends);
 
     return friends;
@@ -32,10 +32,18 @@ const ChatFriendsList = props => {
   }, []);
 
   const renderFriend = friend => {
-    console.log('gimme friend', friend)
+    console.log("gimme friend", friend);
     return (
       <View>
-        <Text>{friend.friend.name}</Text>
+        <TouchableOpacity
+          onPress={async () => {
+            let chat = await Fire.getSingleChatRoom(friend.friend._id);
+            let chatRoomId = Object.keys(chat)[0];
+            props.navigation.navigate("ChatRoom", { chatRoomId });
+          }}
+        >
+          <Text>{friend.friend.name}</Text>
+        </TouchableOpacity>
       </View>
     );
   };

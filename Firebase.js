@@ -420,23 +420,34 @@ class Fire {
   };
 
   getSingleChatRoom = friendId => {
+    const _this = this;
     return this.firestore
       .collection("chatRoom")
-      .where("uids", "==", [this.uid, friendId])
+      .where("uids", "array-contains", this.uid)
       .get()
       .then(function(querySnapshot) {
         let tempResults = {};
+        let singleChatRoom = null;
         querySnapshot.forEach(doc => {
-          if (doc) {
-            tempResults[doc.id] = doc.data();
-            console.log("doc data was positive");
-          } else {
-            console.log("adding chatroom pls");
-            this.addChatRoom("personal", this.name, friendId);
-          }
-        });
+          // if (doc) {
+          tempResults[doc.id] = doc.data();
 
-        return tempResults;
+          if (tempResults[doc.id].uids.includes(friendId)) {
+            singleChatRoom = {};
+            singleChatRoom[doc.id] = doc.data();
+          }
+          //   console.log("doc data was positive");
+          // } else {
+          //   console.log("adding chatroom pls");
+          //   this.addChatRoom("personal", this.name, friendId);
+          // }
+        });
+        console.log("gimme singleChatRoom", singleChatRoom);
+
+        if (!singleChatRoom) {
+          _this.addChatRoom("personal", _this.name, friendId);
+        }
+        return singleChatRoom;
       })
 
       .catch(function(error) {
