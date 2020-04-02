@@ -31,45 +31,50 @@ class Fire {
   //Add Post
   // We need to grab postId
 
-  getPostId = () => {
-    return this.firestore
-      .collection("posts")
-      .get()
-      .then(function(querySnapshot) {
-        let tempResults = {};
+  // getPostId = () => {
+  //   return this.firestore
+  //     .collection("posts")
+  //     .get()
+  //     .then(function(querySnapshot) {
+  //       let tempResults = {};
 
-        querySnapshot.forEach(doc => {
-          tempResults[doc.id] = doc.data();
-        });
-        let postsId = [];
-        for (let i = 0; i < Object.keys(tempResults).length; i++) {
-          let result = Object.keys(tempResults)[i];
-          postsId.push(result);
-        }
+  //       querySnapshot.forEach(doc => {
+  //         tempResults[doc.id] = doc.data();
+  //       });
+  //       let postsId = [];
+  //       for (let i = 0; i < Object.keys(tempResults).length; i++) {
+  //         let result = Object.keys(tempResults)[i];
+  //         postsId.push(result);
+  //       }
 
-        return postsId;
-      })
-      .catch(function(error) {
-        console.log("Error getting chatRoom: ", error);
-      });
-  };
+  //       return postsId;
+  //     })
+  //     .catch(function(error) {
+  //       console.log("Error getting chatRoom: ", error);
+  //     });
+  // };
 
-  addLike = async (uid, name, postId) => {
-    return this.firestore
-      .collection("posts")
-      .doc(postId)
-      .collection("likes")
-      .add({
-        uid: uid,
-        name: name
-      });
-  };
-  removeLike = async (postId) => {
+  addLike = async postId => {
     return this.firestore
       .collection("posts")
       .doc(postId)
-      .collection("likes")
-      .delete()
+      .update({
+        likes: firebase.firestore.FieldValue.arrayUnion({
+          uid: this.uid,
+          name: this.name
+        })
+      });
+  };
+  removeLike = async postId => {
+    return this.firestore
+      .collection("posts")
+      .doc(postId)
+      .update({
+        likes: firebase.firestore.FieldValue.arrayRemove({
+          uid: this.uid,
+          name: this.name
+        })
+      });
   };
   addPost = async ({ text, localUri }) => {
     const remoteUri = await this.uploadPhotoAsync(localUri);

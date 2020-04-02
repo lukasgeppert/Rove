@@ -22,10 +22,25 @@ const Post = props => {
   const [liked, setLiked] = useState(false);
   const { post } = props;
   const { data } = props.post;
-  const likeToggled = () => {
-    setLiked(!liked);
-    Fire.removeLike(post.id);
 
+  useEffect(() => {
+    if (data.likes) {
+      data.likes.map(like => {
+        if (like.uid === Fire.uid) {
+          setLiked(true);
+        }
+      });
+    }
+  }, []);
+
+  const likeToggled = () => {
+    if (liked) {
+      setLiked(false);
+      Fire.removeLike(post.id);
+    } else {
+      setLiked(true);
+      Fire.addLike(post.id);
+    }
   };
   const heartIconColor = liked ? "rgb(220,100, 110)" : null;
 

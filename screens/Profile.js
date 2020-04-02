@@ -119,9 +119,9 @@ const Profile = props => {
   //   }
   //   getId().then(id => console.log("gimme id please", id));
   // });
-  useEffect(() => {
-    Fire.getPostId();
-  });
+  // useEffect(() => {
+  //   Fire.getPostId();
+  // });
 
   // useEffect(() => {
   //   async function fetchRatings() {
