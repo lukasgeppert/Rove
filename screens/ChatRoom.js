@@ -12,7 +12,6 @@ import Fire from "../Firebase";
 import firebase from "firebase";
 
 export const ChatRoom = props => {
-  console.log('i wanna see those props', props)
   const [messages, setMessages] = useState([]);
   useEffect(() => {
     let unsub = firebase

@@ -11,7 +11,7 @@ import {
   TextInput,
   SafeAreaView
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
@@ -94,16 +94,18 @@ const PostScreen = ({ navigation }) => {
             autoFocus={true}
             multiline={true}
             numberOfLines={4}
+            borderColor="#71A6D2"
+            borderWidth={1}
             style={{ flex: 1 }}
             placeholder="Want to share your travels?"
             onChangeText={text => setText(text)}
           ></TextInput>
         </View>
         <TouchableOpacity style={styles.photo} onPress={pickImage}>
-          <Text>*camera access button*</Text>
+          <Feather name="camera" size={24} color="#737888" />
         </TouchableOpacity>
 
-        <View style={{ marginHorizontal: 32, marginTop: 32, height: 150 }}>
+        <View style={{ marginHorizontal: 32, marginTop: 32, height: 150, borderColor:"#71A6D2", borderWidth:4 }}>
           <Image
             source={{ uri: image }}
             style={{ width: "100%", height: "100%" }}

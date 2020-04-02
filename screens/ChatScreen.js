@@ -95,14 +95,14 @@ const ChatScreen = props => {
     //     <Text>Move to ChatRoom</Text>
     //   </TouchableOpacity>
     // </View>
-    <>
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={() => props.navigation.navigate("ChatFriendsList")}
-        >
-          <Text>Start New Message</Text>
-        </TouchableOpacity>
-      </View>
+    // <>
+    //   {/* <View style={styles.header}>
+    //     <TouchableOpacity
+    //       onPress={() => props.navigation.navigate("ChatFriendsList")}
+    //     >
+    //       <Text>Start New Message</Text>
+    //     </TouchableOpacity> */}
+    //   </View>
       <View style={styles.container}>
         <TouchableOpacity
           onPress={() =>
@@ -119,7 +119,7 @@ const ChatScreen = props => {
           />
         </TouchableOpacity>
       </View>
-    </>
+    // </>
   );
 };
 

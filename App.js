@@ -97,13 +97,30 @@ const DiscoverStackScreen = () => (
 //   </NotificationStack.Navigator>
 // );
 
-const ChatStackScreen = () => (
+const ChatStackScreen = ({navigation}) => (
   <ChatStack.Navigator initialRouteName="ChatStack">
-    <ChatStack.Screen name="Messages" component={ChatScreen} />
+    <ChatStack.Screen
+      name="Messages"
+      component={ChatScreen}
+      screenOptions={{ headerShown: false }}
+      options={{
+        title: "New Chat",
+        headerRight: () => (
+          <MaterialCommunityIcons
+            name="message-text"
+            size={30}
+            backGroundColor="#009387"
+            onPress={() => navigation.navigate("ChatFriendsList")}
+            style={{ marginRight: 8 }}
+          ></MaterialCommunityIcons>
+        )
+      }}
+    />
     <ChatStack.Screen name="ChatRoom" component={ChatRoom} />
     <ChatStack.Screen name="ChatFriendsList" component={ChatFriendsList} />
   </ChatStack.Navigator>
 );
+
 function CustomDrawerContent(props) {
   return (
     <SafeAreaView style={{ flex: 1 }}>
