@@ -9,12 +9,17 @@ import {
 } from "react-native";
 import * as firebase from "firebase";
 
-export const Details = ({ route }) => (
-  <View style={styles.container}>
-    <Text>Details Screen</Text>
-    {route.params.name && <Text>{route.params.name}</Text>}
-  </View>
-);
+export const Details = ({ route }) => {
+  const { id } = route.params;
+  const { name } = route.params;
+
+  return (
+    <View style={styles.container}>
+      <Text>{name}</Text>
+      <Text>city: {id}</Text>
+    </View>
+  );
+};
 const styles = StyleSheet.create({
   container: { flex: 1, width: 100 + "%", height: 100 + "%" }
 });

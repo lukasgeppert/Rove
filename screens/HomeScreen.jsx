@@ -22,6 +22,7 @@ const HomeScreen = props => {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   let keyCounter = 0;
+
   async function fetchPosts() {
     const posts = await Firebase.posts;
     return posts;
@@ -36,8 +37,8 @@ const HomeScreen = props => {
 
   renderPost = post => {
     return (
-      <View key={keyCounter++} style={styles.feedItem}>
-        <Image source={post.avatar} style={styles.avatar}></Image>
+      <View style={styles.feedItem}>
+        <Image source={{ uri: post.avatar }} style={styles.avatar}></Image>
         <View style={{ flex: 1 }}>
           <View
             style={{
@@ -154,7 +155,8 @@ const styles = StyleSheet.create({
     width: undefined,
     height: 150,
     borderRadius: 5,
-    marginVertical: 16
+    marginVertical: 16,
+    marginRight: 25
   }
 });
 

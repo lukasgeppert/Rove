@@ -18,6 +18,8 @@ import firebase from "firebase";
 import { connect } from "react-redux";
 
 import ChatRoom from "./ChatRoom";
+import ChatFriendsList from "./ChatFriendsList";
+
 import { getMessages } from "../store/messages";
 const dummyChat = [
   {
@@ -93,24 +95,31 @@ const ChatScreen = props => {
     //     <Text>Move to ChatRoom</Text>
     //   </TouchableOpacity>
     // </View>
-    <View style={styles.container}>
-      {/* <View style={styles.header}> */}
-      <TouchableOpacity
-        onPress={() =>
-          props.navigation.navigate("ChatRoom", {
-            chatRoomId: chatRoomId[0]
-          })
-        }
-      >
-        <FlatList
-          style={styles.feed}
-          data={dummyChat}
-          renderItem={({ item }) => renderDummyChat(item)}
-          showsVerticalScrollIndicator={false}
-        />
-      </TouchableOpacity>
-    </View>
-    // </View>
+    // <>
+    //   {/* <View style={styles.header}>
+    //     <TouchableOpacity
+    //       onPress={() => props.navigation.navigate("ChatFriendsList")}
+    //     >
+    //       <Text>Start New Message</Text>
+    //     </TouchableOpacity> */}
+    //   </View>
+      <View style={styles.container}>
+        <TouchableOpacity
+          onPress={() =>
+            props.navigation.navigate("ChatRoom", {
+              chatRoomId: chatRoomId[0]
+            })
+          }
+        >
+          <FlatList
+            style={styles.feed}
+            data={dummyChat}
+            renderItem={({ item }) => renderDummyChat(item)}
+            showsVerticalScrollIndicator={false}
+          />
+        </TouchableOpacity>
+      </View>
+    // </>
   );
 };
 
@@ -138,8 +147,7 @@ const styles = StyleSheet.create({
     shadowRadius: 15,
     shadowOpacity: 0.2,
     zIndex: 0,
-    position: "absolute",
-    padding: 20
+    padding: 5
   },
   avatar: {
     width: 36,

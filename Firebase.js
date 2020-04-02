@@ -159,40 +159,181 @@ class Fire {
   //     -follower
   //       -followed: true
 
-  getFollowers = uid => {
-    return new Promise((res, rej) => {
-      this.firestore
-        .collection("users")
-        .doc(uid)
-        .collection("followers")
-        .get();
-    });
-  };
+  // getFollowers = uid => {
+  //   return this.firestore
+  //     .collection("users")
+  //     .doc(uid)
+  //     .collection("followers")
+  //     .get()
+  //     .then(function(querySnapshot) {
+  //       let tempResults;
+  //       querySnapshot.forEach(doc => {
+  //         tempResults = doc.data();
+  //       });
 
-  getFollowing = () => {
-    return new Promise((res, rej) => {
-      this.firestore
-        .collection("users")
-        .doc(uid)
-        .collection("followers")
-        .get();
-    });
-  };
+  //       return tempResults;
+  //     })
+  //     .catch(function(error) {
+  //       console.log("Error getting followers: ", error);
+  //     });
+  // };
 
-  follow = uid => {
-    return new Promise((res, rej) => {
-      this.firestore
-        .collection("users")
-        .doc("YWKmeTXB0ns06fELLrWq")
-        .collection("followers")
-        .add({
-          user: {
-            name,
-            _id: uid,
-            avatar: ""
-          }
+  // getFollowing = uid => {
+  //   return this.firestore
+  //     .collection("users")
+  //     .doc(uid)
+  //     .collection("following")
+  //     .get()
+  //     .then(function(querySnapshot) {
+  //       let tempResults;
+  //       querySnapshot.forEach(doc => {
+  //         tempResults = doc.data();
+  //       });
+  //       return tempResults;
+  //     })
+  //     .catch(function(error) {
+  //       console.log("Error getting following: ", error);
+  //     });
+  // };
+
+  // follow = (uid, name) => {
+  //   return this.firestore
+  //     .collection("users")
+  //     .doc("UOjKnWlgrTXa4PbAQ4aYHRau42o2")
+  //     .collection("followers")
+  //     .add({
+  //       user: {
+  //         name: name,
+  //         _id: uid,
+  //         avatar: "../assets/images/Shane_Pro_Pic.jpeg"
+  //       }
+  //     });
+  // };
+
+  getPendingFriends = uid => {
+    return this.firestore
+      .collection("users")
+      .doc(uid)
+      .collection("pendingFriends")
+      .get()
+      .then(function(querySnapshot) {
+        let tempResults;
+        querySnapshot.forEach(doc => {
+          tempResults = doc.data();
         });
-    });
+
+        return tempResults;
+      })
+      .catch(function(error) {
+        console.log("Error getting pending friends: ", error);
+      });
+  };
+
+  getFriends = uid => {
+    return this.firestore
+      .collection("users")
+      .doc(uid)
+      .collection("friends")
+      .get()
+      .then(function(querySnapshot) {
+        let tempResults = [];
+        querySnapshot.forEach(doc => {
+          tempResults.push(doc.data());
+        });
+
+        return tempResults;
+      })
+      .catch(function(error) {
+        console.log("Error getting friends: ", error);
+      });
+  };
+
+  sendFriendRequest = (uid, name) => {
+    console.log("Sending Friend Request from Firebase");
+
+    this.firestore
+      .collection("users")
+      .doc(this.uid)
+      .collection("pendingFriends")
+      .doc(uid)
+      .set({
+        friend: {
+          name: name,
+          _id: uid,
+          type: "outgoing"
+        }
+      });
+
+    this.firestore
+      .collection("users")
+      .doc(uid)
+      .collection("pendingFriends")
+      .doc(this.uid)
+      .set({
+        friend: {
+          name: this.name,
+          _id: this.uid,
+          type: "incoming"
+        }
+      });
+  };
+
+  acceptFriendRequest = (uid, name) => {
+    this.firestore
+      .collection("users")
+      .doc(this.uid)
+      .collection("friends")
+      .doc(uid)
+      .set({
+        friend: {
+          name: name,
+          _id: uid
+          // type: "outgoing"
+        }
+      });
+
+    this.firestore
+      .collection("users")
+      .doc(uid)
+      .collection("friends")
+      .doc(this.uid)
+      .set({
+        friend: {
+          name: this.name,
+          _id: this.uid
+          // type: "incoming"
+        }
+      });
+
+    this.firestore
+      .collection("users")
+      .doc(this.uid)
+      .collection("pendingFriends")
+      .doc(uid)
+      .delete();
+
+    this.firestore
+      .collection("users")
+      .doc(uid)
+      .collection("pendingFriends")
+      .doc(this.uid)
+      .delete();
+  };
+
+  deleteFriend = uid => {
+    this.firestore
+      .collection("users")
+      .doc(this.uid)
+      .collection("friends")
+      .doc(uid)
+      .delete();
+
+    this.firestore
+      .collection("users")
+      .doc(uid)
+      .collection("friends")
+      .doc(this.uid)
+      .delete();
   };
 
   getUser(uid) {
@@ -214,17 +355,15 @@ class Fire {
   //end firestore users
 
   //ChatRoom
-  addChatRoom = async (type, name) => {
+  addChatRoom = async (type, name, friendId) => {
+    console.log("in tha chat room");
     return new Promise((res, rej) => {
       this.firestore
         .collection("chatRoom")
         .add({
           name: name,
           avatar: "../assets/images/Shane_Pro_Pic.jpeg",
-          uids: [
-            "UOjKnWlgrTXa4PbAQ4aYHRau42o2",
-            "dGPK4Hwa0GQex9oK69jJXvOD4Nb2"
-          ],
+          uids: [this.uid, friendId],
           type: type
         })
         .then(ref => {
@@ -275,6 +414,37 @@ class Fire {
 
         return tempResults;
       })
+      .catch(function(error) {
+        console.log("Error getting chatRoom: ", error);
+      });
+  };
+
+  getSingleChatRoom = friendId => {
+    const _this = this;
+    return this.firestore
+      .collection("chatRoom")
+      .where("uids", "array-contains", this.uid)
+      .get()
+      .then(function(querySnapshot) {
+        let tempResults = {};
+        let singleChatRoom = null;
+        querySnapshot.forEach(doc => {
+          // if (doc) {
+          tempResults[doc.id] = doc.data();
+
+          if (tempResults[doc.id].uids.includes(friendId)) {
+            singleChatRoom = {};
+            singleChatRoom[doc.id] = doc.data();
+          }
+   
+        });
+
+        if (!singleChatRoom) {
+          _this.addChatRoom("personal", _this.name, friendId);
+        }
+        return singleChatRoom;
+      })
+
       .catch(function(error) {
         console.log("Error getting chatRoom: ", error);
       });
