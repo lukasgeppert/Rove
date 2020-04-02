@@ -43,6 +43,7 @@ import store from "./store/index";
 
 import { decode, encode } from "base-64";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import RatingForm from "./screens/RatingForm";
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -101,6 +102,7 @@ const DiscoverStackScreen = () => (
       })}
     />
     <DiscoverStack.Screen name="Search" component={Search} />
+    <DiscoverStack.Screen name="RatingForm" component={RatingForm} />
   </DiscoverStack.Navigator>
 );
 

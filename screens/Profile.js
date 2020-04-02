@@ -112,6 +112,21 @@ const Profile = props => {
     getFriendsList().then(list => console.log("Give me friends", list));
   }, []);
 
+  // useEffect(() => {
+  //   async function fetchRatings() {
+  //     console.log("getting Ratings");
+
+  //     const ratings = await Fire.getRatings("Seattle");
+  //     console.log("ratings", ratings);
+
+  //     return ratings;
+  //   }
+
+  //   fetchRatings().then(ratingsList =>
+  //     console.log("Show me ratings", ratingsList)
+  //   );
+  // }, []);
+
   const [email, setEmail] = useState("");
   const { signOut } = React.useContext(AuthContext);
   useEffect(() => {
@@ -126,6 +141,7 @@ const Profile = props => {
     setEmail(null);
     signOut();
   };
+
   LayoutAnimation.easeInEaseOut();
   return (
     <View style={styles.container}>

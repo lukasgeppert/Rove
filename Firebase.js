@@ -66,27 +66,74 @@ class Fire {
         console.log("Error getting posts: ", error);
       });
   }
+  //Add a getUserPosts for Profile page
+  getPosts = async () => {
+    const friendsList = await this.getFriends(this.uid);
+    console.log("friendsList", friendsList);
 
-  get posts() {
-    return (
+    let friendIdArr = [];
+    for (let i = 0; i < friendsList.length; i++) {
+      let friendObj = friendsList[i].friend;
+      let friendId = Object.values(friendObj)[0];
+      console.log("ID values of friendObj", friendId);
+      friendIdArr.push(friendId);
+      console.log("friend Array", friendIdArr);
+    }
+
+    let tempResults = [];
+    for (let i = 0; i < friendIdArr.length; i++) {
+      const element = friendIdArr[i];
+
       this.firestore
         .collection("posts")
         .orderBy("timestamp", "desc")
-        // .where("uid", "==", "Yihma0x3i3Mm4po7jkR7cLt34B22")
+        .where("uid", "==", element)
         .get()
         .then(function(querySnapshot) {
-          let tempResults = [];
-
           querySnapshot.forEach(doc => {
             tempResults.push(doc.data());
           });
-          return tempResults;
+          console.log("tempResults in get posts!!", tempResults);
         })
         .catch(function(error) {
           console.log("Error getting posts: ", error);
-        })
-    );
-  }
+        });
+    }
+    return tempResults;
+  };
+
+  getSingleChatRoom = friendId => {
+    const _this = this;
+    return this.firestore
+      .collection("chatRoom")
+      .where("uids", "array-contains", this.uid)
+      .get()
+      .then(function(querySnapshot) {
+        let tempResults = {};
+        let singleChatRoom = null;
+        querySnapshot.forEach(doc => {
+          // if (doc) {
+          tempResults[doc.id] = doc.data();
+          if (tempResults[doc.id].uids.includes(friendId)) {
+            singleChatRoom = {};
+            singleChatRoom[doc.id] = doc.data();
+          }
+          //   console.log("doc data was positive");
+          // } else {
+          //   console.log("adding chatroom pls");
+          //   this.addChatRoom("personal", this.name, friendId);
+          // }
+        });
+        console.log("gimme singleChatRoom", singleChatRoom);
+        if (!singleChatRoom) {
+          _this.addChatRoom("personal", _this.name, friendId);
+        }
+        return singleChatRoom;
+      })
+      .catch(function(error) {
+        console.log("Error getting chatRoom: ", error);
+      });
+  };
 
   //Upload Photo
   uploadPhotoAsync = async uri => {
@@ -126,9 +173,7 @@ class Fire {
           location: "Chicago",
           interests: "Long walks along the beach",
           aboutMe: "He has no Messiah",
-          posts: "None",
-          groups: ["EDM Lovers", "TENTACLE MONSTERS"],
-          events: ["The Tentacle Rave"]
+          posts: "None"
         })
         .then(ref => {
           res(ref);
@@ -240,6 +285,7 @@ class Fire {
         querySnapshot.forEach(doc => {
           tempResults.push(doc.data());
         });
+        console.log("GET FRIENDS", tempResults);
 
         return tempResults;
       })
@@ -484,25 +530,44 @@ class Fire {
       });
   };
 
-  addCity = async (name, te) => {
-    // const remoteUri = await this.uploadPhotoAsync(localUri);
-    return new Promise((res, rej) => {
-      this.firestore
-        .collection("cities")
-        .add({
-          name: this.name,
-          text,
-          uid: this.uid,
-          timestamp: this.timestamp,
-          image: remoteUri
-        })
-        .then(ref => {
-          res(ref);
-        })
-        .catch(err => {
-          rej(err);
+  addRating = (name, cost, weather, internet, fun, safety) => {
+    return this.firestore
+      .collection("cities")
+      .doc(name)
+      .collection("ratings")
+      .add({
+        rating: { cost, weather, internet, fun, safety },
+        user: {
+          id: this.uid,
+          name: this.name
+        }
+      })
+      .then(ref => {
+        res(ref);
+      })
+      .catch(err => {
+        rej(err);
+      });
+  };
+
+  // get rating
+  getRatings = name => {
+    return this.firestore
+      .collection("cities")
+      .doc(name)
+      .collection("ratings")
+      .get()
+      .then(function(querySnapshot) {
+        let tempResults = [];
+
+        querySnapshot.forEach(doc => {
+          tempResults.push(doc.data());
         });
-    });
+        return tempResults;
+      })
+      .catch(function(error) {
+        console.log("Error getting ratings: ", error);
+      });
   };
 
   get = callback => {

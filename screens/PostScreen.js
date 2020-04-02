@@ -35,7 +35,7 @@ const PostScreen = ({ navigation }) => {
 
   useEffect(() => {
     getPhotoPermission();
-  });
+  }, []);
 
   const getPhotoPermission = async () => {
     if (Constants.platform.ios) {

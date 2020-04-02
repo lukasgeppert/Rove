@@ -24,7 +24,8 @@ const HomeScreen = props => {
   let keyCounter = 0;
 
   async function fetchPosts() {
-    const posts = await Firebase.posts;
+    const posts = await Firebase.getPosts();
+
     return posts;
   }
   useEffect(() => {
