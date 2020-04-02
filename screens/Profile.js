@@ -94,6 +94,13 @@ const Profile = props => {
   // useEffect(() => {
   //   Fire.deleteFriend("UOjKnWlgrTXa4PbAQ4aYHRau42o2");
   // }, []);
+  useEffect(() => {
+    async function getSingleChatId() {
+      const room = await Fire.getSingleChatRoom("UOjKnWlgrTXa4PbAQ4aYHRau42o2");
+      return room;
+    }
+    getSingleChatId().then(id => console.log("gimme id", id));
+  }, []);
 
   useEffect(() => {
     async function getFriendsList() {

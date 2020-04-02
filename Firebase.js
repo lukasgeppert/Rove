@@ -401,17 +401,15 @@ class Fire {
   //end firestore users
 
   //ChatRoom
-  addChatRoom = async (type, name) => {
+  addChatRoom = async (type, name, friendId) => {
+    console.log("in tha chat room");
     return new Promise((res, rej) => {
       this.firestore
         .collection("chatRoom")
         .add({
           name: name,
           avatar: "../assets/images/Shane_Pro_Pic.jpeg",
-          uids: [
-            "UOjKnWlgrTXa4PbAQ4aYHRau42o2",
-            "dGPK4Hwa0GQex9oK69jJXvOD4Nb2"
-          ],
+          uids: [this.uid, friendId],
           type: type
         })
         .then(ref => {
@@ -462,6 +460,37 @@ class Fire {
 
         return tempResults;
       })
+      .catch(function(error) {
+        console.log("Error getting chatRoom: ", error);
+      });
+  };
+
+  getSingleChatRoom = friendId => {
+    const _this = this;
+    return this.firestore
+      .collection("chatRoom")
+      .where("uids", "array-contains", this.uid)
+      .get()
+      .then(function(querySnapshot) {
+        let tempResults = {};
+        let singleChatRoom = null;
+        querySnapshot.forEach(doc => {
+          // if (doc) {
+          tempResults[doc.id] = doc.data();
+
+          if (tempResults[doc.id].uids.includes(friendId)) {
+            singleChatRoom = {};
+            singleChatRoom[doc.id] = doc.data();
+          }
+   
+        });
+
+        if (!singleChatRoom) {
+          _this.addChatRoom("personal", _this.name, friendId);
+        }
+        return singleChatRoom;
+      })
+
       .catch(function(error) {
         console.log("Error getting chatRoom: ", error);
       });

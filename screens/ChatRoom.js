@@ -21,7 +21,9 @@ export const ChatRoom = props => {
       .collection("messages")
       .orderBy("createdAt", "desc")
       .onSnapshot(querySnapshot => {
+
         let tempResults = {};
+
         querySnapshot.forEach(doc => {
           tempResults[doc.id] = doc.data();
         });
@@ -36,8 +38,10 @@ export const ChatRoom = props => {
           };
           messageArr.push(newObj);
         }
+
         setMessages(messageArr);
         return tempResults;
+        
       });
     return () => unsub();
   }, []);
