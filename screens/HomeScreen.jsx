@@ -24,7 +24,8 @@ const HomeScreen = props => {
   let keyCounter = 0;
 
   async function fetchPosts() {
-    const posts = await Firebase.posts;
+    const posts = await Firebase.getPosts();
+
     return posts;
   }
   useEffect(() => {
@@ -38,7 +39,7 @@ const HomeScreen = props => {
   renderPost = post => {
     return (
       <View style={styles.feedItem}>
-        <Image source={post.avatar} style={styles.avatar}></Image>
+        <Image source={{ uri: post.avatar }} style={styles.avatar}></Image>
         <View style={{ flex: 1 }}>
           <View
             style={{
