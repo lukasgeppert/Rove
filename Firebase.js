@@ -436,13 +436,8 @@ class Fire {
             singleChatRoom = {};
             singleChatRoom[doc.id] = doc.data();
           }
-          //   console.log("doc data was positive");
-          // } else {
-          //   console.log("adding chatroom pls");
-          //   this.addChatRoom("personal", this.name, friendId);
-          // }
+   
         });
-        console.log("gimme singleChatRoom", singleChatRoom);
 
         if (!singleChatRoom) {
           _this.addChatRoom("personal", _this.name, friendId);

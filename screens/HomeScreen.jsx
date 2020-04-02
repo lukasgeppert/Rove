@@ -38,7 +38,7 @@ const HomeScreen = props => {
   renderPost = post => {
     return (
       <View style={styles.feedItem}>
-        <Image source={post.avatar} style={styles.avatar}></Image>
+        <Image source={{ uri: post.avatar }} style={styles.avatar}></Image>
         <View style={{ flex: 1 }}>
           <View
             style={{

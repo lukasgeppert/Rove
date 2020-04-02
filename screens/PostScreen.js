@@ -105,7 +105,7 @@ const PostScreen = ({ navigation }) => {
           <Feather name="camera" size={24} color="#737888" />
         </TouchableOpacity>
 
-        <View style={{ marginHorizontal: 32, marginTop: 32, height: 150, borderColor:"#71A6D2", borderWidth:4 }}>
+        <View style={{ marginHorizontal: 32, marginTop: 32, height: 150}}>
           <Image
             source={{ uri: image }}
             style={{ width: "100%", height: "100%" }}
