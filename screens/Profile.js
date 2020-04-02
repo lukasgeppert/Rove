@@ -94,13 +94,13 @@ const Profile = props => {
   // useEffect(() => {
   //   Fire.deleteFriend("UOjKnWlgrTXa4PbAQ4aYHRau42o2");
   // }, []);
-  useEffect(() => {
-    async function getSingleChatId() {
-      const room = await Fire.getSingleChatRoom("UOjKnWlgrTXa4PbAQ4aYHRau42o2");
-      return room;
-    }
-    getSingleChatId().then(id => console.log("gimme id", id));
-  }, []);
+  // useEffect(() => {
+  //   async function getSingleChatId() {
+  //     const room = await Fire.getSingleChatRoom("UOjKnWlgrTXa4PbAQ4aYHRau42o2");
+  //     return room;
+  //   }
+  //   getSingleChatId().then(id => console.log("gimme id", id));
+  // }, []);
 
   useEffect(() => {
     async function getFriendsList() {
@@ -109,8 +109,19 @@ const Profile = props => {
       return friendList;
     }
 
-    getFriendsList().then(list => console.log("Give me friends", list));
+    // getFriendsList().then(list => console.log("Give me friends", list));
   }, []);
+
+  // useEffect(() => {
+  //   async function getId() {
+  //     const id = await Fire.getPostId("UOjKnWlgrTXa4PbAQ4aYHRau42o2");
+  //     return id;
+  //   }
+  //   getId().then(id => console.log("gimme id please", id));
+  // });
+  useEffect(() => {
+    Fire.getPostId();
+  });
 
   // useEffect(() => {
   //   async function fetchRatings() {
