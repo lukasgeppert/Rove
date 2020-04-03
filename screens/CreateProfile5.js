@@ -12,6 +12,7 @@ import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
 import * as ImagePicker from "expo-image-picker";
 import { setImage } from "../store/profileSubmission";
+import Fire from "../Firebase";
 
 export const CreateProfile5 = props => {
   //Photo Permissions
@@ -25,6 +26,7 @@ export const CreateProfile5 = props => {
     }
   };
   useEffect(() => {
+    console.log("props.profileSubmission is: ", props);
     getPhotoPermission();
   }, []);
   //End Photo Permissions
@@ -46,7 +48,15 @@ export const CreateProfile5 = props => {
 
   //handleSubmit
   const handleSubmit = async () => {
-      Fire.addUser()
+    Fire.addUser(
+      props.user.uid,
+      props.user.name,
+      image,
+      props.profileSubmission.location,
+      props.profileSubmission.interests,
+      props.profileSubmission.bio
+    );
+    props.navigation.navigate("Profile")
   };
 
   return !props.profileSubmission.image ? (
@@ -83,7 +93,7 @@ export const CreateProfile5 = props => {
       />
       <View style={styles.submitContainer}>
         <TouchableOpacity onPress={handleSubmit}>
-            <Text>Submit</Text>
+          <Text>Submit</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -120,8 +130,8 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   submitButton: {
-      height: 100,
-      aspectRatio: 2.09,
+    height: 100,
+    aspectRatio: 2.09
   }
 });
 

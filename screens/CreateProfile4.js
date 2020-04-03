@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Button, Image, TextInput, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { CheckBox } from "react-native-elements";
+import { setInterests, setBio } from "../store/profileSubmission";
 
 export const CreateProfile4 = props => {
   const [love, setLove] = useState(false);
@@ -13,6 +14,21 @@ export const CreateProfile4 = props => {
   const [interests, setInterests] = useState(false);
   const [bioText, setBioText] = useState(null);
   const [bio, setBio] = useState(false);
+
+  const handleNext = () => {
+    let intArr = []
+    if (love) intArr.push("long walks along the beach")
+    if (movies) intArr.push("movies")
+    if (hiking) intArr.push("hiking")
+    if (biking) intArr.push("biking")
+    if (books) intArr.push("books")
+    if (bunker) intArr.push("bunker")
+
+    props.setReduxBio(bioText)
+    props.setReduxInterests(intArr)
+
+    props.navigation.navigate("Upload Photo")
+  }
 
   return (
     <View>
@@ -121,7 +137,7 @@ export const CreateProfile4 = props => {
             color="rgb(215,106,97)"
             onPress={() => setBio(false)}
           ></Button>
-          <TouchableOpacity onPress={() => props.navigation.navigate("Upload Photo")}>
+          <TouchableOpacity onPress={handleNext}>
             <Text style={styles.paragraph}>Next next NEEEEEEXT PAAAAAAAAGE</Text>
           </TouchableOpacity>
         </>
@@ -168,6 +184,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({});
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  setReduxInterests: interests => dispatch(setInterests(interests)),
+  setReduxBio: bio => dispatch(setBio(bio))
+});
 
-export default connect(mapStateToProps, null)(CreateProfile4);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProfile4);
