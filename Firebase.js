@@ -158,22 +158,45 @@ class Fire {
       );
     });
   };
+
+  uploadAvatarPhotoAsync = async uri => {
+    const path = `photos/${this.uid}/avatar.jpg`;
+    return new Promise(async (res, rej) => {
+      const response = await fetch(uri);
+      const file = await response.blob();
+      let upload = firebase
+        .storage()
+        .ref(path)
+        .put(file);
+      upload.on(
+        "state_changed",
+        snapshot => {},
+        err => {
+          rej(err);
+        },
+        async () => {
+          const url = await upload.snapshot.ref.getDownloadURL();
+          res(url);
+        }
+      );
+    });
+  };
   /////end of Posts group
 
   //firestore users
-  addUser = async () => {
+  addUser = async (uid, name, image, location, interests, bio) => {
+    const remoteUri = await this.uploadAvatarPhotoAsync(image)
     return new Promise((res, rej) => {
       this.firestore
         .collection("users")
-        .doc("UOjKnWlgrTXa4PbAQ4aYHRau42o2")
+        .doc(uid)
         .set({
-          uid: "UOjKnWlgrTXa4PbAQ4aYHRau42o2",
-          name: "Shane the God",
-          image: "asdf",
-          location: "Chicago",
-          interests: "Long walks along the beach",
-          aboutMe: "He has no Messiah",
-          posts: "None"
+          uid: uid,
+          name: name,
+          image: remoteUri,
+          location: location,
+          interests: interests,
+          aboutMe: bio
         })
         .then(ref => {
           res(ref);
@@ -387,11 +410,8 @@ class Fire {
       .collection("users")
       .doc(uid)
       .get()
-      .then(function(querySnapshot) {
-        let tempResults;
-        querySnapshot.forEach(doc => {
-          tempResults = doc.data();
-        });
+      .then(function(doc) {
+        let tempResults = doc.data();
         return tempResults;
       })
       .catch(function(error) {

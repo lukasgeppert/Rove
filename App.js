@@ -28,6 +28,11 @@ import Details from "./screens/Details";
 import Search from "./screens/Search";
 import PostScreen from "./screens/PostScreen";
 import NotificationScreen from "./screens/NotificationScreen";
+import CreateProfile1 from "./screens/CreateProfile1";
+import CreateProfile2 from "./screens/CreateProfile2";
+import CreateProfile3 from "./screens/CreateProfile3";
+import CreateProfile4 from "./screens/CreateProfile4";
+import CreateProfile5 from "./screens/CreateProfile5";
 import HomeScreen from "./screens/HomeScreen";
 import ChatFriendsList from "./screens/ChatFriendsList";
 import SideBar from "./screens/SideBar";
@@ -89,6 +94,11 @@ const HomeStackScreen = ({ navigation }) => (
 const ProfileStackScreen = () => (
   <ProfileStack.Navigator>
     <ProfileStack.Screen name="Profile" component={Profile} />
+    <ProfileStack.Screen name="Welcome" component={CreateProfile1} />
+    <ProfileStack.Screen name="Choose Location" component={CreateProfile2} />
+    <ProfileStack.Screen name="Choose Profession" component={CreateProfile3} />
+    <ProfileStack.Screen name="Interests and Bio" component={CreateProfile4} />
+    <ProfileStack.Screen name="Upload Photo" component={CreateProfile5} />
   </ProfileStack.Navigator>
 );
 const DiscoverStackScreen = () => (
