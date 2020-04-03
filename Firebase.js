@@ -137,7 +137,7 @@ class Fire {
           querySnapshot.forEach(doc => {
             tempResults.push({ data: doc.data(), id: doc.id });
           });
-          console.log("tempResults in get posts!!", tempResults);
+          // console.log("tempResults in get posts!!", tempResults);
         })
         .catch(function(error) {
           console.log("Error getting posts: ", error);
