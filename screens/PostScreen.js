@@ -18,7 +18,6 @@ import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import Fire from "../Firebase";
 import { set } from "react-native-reanimated";
-
 const firebase = require("firebase");
 require("firebase/firestore");
 

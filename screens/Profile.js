@@ -92,25 +92,17 @@ const Profile = props => {
   // }, []);
 
   // useEffect(() => {
-  //   Fire.deleteFriend("UOjKnWlgrTXa4PbAQ4aYHRau42o2");
+  //   Fire.addUser(props.user.uid, "", "", "", "", "")
+    // })
+
   // }, []);
   // useEffect(() => {
   //   async function getSingleChatId() {
   //     const room = await Fire.getSingleChatRoom("UOjKnWlgrTXa4PbAQ4aYHRau42o2");
   //     return room;
   //   }
-  //   getSingleChatId().then(id => console.log("gimme id", id));
   // }, []);
 
-  useEffect(() => {
-    async function getFriendsList() {
-      const friendList = await Fire.getFriends("R8g86ZXjfcTskhNeC9njQb7TYA12");
-
-      return friendList;
-    }
-
-    // getFriendsList().then(list => console.log("Give me friends", list));
-  }, []);
 
   // useEffect(() => {
   //   async function getId() {
@@ -159,6 +151,9 @@ const Profile = props => {
       <Text>HELLO {email}</Text>
       <TouchableOpacity onPress={signOutUser}>
         <Text>Logout</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => props.navigation.navigate("Welcome")}>
+        <Text>Build My Profile!</Text>
       </TouchableOpacity>
     </View>
   );
