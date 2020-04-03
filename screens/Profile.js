@@ -51,6 +51,9 @@ const Profile = props => {
       <TouchableOpacity onPress={signOutUser}>
         <Text>Logout</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => props.navigation.navigate("Welcome")}>
+        <Text>Build My Profile!</Text>
+      </TouchableOpacity>
     </View>
   );
 };

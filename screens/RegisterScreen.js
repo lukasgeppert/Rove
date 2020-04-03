@@ -28,7 +28,6 @@ const RegisterScreen = ({ navigation }) => {
   const { signUp } = React.useContext(AuthContext);
 
   const register = () => {
-    console.log("HELLO IS ANYONE THERE");
     if (password === confirmPassword) {
       signUp(email, password, displayName);
     } else {
