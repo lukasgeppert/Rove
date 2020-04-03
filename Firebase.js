@@ -29,6 +29,53 @@ class Fire {
 
   //POSTING GROUP
   //Add Post
+  // We need to grab postId
+
+  // getPostId = () => {
+  //   return this.firestore
+  //     .collection("posts")
+  //     .get()
+  //     .then(function(querySnapshot) {
+  //       let tempResults = {};
+
+  //       querySnapshot.forEach(doc => {
+  //         tempResults[doc.id] = doc.data();
+  //       });
+  //       let postsId = [];
+  //       for (let i = 0; i < Object.keys(tempResults).length; i++) {
+  //         let result = Object.keys(tempResults)[i];
+  //         postsId.push(result);
+  //       }
+
+  //       return postsId;
+  //     })
+  //     .catch(function(error) {
+  //       console.log("Error getting chatRoom: ", error);
+  //     });
+  // };
+
+  addLike = async postId => {
+    return this.firestore
+      .collection("posts")
+      .doc(postId)
+      .update({
+        likes: firebase.firestore.FieldValue.arrayUnion({
+          uid: this.uid,
+          name: this.name
+        })
+      });
+  };
+  removeLike = async postId => {
+    return this.firestore
+      .collection("posts")
+      .doc(postId)
+      .update({
+        likes: firebase.firestore.FieldValue.arrayRemove({
+          uid: this.uid,
+          name: this.name
+        })
+      });
+  };
   addPost = async ({ text, localUri }) => {
     const remoteUri = await this.uploadPhotoAsync(localUri);
     return new Promise((res, rej) => {
@@ -69,15 +116,12 @@ class Fire {
   //Add a getUserPosts for Profile page
   getPosts = async () => {
     const friendsList = await this.getFriends(this.uid);
-    console.log("friendsList", friendsList);
 
     let friendIdArr = [];
     for (let i = 0; i < friendsList.length; i++) {
       let friendObj = friendsList[i].friend;
       let friendId = Object.values(friendObj)[0];
-      console.log("ID values of friendObj", friendId);
       friendIdArr.push(friendId);
-      console.log("friend Array", friendIdArr);
     }
 
     let tempResults = [];
@@ -91,9 +135,9 @@ class Fire {
         .get()
         .then(function(querySnapshot) {
           querySnapshot.forEach(doc => {
-            tempResults.push(doc.data());
+            tempResults.push({ data: doc.data(), id: doc.id });
           });
-          console.log("tempResults in get posts!!", tempResults);
+          // console.log("tempResults in get posts!!", tempResults);
         })
         .catch(function(error) {
           console.log("Error getting posts: ", error);
@@ -124,7 +168,6 @@ class Fire {
           //   this.addChatRoom("personal", this.name, friendId);
           // }
         });
-        console.log("gimme singleChatRoom", singleChatRoom);
         if (!singleChatRoom) {
           _this.addChatRoom("personal", _this.name, friendId);
         }
@@ -308,7 +351,6 @@ class Fire {
         querySnapshot.forEach(doc => {
           tempResults.push(doc.data());
         });
-        console.log("GET FRIENDS", tempResults);
 
         return tempResults;
       })
@@ -318,8 +360,6 @@ class Fire {
   };
 
   sendFriendRequest = (uid, name) => {
-    console.log("Sending Friend Request from Firebase");
-
     this.firestore
       .collection("users")
       .doc(this.uid)
@@ -422,7 +462,6 @@ class Fire {
 
   //ChatRoom
   addChatRoom = async (type, name, friendId) => {
-    console.log("in tha chat room");
     return new Promise((res, rej) => {
       this.firestore
         .collection("chatRoom")
@@ -502,7 +541,6 @@ class Fire {
             singleChatRoom = {};
             singleChatRoom[doc.id] = doc.data();
           }
-   
         });
 
         if (!singleChatRoom) {

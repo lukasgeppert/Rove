@@ -36,6 +36,7 @@ import CreateProfile5 from "./screens/CreateProfile5";
 import HomeScreen from "./screens/HomeScreen";
 import ChatFriendsList from "./screens/ChatFriendsList";
 import SideBar from "./screens/SideBar";
+import Post from './container/Post'
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { AuthContext } from "./screens/AuthContext";
@@ -89,6 +90,8 @@ const HomeStackScreen = ({ navigation }) => (
       }}
     />
     <HomeStack.Screen name="PostScreen" component={PostScreen} />
+    <HomeStack.Screen name="Post" component={Post} />
+
   </HomeStack.Navigator>
 );
 const ProfileStackScreen = () => (

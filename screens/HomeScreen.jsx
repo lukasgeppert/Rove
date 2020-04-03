@@ -17,7 +17,7 @@ import Firebase from "../Firebase";
 import { AuthContext } from "./AuthContext";
 import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
-
+import Post from "../container/Post";
 const HomeScreen = props => {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -25,60 +25,23 @@ const HomeScreen = props => {
 
   async function fetchPosts() {
     const posts = await Firebase.getPosts();
-
     return posts;
   }
   useEffect(() => {
     setIsLoading(true);
 
     fetchPosts()
-      .then(posts => setPosts(posts))
+      .then(promisePosts => {
+        setPosts(promisePosts);
+
+        console.log("hello our posts that were there", posts);
+      })
+
       .finally(() => setIsLoading(false));
   }, []);
 
   renderPost = post => {
-    return (
-      <View style={styles.feedItem}>
-        <Image source={{ uri: post.avatar }} style={styles.avatar}></Image>
-        <View style={{ flex: 1 }}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center"
-            }}
-          >
-            <View>
-              <Text style={styles.name}>{post.name}</Text>
-              <Text style={styles.timestamp}>
-                {moment(post.timestamp).fromNow()}
-              </Text>
-            </View>
-            <Ionicons name="ios-more" size={24} color="#737888" />
-          </View>
-          <Text style={styles.post}>{post.text}</Text>
-          <Image
-            source={{ uri: post.image }}
-            style={styles.postImage}
-            resizeMode="cover"
-          />
-          <View style={{ flexDirection: "row" }}>
-            <Ionicons
-              name="ios-heart-empty"
-              size={24}
-              color="#737888"
-              style={{ marginRight: 16 }}
-            />
-            {/* <Ionicons
-              name="ios-chatboxes"
-              size={24}
-              color="#737888"
-              style={{ marginRight: 16 }}
-            /> */}
-          </View>
-        </View>
-      </View>
-    );
+    return <Post post={post} />;
   };
   return (
     <View style={styles.container}>

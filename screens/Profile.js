@@ -103,15 +103,17 @@ const Profile = props => {
   //   }
   // }, []);
 
+
   // useEffect(() => {
-  //   async function getFriendsList() {
-  //     const friendList = await Fire.getFriends("R8g86ZXjfcTskhNeC9njQb7TYA12");
-
-  //     return friendList;
+  //   async function getId() {
+  //     const id = await Fire.getPostId("UOjKnWlgrTXa4PbAQ4aYHRau42o2");
+  //     return id;
   //   }
-
-  //   getFriendsList().then(list => console.log("Give me friends", list));
-  // }, []);
+  //   getId().then(id => console.log("gimme id please", id));
+  // });
+  // useEffect(() => {
+  //   Fire.getPostId();
+  // });
 
   // useEffect(() => {
   //   async function fetchRatings() {
