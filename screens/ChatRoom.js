@@ -11,7 +11,6 @@ import { GiftedChat } from "react-native-gifted-chat";
 import Fire from "../Firebase";
 import firebase from "firebase";
 
-//TODO: Figure out why chat not in order
 export const ChatRoom = props => {
   const [messages, setMessages] = useState([]);
   useEffect(() => {
@@ -20,8 +19,11 @@ export const ChatRoom = props => {
       .collection("chatRoom")
       .doc(props.route.params.chatRoomId)
       .collection("messages")
+      .orderBy("createdAt", "desc")
       .onSnapshot(querySnapshot => {
+
         let tempResults = {};
+
         querySnapshot.forEach(doc => {
           tempResults[doc.id] = doc.data();
         });
@@ -36,13 +38,15 @@ export const ChatRoom = props => {
           };
           messageArr.push(newObj);
         }
+
         setMessages(messageArr);
         return tempResults;
+        
       });
     return () => unsub();
   }, []);
+
   const grabUser = () => {
-    // console.log(this.props.route.params.name);
     return {
       _id: props.user.uid,
       name: props.user.name

@@ -11,11 +11,13 @@ import {
   TextInput,
   SafeAreaView
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, Feather } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "react-native-vector-icons";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import Fire from "../Firebase";
+import { set } from "react-native-reanimated";
 const firebase = require("firebase");
 require("firebase/firestore");
 
@@ -26,12 +28,13 @@ const DismissKeyboard = ({ children }) => (
 );
 
 const PostScreen = ({ navigation }) => {
+  const [name, setName] = useState("");
   const [text, setText] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(" ");
 
   useEffect(() => {
     getPhotoPermission();
-  });
+  }, []);
 
   const getPhotoPermission = async () => {
     if (Constants.platform.ios) {
@@ -44,12 +47,11 @@ const PostScreen = ({ navigation }) => {
   };
 
   const handlePost = () => {
-    console.log("Hello From handlePost");
-
-    Fire.addPost({ text: text.trim(), localUri: image })
+    Fire.addPost({ name: name, text: text.trim(), localUri: image })
       .then(ref => {
+        setName("");
         setText("");
-        setImage(null);
+        setImage(" ");
         navigation.goBack();
       })
       .catch(error => {
@@ -91,16 +93,18 @@ const PostScreen = ({ navigation }) => {
             autoFocus={true}
             multiline={true}
             numberOfLines={4}
+            borderColor="#71A6D2"
+            borderWidth={1}
             style={{ flex: 1 }}
             placeholder="Want to share your travels?"
             onChangeText={text => setText(text)}
           ></TextInput>
         </View>
         <TouchableOpacity style={styles.photo} onPress={pickImage}>
-          <Text>*camera access button*</Text>
+          <Feather name="camera" size={24} color="#737888" />
         </TouchableOpacity>
 
-        <View style={{ marginHorizontal: 32, marginTop: 32, height: 150 }}>
+        <View style={{ marginHorizontal: 32, marginTop: 32, height: 150}}>
           <Image
             source={{ uri: image }}
             style={{ width: "100%", height: "100%" }}

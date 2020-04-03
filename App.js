@@ -34,6 +34,7 @@ import CreateProfile3 from "./screens/CreateProfile3";
 import CreateProfile4 from "./screens/CreateProfile4";
 import CreateProfile5 from "./screens/CreateProfile5";
 import HomeScreen from "./screens/HomeScreen";
+import ChatFriendsList from "./screens/ChatFriendsList";
 import SideBar from "./screens/SideBar";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -47,6 +48,7 @@ import store from "./store/index";
 
 import { decode, encode } from "base-64";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import RatingForm from "./screens/RatingForm";
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -67,12 +69,28 @@ const PostStack = createStackNavigator();
 const RootStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-const HomeStackScreen = () => (
+const HomeStackScreen = ({ navigation }) => (
   <HomeStack.Navigator>
-    <HomeStack.Screen name="Home" component={HomeScreen} />
+    <HomeStack.Screen
+      screenOptions={{ headerShown: false }}
+      name="Home"
+      component={HomeScreen}
+      options={{
+        title: "Home",
+        headerRight: () => (
+          <MaterialCommunityIcons
+            name="plus-circle-outline"
+            size={30}
+            backGroundColor="#009387"
+            onPress={() => navigation.navigate("PostScreen")}
+            style={{ marginRight: 13 }}
+          ></MaterialCommunityIcons>
+        )
+      }}
+    />
+    <HomeStack.Screen name="PostScreen" component={PostScreen} />
   </HomeStack.Navigator>
 );
-
 const ProfileStackScreen = () => (
   <ProfileStack.Navigator>
     <ProfileStack.Screen name="Profile" component={Profile} />
@@ -94,36 +112,56 @@ const DiscoverStackScreen = () => (
       })}
     />
     <DiscoverStack.Screen name="Search" component={Search} />
+    <DiscoverStack.Screen name="RatingForm" component={RatingForm} />
   </DiscoverStack.Navigator>
 );
 
-const NotificationStackScreen = () => (
-  <NotificationStack.Navigator>
-    <NotificationStack.Screen
-      name="Notifications"
-      component={NotificationScreen}
-    />
-  </NotificationStack.Navigator>
-);
+// const NotificationStackScreen = () => (
+//   <NotificationStack.Navigator>
+//     <NotificationStack.Screen
+//       name="Notifications"
+//       component={NotificationScreen}
+//     />
+//   </NotificationStack.Navigator>
+// );
 
-const ChatStackScreen = () => (
+const ChatStackScreen = ({navigation}) => (
   <ChatStack.Navigator initialRouteName="ChatStack">
-    <ChatStack.Screen name="Messages" component={ChatScreen} />
+    <ChatStack.Screen
+      name="Messages"
+      component={ChatScreen}
+      screenOptions={{ headerShown: false }}
+      options={{
+        title: "New Chat",
+        headerRight: () => (
+          <MaterialCommunityIcons
+            name="message-outline"
+            size={30}
+            backGroundColor="#009387"
+            onPress={() => navigation.navigate("ChatFriendsList")}
+            style={{ marginRight: 13 }}
+          ></MaterialCommunityIcons>
+        )
+      }}
+    />
     <ChatStack.Screen name="ChatRoom" component={ChatRoom} />
+    <ChatStack.Screen name="ChatFriendsList" component={ChatFriendsList} />
   </ChatStack.Navigator>
 );
+
 function CustomDrawerContent(props) {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         <TouchableOpacity
           style={{ marginTop: 20 }}
-          onPress={() => props.navigation.dispatch(
-            CommonActions.navigate({
-              name: 'HomeStackScreen',
-            })
-          )}
-
+          onPress={() =>
+            props.navigation.dispatch(
+              CommonActions.navigate({
+                name: "HomeStackScreen"
+              })
+            )
+          }
         >
           <Text>Home</Text>
         </TouchableOpacity>
@@ -139,8 +177,10 @@ function CustomDrawerContent(props) {
 }
 
 const DrawerScreen = () => (
-  <Drawer.Navigator initialRouteName="TabsScreen" drawerContent={props => CustomDrawerContent(props)}>
-
+  <Drawer.Navigator
+    initialRouteName="TabsScreen"
+    drawerContent={props => CustomDrawerContent(props)}
+  >
     <Drawer.Screen
       name="Home"
       component={TabsScreen}
@@ -180,7 +220,7 @@ const TabsScreen = () => (
       options={{
         tabBarLabel: "Home",
         tabBarIcon: ({ color }) => (
-          <Ionicons name="ios-home" color={color} size={24} />
+          <Ionicons name="ios-home" color={color} size={26} />
         )
       }}
     />
@@ -190,7 +230,7 @@ const TabsScreen = () => (
       options={{
         tabBarLabel: "Profile",
         tabBarIcon: ({ color }) => (
-          <MaterialCommunityIcons name="account" color={color} size={24} />
+          <MaterialCommunityIcons name="account" color={color} size={26} />
         )
       }}
     />
@@ -200,11 +240,11 @@ const TabsScreen = () => (
       options={{
         tabBarLabel: "Discover",
         tabBarIcon: ({ color }) => (
-          <MaterialCommunityIcons name="ferry" color={color} size={24} />
+          <MaterialCommunityIcons name="ferry" color={color} size={26} />
         )
       }}
     />
-    <Tabs.Screen
+    {/* <Tabs.Screen
       name="PostModal"
       component={PostScreen}
       options={{
@@ -213,21 +253,21 @@ const TabsScreen = () => (
           <MaterialCommunityIcons
             name="plus-circle-outline"
             color={color}
-            size={24}
+            size={26}
           />
         )
       }}
-    />
-    <Tabs.Screen
+    /> */}
+    {/* <Tabs.Screen
       name="Notifications"
       component={NotificationStackScreen}
       options={{
         tabBarLabel: "Notifications",
         tabBarIcon: ({ color }) => (
-          <MaterialCommunityIcons name="bell-ring" color={color} size={24} />
+          <MaterialCommunityIcons name="bell-ring" color={color} size={26} />
         )
       }}
-    />
+    /> */}
 
     <Tabs.Screen
       name="Chat"
@@ -235,7 +275,7 @@ const TabsScreen = () => (
       options={{
         tabBarLabel: "Chat",
         tabBarIcon: ({ color }) => (
-          <MaterialCommunityIcons name="chat" color={color} size={24} />
+          <MaterialCommunityIcons name="chat" color={color} size={26} />
         )
       }}
     />
@@ -261,7 +301,6 @@ const RootStackScreen = ({ userToken }) => (
 );
 
 const rootComponent = () => {
-  // const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
@@ -273,26 +312,18 @@ const rootComponent = () => {
             name: user.displayName
           })
         );
-
-        console.log("user logged in: ", user);
+        // console.log("user logged in: ", user);
       } else {
-        console.log("user logged out: ", user);
+        // console.log("user logged out: ", user);
       }
     });
   }, []);
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 1000);
-  // }, []);
 
-  // if (isLoading) {
-  //   return <LoadingScreen />;
-  // }
   const authContext = React.useMemo(() => {
     return {
       signIn: (email, password) => {
-        // setisLoading(false);
+        console.log("Sign in occurring here!");
+
         firebase
           .auth()
           .signInWithEmailAndPassword(email, password)
@@ -307,12 +338,10 @@ const rootComponent = () => {
         }
       },
       signUp: (email, password, name) => {
-        // setisLoading(false);
         firebase
           .auth()
           .createUserWithEmailAndPassword(email, password)
           .then(userCredentials => {
-            console.log("22", userCredentials);
             return userCredentials.user.updateProfile({
               displayName: name
             });
