@@ -28,13 +28,11 @@ const Profile = props => {
   const [friendRequests, setFriendRequests] = useState(null);
   let name = props.user.name || "traveler";
   const { signOut } = React.useContext(AuthContext);
-  const [loading, setIsLoading] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   useEffect(() => {
-    setIsLoading(true);
     Fire.getUser(props.user.uid).then(userInfo => setUser(userInfo));
     Fire.getPendingFriends(props.user.uid)
-      .then(friendPendingRequests => setFriendRequests(friendPendingRequests))
-      .finally(() => setIsLoading(false));
+      .then(friendPendingRequests => setFriendRequests(friendPendingRequests));
   }, []);
 
   const signOutUser = () => {
@@ -42,23 +40,8 @@ const Profile = props => {
   };
 
   LayoutAnimation.easeInEaseOut();
-  console.log("user is: ", user);
   return (
-    <ScrollView
-      style={styles.container}
-      refreshControl={() => (
-        <RefreshControl
-          refreshing={loading}
-          onRefresh={() => {
-            setIsLoading(true);
-            Fire.getPendingFriends(props.user.uid)
-            .then(friendPendingRequests =>
-              setFriendRequests(friendPendingRequests)
-            )
-            .finally(() => setIsLoading(false))}}
-        />
-      )}
-    >
+    <ScrollView style={styles.container}>
       {user ? (
         <>
           <Text style={styles.header}>Hello, {name}!</Text>
@@ -143,16 +126,20 @@ const Profile = props => {
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    onPress={() =>
-                      Fire.acceptFriendRequest(frienduid, friendName)
-                    }
+                    onPress={() => {
+                      Fire.acceptFriendRequest(frienduid, friendName);
+                      setFriendRequests(friendRequests.filter(friendRequestObject => friendRequestObject.friend._id !== frienduid))
+                    }}
                   >
                     <Text style={styles.acceptButton}>
                       Accept Friend Request
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    onPress={() => Fire.denyFriendRequest(frienduid)}
+                    onPress={() => {
+                      Fire.denyFriendRequest(frienduid);
+                      setFriendRequests(friendRequests.filter(friendRequestObject => friendRequestObject.friend._id !== frienduid))
+                    }}
                   >
                     <Text style={styles.rejectButton}>
                       Reject Friend Request
