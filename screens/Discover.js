@@ -71,9 +71,6 @@ const Discover = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Button title="Search" onPress={() => navigation.push("Search")} />
-      </View>
       <FlatList
         style={styles.feed}
         data={cities}

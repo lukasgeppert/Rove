@@ -6,7 +6,7 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
-  LayoutAnimation
+  LayoutAnimation,
 } from "react-native";
 import * as firebase from "firebase";
 import { AuthContext } from "./AuthContext";
@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import Fire from "../Firebase";
 
 //Jason's Wacky Experimental Chamber
-const Profile = props => {
+const Profile = (props) => {
   // console.log("props is: ", props);
   //Jason's Wacky Experimental Chamber
 
@@ -93,7 +93,7 @@ const Profile = props => {
 
   // useEffect(() => {
   //   Fire.addUser(props.user.uid, "", "", "", "", "")
-    // })
+  // })
 
   // }, []);
   // useEffect(() => {
@@ -102,7 +102,6 @@ const Profile = props => {
   //     return room;
   //   }
   // }, []);
-
 
   // useEffect(() => {
   //   async function getId() {
@@ -129,11 +128,22 @@ const Profile = props => {
   //     console.log("Show me ratings", ratingsList)
   //   );
   // }, []);
+  // useEffect(() => {
+  //   Fire.searchUser("todd@firebase.com").then(searchArray =>
+  //     console.log("Search Array", searchArray)
+  //   );
+  // });
+
+  // useEffect(() => {
+  //   Fire.getAvatar("ciA7L0XP38SmIgYXw9vvQLEyyKX2").then((avatarUrl) =>
+  //     console.log("AVATRURL", avatarUrl)
+  //   );
+  // }, []);
 
   const [email, setEmail] = useState("");
   const { signOut } = React.useContext(AuthContext);
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged((user) => {
       if (user && user.email) {
         setEmail(user.email);
       }
@@ -160,11 +170,11 @@ const Profile = props => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, width: 100 + "%", height: 100 + "%" }
+  container: { flex: 1, width: 100 + "%", height: 100 + "%" },
 });
 
-const mapState = state => ({
-  user: state.user
+const mapState = (state) => ({
+  user: state.user,
 });
 
 export default connect(mapState)(Profile);
