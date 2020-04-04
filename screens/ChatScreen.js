@@ -68,9 +68,9 @@ const ChatScreen = props => {
       });
   }, []);
   const user = useSelector(state => state.user);
-  console.log("gimmme user", user);
 
   const renderFriend = conversationsArr => {
+    console.log("gimme conversationArr", conversationsArr);
     return (
       <View>
         <View style={styles.messageItem}>
