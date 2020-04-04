@@ -33,6 +33,7 @@ import CreateProfile2 from "./screens/CreateProfile2";
 import CreateProfile3 from "./screens/CreateProfile3";
 import CreateProfile4 from "./screens/CreateProfile4";
 import CreateProfile5 from "./screens/CreateProfile5";
+import FriendProfile from "./screens/friendProfile";
 import HomeScreen from "./screens/HomeScreen";
 import ChatFriendsList from "./screens/ChatFriendsList";
 import SideBar from "./screens/SideBar";
@@ -102,6 +103,7 @@ const ProfileStackScreen = () => (
     <ProfileStack.Screen name="Choose Profession" component={CreateProfile3} />
     <ProfileStack.Screen name="Interests and Bio" component={CreateProfile4} />
     <ProfileStack.Screen name="Upload Photo" component={CreateProfile5} />
+    <ProfileStack.Screen name="Friend Profile" component={FriendProfile} />
   </ProfileStack.Navigator>
 );
 const DiscoverStackScreen = () => (
