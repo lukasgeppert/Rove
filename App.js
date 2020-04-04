@@ -144,7 +144,7 @@ const ChatStackScreen = ({ navigation }) => (
       component={ChatScreen}
       screenOptions={{ headerShown: false }}
       options={{
-        title: "New Chat",
+        title: "Inbox",
         headerRight: () => (
           <MaterialCommunityIcons
             name="message-outline"

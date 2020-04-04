@@ -12,6 +12,8 @@ import {
   FlatList
 } from "react-native";
 import Fire from "../Firebase";
+import { useSelector } from "react-redux";
+
 import { Ionicons, Feather } from "@expo/vector-icons";
 
 import firebase from "firebase";
@@ -21,24 +23,61 @@ import ChatRoom from "./ChatRoom";
 import ChatFriendsList from "./ChatFriendsList";
 
 import { getMessages } from "../store/messages";
-const dummyChat = [
-  {
-    name: "Shane",
-    id: "1",
-    avatar: require("../assets/images/Shane_Pro_Pic.jpeg")
-  },
-  {
-    name: "Test",
-    id: "2",
-    avatar: require("../assets/images/Shane_Pro_Pic.jpeg")
-  }
-];
+// const dummyChat = [
+//   {
+//     name: "Shane",
+//     id: "1",
+//     avatar: require("../assets/images/Shane_Pro_Pic.jpeg")
+//   },
+//   {
+//     name: "Test",
+//     id: "2",
+//     avatar: require("../assets/images/Shane_Pro_Pic.jpeg")
+//   }
+// ];
 const ChatScreen = props => {
-  const renderDummyChat = dummyChat => {
+  const [chatRoomId, setChatRoomId] = React.useState([]);
+  const [messages, setMessages] = React.useState([]);
+  const [conversationsArr, setconversationArr] = React.useState([]);
+  async function fetchChats() {
+    const chatRoom = await Fire.getChatRoomId(user.uid);
+    return chatRoom;
+  }
+  React.useEffect(() => {
+    let chatRoomId = "";
+
+    fetchChats()
+      .then(chatRoom => {
+        chatRoomId = Object.keys(chatRoom)[0];
+        console.log("gimme chatRoom from getChat func", chatRoom);
+
+        setChatRoomId(Object.keys(chatRoom));
+        const usersArr = Object.values(chatRoom);
+        let chatObj;
+        for (let i = 0; i < usersArr.length; i++) {
+          chatObj = usersArr[i];
+          let chatUsers = chatObj.users;
+          let friend = chatUsers[1];
+          conversationsArr.push(friend);
+        }
+        return conversationsArr;
+      })
+      .then(conversationsArr => setconversationArr(conversationsArr))
+      .then(() => {
+        props.fetchMessages(chatRoomId);
+      });
+  }, []);
+  const user = useSelector(state => state.user);
+  console.log("gimmme user", user);
+
+  const renderFriend = conversationsArr => {
     return (
       <View>
         <View style={styles.messageItem}>
-          <Image source={dummyChat.avatar} style={styles.avatar} />
+          <Image
+            source={{ uri: conversationsArr.avatar }}
+            style={styles.avatar}
+          />
           <View style={{ flexDirection: "row" }}>
             <View
               style={{
@@ -47,7 +86,7 @@ const ChatScreen = props => {
                 alignItems: "center"
               }}
             >
-              <Text style={styles.name}>{dummyChat.name}</Text>
+              <Text style={styles.name}>{conversationsArr.name}</Text>
               {/* <Feather
                 name="trash"
                 size={24}
@@ -61,64 +100,24 @@ const ChatScreen = props => {
     );
   };
 
-  const [chatRoomId, setChatRoomId] = React.useState([]);
-  const [messages, setMessages] = React.useState([]);
-  React.useEffect(() => {
-    let chatRoomId = "";
-    async function getChat() {
-      const chatRoom = await Fire.getChatRoomId("UOjKnWlgrTXa4PbAQ4aYHRau42o2");
-      return chatRoom;
-    }
-    getChat()
-      .then(chatRoom => {
-        chatRoomId = Object.keys(chatRoom)[0];
-        setChatRoomId(Object.keys(chatRoom));
-      })
-      .then(() => {
-        props.fetchMessages(chatRoomId);
-      });
-  }, []);
-  React.useEffect(() => {
-    // return () => {
-    //   Fire.off();
-    // };
-  }, []);
   return (
-    // <View>
-    //   <TouchableOpacity
-    //     onPress={() =>
-    //       props.navigation.navigate("ChatRoom", {
-    //         chatRoomId: chatRoomId[0]
-    //       })
-    //     }
-    //   >
-    //     <Text>Move to ChatRoom</Text>
-    //   </TouchableOpacity>
-    // </View>
-    // <>
-    //   {/* <View style={styles.header}>
-    //     <TouchableOpacity
-    //       onPress={() => props.navigation.navigate("ChatFriendsList")}
-    //     >
-    //       <Text>Start New Message</Text>
-    //     </TouchableOpacity> */}
-    //   </View>
-      <View style={styles.container}>
-        <TouchableOpacity
-          onPress={() =>
-            props.navigation.navigate("ChatRoom", {
-              chatRoomId: chatRoomId[0]
-            })
-          }
-        >
-          <FlatList
-            style={styles.feed}
-            data={dummyChat}
-            renderItem={({ item }) => renderDummyChat(item)}
-            showsVerticalScrollIndicator={false}
-          />
-        </TouchableOpacity>
-      </View>
+    <View style={styles.container}>
+      <TouchableOpacity
+        onPress={() =>
+          props.navigation.navigate("ChatRoom", {
+            chatRoomId: chatRoomId[0]
+          })
+        }
+      >
+        <FlatList
+          style={styles.feed}
+          data={conversationsArr}
+          renderItem={({ item }) => renderFriend(item)}
+          keyExtractor={(index, item) => item.toString()}
+          showsVerticalScrollIndicator={false}
+        />
+      </TouchableOpacity>
+    </View>
     // </>
   );
 };
