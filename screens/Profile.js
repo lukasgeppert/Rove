@@ -7,7 +7,8 @@ import {
   Image,
   Button,
   TouchableOpacity,
-  LayoutAnimation
+  LayoutAnimation,
+  RefreshControl
 } from "react-native";
 import * as firebase from "firebase";
 import { AuthContext } from "./AuthContext";
@@ -27,11 +28,13 @@ const Profile = props => {
   const [friendRequests, setFriendRequests] = useState(null);
   let name = props.user.name || "traveler";
   const { signOut } = React.useContext(AuthContext);
+  const [loading, setIsLoading] = useState(false);
   useEffect(() => {
+    setIsLoading(true);
     Fire.getUser(props.user.uid).then(userInfo => setUser(userInfo));
-    Fire.getPendingFriends(props.user.uid).then(friendPendingRequests =>
-      setFriendRequests(friendPendingRequests)
-    );
+    Fire.getPendingFriends(props.user.uid)
+      .then(friendPendingRequests => setFriendRequests(friendPendingRequests))
+      .finally(() => setIsLoading(false));
   }, []);
 
   const signOutUser = () => {
@@ -39,8 +42,23 @@ const Profile = props => {
   };
 
   LayoutAnimation.easeInEaseOut();
+  console.log("user is: ", user);
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      refreshControl={() => (
+        <RefreshControl
+          refreshing={loading}
+          onRefresh={() => {
+            setIsLoading(true);
+            Fire.getPendingFriends(props.user.uid)
+            .then(friendPendingRequests =>
+              setFriendRequests(friendPendingRequests)
+            )
+            .finally(() => setIsLoading(false))}}
+        />
+      )}
+    >
       {user ? (
         <>
           <Text style={styles.header}>Hello, {name}!</Text>
@@ -102,7 +120,8 @@ const Profile = props => {
         <>
           {//if so, map over them to check each friend request
           friendRequests.map(friendRequestObj => {
-            let friendName = friendRequestObj.friend.name || "A Traveler"
+            let friendName = friendRequestObj.friend.name || "A Traveler";
+            let frienduid = friendRequestObj.friend._id;
             //are any of the friend requests incoming? If so, display them. Else, don't display any.
             //TODO: Build out a component where you can see outgoing friend requests
             if (friendRequestObj.friend.type === "incoming") {
@@ -111,14 +130,33 @@ const Profile = props => {
                   <Text style={styles.header2}>
                     {friendName} wants to be your friend!
                   </Text>
-                  <TouchableOpacity>
-                    <Text style={styles.buttonProfile} onPress={() => props.navigation.navigate("Friend Profile", {frienduid: friendRequestObj.friend._id})}>View Their Profile Page</Text>
+                  <TouchableOpacity
+                    onPress={() =>
+                      props.navigation.navigate("Friend Profile", {
+                        frienduid,
+                        request: true
+                      })
+                    }
+                  >
+                    <Text style={styles.buttonProfile}>
+                      View Their Profile Page
+                    </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Text style={styles.acceptButton}>Accept Friend Request</Text>
+                  <TouchableOpacity
+                    onPress={() =>
+                      Fire.acceptFriendRequest(frienduid, friendName)
+                    }
+                  >
+                    <Text style={styles.acceptButton}>
+                      Accept Friend Request
+                    </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Text style={styles.rejectButton}>Reject Friend Request</Text>
+                  <TouchableOpacity
+                    onPress={() => Fire.denyFriendRequest(frienduid)}
+                  >
+                    <Text style={styles.rejectButton}>
+                      Reject Friend Request
+                    </Text>
                   </TouchableOpacity>
                 </View>
               );
@@ -156,7 +194,7 @@ const styles = StyleSheet.create({
     color: "rgb(215,106,97)",
     padding: 10,
     borderWidth: 1,
-    borderColor: "#000000",
+    borderColor: "#000000"
   },
   buttonLogout: {
     margin: 10,
@@ -166,7 +204,7 @@ const styles = StyleSheet.create({
     color: "rgb(215,106,97)",
     padding: 10,
     borderWidth: 1,
-    borderColor: "#000000",
+    borderColor: "#000000"
   },
   interestList: {
     alignSelf: "center",
@@ -175,7 +213,7 @@ const styles = StyleSheet.create({
   buildingButton: {
     alignSelf: "center",
     height: 300,
-    aspectRatio: 1.5,
+    aspectRatio: 1.5
   },
   imageContainer: {
     flex: 1,
@@ -193,8 +231,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#00e660",
     color: "#ffffff",
     alignSelf: "center",
-    padding: 10,
-
+    padding: 10
   },
   rejectButton: {
     width: 240,
@@ -203,7 +240,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fc0303",
     color: "#ffffff",
     alignSelf: "center",
-    padding: 10,
+    padding: 10
   }
 });
 

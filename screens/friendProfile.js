@@ -23,13 +23,15 @@ const FriendProfile = props => {
   const [user, setUser] = useState(null);
   let name = props.user.name || "traveler";
   useEffect(() => {
-    Fire.getUser(props.route.params.frienduid).then(userInfo => setUser(userInfo));
+    Fire.getUser(props.route.params.frienduid).then(userInfo =>
+      setUser(userInfo)
+    );
   }, []);
 
-  const sendRequest = (user) => {
-    Fire.sendFriendRequest(user.uid, user.name)
-    props.navigation.navigate("Profile")
-  }
+  const sendRequest = user => {
+    Fire.sendFriendRequest(user.uid, user.name);
+    props.navigation.navigate("Profile");
+  };
 
   LayoutAnimation.easeInEaseOut();
   return (
@@ -37,11 +39,11 @@ const FriendProfile = props => {
       {user ? (
         <>
           <Text style={styles.header}>{user.name}&apos;s Profile Page</Text>
-            <Image
-              source={{ uri: user.image }}
-              style={styles.avatar}
-              resizeMode="contain"
-            />
+          <Image
+            source={{ uri: user.image }}
+            style={styles.avatar}
+            resizeMode="contain"
+          />
           <Text style={styles.header2}> {user.name}&apos;s Bio:</Text>
           <Text style={styles.paragraph}>{user.aboutMe}</Text>
           <Text style={styles.header2}>{user.name}&apos;s Location:</Text>
@@ -54,19 +56,18 @@ const FriendProfile = props => {
               </Text>
             );
           })}
-          <TouchableOpacity>
-              <Text style={styles.buttonProfile} onPress={() => sendRequest(user)}>Send a Friend Request</Text>
-          </TouchableOpacity>
         </>
       ) : (
         <>
           <Text>Hello, {name}</Text>
           <Text>Your friend has not built out their profile yet!</Text>
-          <TouchableOpacity>
-              <Text style={styles.buttonProfile} onPress={() => sendRequest(user)}>Send a Friend Request</Text>
-          </TouchableOpacity>
         </>
       )}
+      {!props.route.params.request ? (<TouchableOpacity>
+        <Text style={styles.buttonProfile} onPress={() => sendRequest(user)}>
+          Send a Friend Request
+        </Text>
+      </TouchableOpacity>) : null}
     </View>
   );
 };
