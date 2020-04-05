@@ -50,7 +50,10 @@ const ChatFriendsList = props => {
                   props.navigation.navigate("ChatRoom", { chatRoomId });
                 }}
               >
-                <Text>{friend.friend.name}</Text>
+                <Text style={styles.name}>Message {friend.friend.name} </Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => props.navigation.navigate('Profile', {screen: "Friend Profile", params: {frienduid: friend.friend._id}})}>
+                <Text>Check {friend.friend.name}&apos;s profile</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -102,7 +105,14 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 15,
     fontWeight: "500",
-    color: "#454D65"
+    color: "#454D65",
+  },
+  profileLink: {
+    // flex: 1
+    justifyContent: "space-between"
+  },
+  profileItem: {
+    alignSelf: "flex-end"
   },
   messageItem: {
     // borderWidth: 1,
@@ -111,7 +121,7 @@ const styles = StyleSheet.create({
     padding: 10,
     flexDirection: "row",
     marginVertical: 3,
-    marginTop: 12
+    marginTop: 12,
   },
 
   feed: {
