@@ -75,9 +75,9 @@ const PostScreen = ({ navigation }) => {
     <DismissKeyboard>
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          {/* <TouchableOpacity onPress={() => navigation.goBack()}>
             <Ionicons name="md-arrow-back" size={24} color="#D8D9DB" />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <TouchableOpacity onPress={handlePost}>
             <Text style={{ fontWeight: "500" }}>Post</Text>

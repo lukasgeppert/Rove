@@ -21,7 +21,6 @@ import Post from "../container/Post";
 const HomeScreen = props => {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  let keyCounter = 0;
 
   async function fetchPosts() {
     const posts = await Firebase.getPosts();
@@ -33,8 +32,6 @@ const HomeScreen = props => {
     fetchPosts()
       .then(promisePosts => {
         setPosts(promisePosts);
-
-        console.log("hello our posts that were there", posts);
       })
 
       .finally(() => setIsLoading(false));

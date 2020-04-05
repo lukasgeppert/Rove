@@ -37,7 +37,7 @@ import FriendProfile from "./screens/friendProfile";
 import HomeScreen from "./screens/HomeScreen";
 import ChatFriendsList from "./screens/ChatFriendsList";
 import SideBar from "./screens/SideBar";
-import Post from './container/Post'
+import Post from "./container/Post";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { AuthContext } from "./screens/AuthContext";
@@ -87,12 +87,22 @@ const HomeStackScreen = ({ navigation }) => (
             onPress={() => navigation.navigate("PostScreen")}
             style={{ marginRight: 13 }}
           ></MaterialCommunityIcons>
+        ),
+        headerLeft: () => (
+          <MaterialCommunityIcons
+            name="account-search"
+            size={30}
+            backGroundColor="#009387"
+            onPress={() => navigation.navigate("Search")}
+            style={{ marginLeft: 13 }}
+          ></MaterialCommunityIcons>
         )
       }}
     />
+    <HomeStack.Screen name="Search" component={Search} />
+
     <HomeStack.Screen name="PostScreen" component={PostScreen} />
     <HomeStack.Screen name="Post" component={Post} />
-
   </HomeStack.Navigator>
 );
 const ProfileStackScreen = () => (
@@ -106,7 +116,7 @@ const ProfileStackScreen = () => (
     <ProfileStack.Screen name="Friend Profile" component={FriendProfile} />
   </ProfileStack.Navigator>
 );
-const DiscoverStackScreen = () => (
+const DiscoverStackScreen = ({ navigation }) => (
   <DiscoverStack.Navigator>
     <DiscoverStack.Screen name="Discover" component={Discover} />
     <DiscoverStack.Screen
@@ -116,7 +126,6 @@ const DiscoverStackScreen = () => (
         title: route.params.name
       })}
     />
-    <DiscoverStack.Screen name="Search" component={Search} />
     <DiscoverStack.Screen name="RatingForm" component={RatingForm} />
   </DiscoverStack.Navigator>
 );
@@ -130,14 +139,14 @@ const DiscoverStackScreen = () => (
 //   </NotificationStack.Navigator>
 // );
 
-const ChatStackScreen = ({navigation}) => (
+const ChatStackScreen = ({ navigation }) => (
   <ChatStack.Navigator initialRouteName="ChatStack">
     <ChatStack.Screen
       name="Messages"
       component={ChatScreen}
       screenOptions={{ headerShown: false }}
       options={{
-        title: "New Chat",
+        title: "Inbox",
         headerRight: () => (
           <MaterialCommunityIcons
             name="message-outline"
@@ -347,11 +356,15 @@ const rootComponent = () => {
           .auth()
           .createUserWithEmailAndPassword(email, password)
           .then(userCredentials => {
+            Fire.addUserEmail(userCredentials.user.uid, email, name);
+
             return userCredentials.user.updateProfile({
               displayName: name
             });
           })
+
           .catch(error => console.log("Error Here", error));
+
         setUserToken("asdf");
       },
       signOut: () => {

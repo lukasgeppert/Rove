@@ -37,7 +37,6 @@ export const Details = ({ route, navigation }) => {
 
     for (let i = 0; i < ratings.length; i++) {
       const singleRating = ratings[i];
-      // console.log("singleRating", singleRating);
       const cost = singleRating.rating.cost;
       const fun = singleRating.rating.fun;
       const internet = singleRating.rating.internet;
@@ -89,9 +88,11 @@ export const Details = ({ route, navigation }) => {
       });
     }
   };
+
   useEffect(() => {
     fetchAverages();
     console.log("AVERAGES", averages);
+    console.log("AVERAGE COST", averages.cost);
   }, []);
 
   const renderRatings = rating => {
@@ -129,6 +130,14 @@ export const Details = ({ route, navigation }) => {
           renderItem={({ item }) => renderRatings(item)}
           keyExtractor={(index, item) => item.toString()}
         />
+      </View>
+
+      <View>
+        <Text>average cost: {averages.cost}</Text>
+        <Text>average fun: {averages.fun}</Text>
+        <Text>average internet: {averages.internet}</Text>
+        <Text>average safety: {averages.safety}</Text>
+        <Text>average weather: {averages.weather}</Text>
       </View>
     </>
   );

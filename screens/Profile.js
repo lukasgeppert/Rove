@@ -30,6 +30,7 @@ const Profile = props => {
   const { signOut } = React.useContext(AuthContext);
   const [refresh, setRefresh] = useState(false);
   useEffect(() => {
+
     Fire.getUser(props.user.uid).then(userInfo => setUser(userInfo));
     Fire.getPendingFriends(props.user.uid)
       .then(friendPendingRequests => setFriendRequests(friendPendingRequests));
@@ -158,6 +159,7 @@ const Profile = props => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, width: 100 + "%", height: 100 + "%" },
+
   header: {
     fontSize: 30,
     alignSelf: "center",
@@ -229,10 +231,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     padding: 10
   }
+
 });
 
-const mapState = state => ({
-  user: state.user
+const mapState = (state) => ({
+  user: state.user,
 });
 
 export default connect(mapState)(Profile);
