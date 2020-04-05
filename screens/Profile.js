@@ -89,14 +89,6 @@ const Profile = props => {
           <TouchableOpacity onPress={signOutUser}>
             <Text style={styles.buttonLogout}>Logout</Text>
           </TouchableOpacity>
-          <Button
-            title="Friend Profile: Bowser"
-            onPress={() =>
-              props.navigation.navigate("Friend Profile", {
-                frienduid: "ciA7L0XP38SmIgYXw9vvQLEyyKX2"
-              })
-            }
-          ></Button>
         </>
       )}
       {//do friend requests exist?
