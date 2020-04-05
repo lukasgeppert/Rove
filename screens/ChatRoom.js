@@ -11,17 +11,20 @@ import { GiftedChat } from "react-native-gifted-chat";
 import Fire from "../Firebase";
 import firebase from "firebase";
 
+
 export const ChatRoom = (props) => {
   console.log("props from ChatRoom", props);
   const [messages, setMessages] = useState([]);
+  const [avatar, setAvatar] = useState("");
   useEffect(() => {
+    Fire.getAvatar(props.user.uid).then(avatar1 => setAvatar(avatar1));
     let unsub = firebase
       .firestore()
       .collection("chatRoom")
       .doc(props.route.params.chatRoomId)
       .collection("messages")
       .orderBy("createdAt", "desc")
-      .onSnapshot((querySnapshot) => {
+      .onSnapshot(querySnapshot => {
         let tempResults = {};
 
         querySnapshot.forEach((doc) => {
@@ -49,6 +52,7 @@ export const ChatRoom = (props) => {
     return {
       _id: props.user.uid,
       name: props.user.name,
+      avatar: props.route.params.avatar
     };
   };
   const chat = (
@@ -59,7 +63,8 @@ export const ChatRoom = (props) => {
           props.user.name,
           message[0].text,
           props.user.uid,
-          props.route.params.chatRoomId
+          props.route.params.chatRoomId,
+          avatar
         );
       }}
       user={grabUser()}

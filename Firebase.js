@@ -539,7 +539,7 @@ class Fire {
   };
 
   //Chat Post
-  addChatPost = async (name, text, uid, chatRoomId) => {
+  addChatPost = async (name, text, uid, chatRoomId, avatar) => {
     return new Promise((res, rej) => {
       this.firestore
         .collection("chatRoom")
@@ -549,6 +549,8 @@ class Fire {
           user: {
             name,
             _id: uid,
+            avatar: avatar
+
           },
           text: text,
           createdAt: this.timestamp,

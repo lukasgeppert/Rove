@@ -37,19 +37,17 @@ import { getMessages } from "../store/messages";
 // ];
 const ChatScreen = props => {
   const [chatRoomId, setChatRoomId] = React.useState([]);
-  const [messages, setMessages] = React.useState([]);
-  const [conversationsArr, setconversationArr] = React.useState([]);
+  const [conversations, setConversations] = React.useState([]);
   async function fetchChats() {
     const chatRoom = await Fire.getChatRoomId(user.uid);
     return chatRoom;
   }
   React.useEffect(() => {
-    let chatRoomId = "";
-
+    let chatRoomIds = "";
+    let conversationsArr = [];
     fetchChats()
       .then(chatRoom => {
-        chatRoomId = Object.keys(chatRoom)[0];
-        console.log("gimme chatRoom from getChat func", chatRoom);
+        chatRoomIds = Object.keys(chatRoom);
 
         setChatRoomId(Object.keys(chatRoom));
         const usersArr = Object.values(chatRoom);
@@ -57,72 +55,73 @@ const ChatScreen = props => {
         for (let i = 0; i < usersArr.length; i++) {
           chatObj = usersArr[i];
           let chatUsers = chatObj.users;
-          let friend = chatUsers[1];
+          let friend = chatUsers.filter(
+            cUsers => cUsers.uid !== props.user.uid
+          )[0];
+          friend.chatRoomId = chatRoomIds[i];
+
           conversationsArr.push(friend);
         }
+        console.log("gimme conversationsarr", conversationsArr);
+
         return conversationsArr;
       })
-      .then(conversationsArr => setconversationArr(conversationsArr))
-      .then(() => {
-        props.fetchMessages(chatRoomId);
-      });
+      .then(conversationsArr1 => setConversations(conversationsArr1));
   }, []);
   const user = useSelector(state => state.user);
 
-  const renderFriend = conversationsArr => {
-    console.log("gimme conversationArr", conversationsArr);
+  const renderFriend = cArr => {
     return (
       <View>
-        <View style={styles.messageItem}>
-          <Image
-            source={{ uri: conversationsArr.avatar }}
-            style={styles.avatar}
-          />
-          <View style={{ flexDirection: "row" }}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-around",
-                alignItems: "center"
-              }}
-            >
-              <Text style={styles.name}>{conversationsArr.name}</Text>
-              {/* <Feather
+        <TouchableOpacity
+          onPress={() =>
+            props.navigation.navigate("ChatRoom", {
+              chatRoomId: cArr.chatRoomId,
+              avatar: cArr.avatar
+            })
+          }
+        >
+          <View style={styles.messageItem}>
+            <Image source={{ uri: cArr.avatar }} style={styles.avatar} />
+            <View style={{ flexDirection: "row" }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  alignItems: "center"
+                }}
+              >
+                <Text style={styles.name}>{cArr.name}</Text>
+                {/* <Feather
                 name="trash"
                 size={24}
                 color="#737888"
                 style={{ marginLeft: 50, alignItems: "flex-end" }}
               /> */}
+              </View>
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </View>
     );
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        onPress={() =>
-          props.navigation.navigate("ChatRoom", {
-            chatRoomId: chatRoomId[0]
-          })
-        }
-      >
-        <FlatList
-          style={styles.feed}
-          data={conversationsArr}
-          renderItem={({ item }) => renderFriend(item)}
-          keyExtractor={(index, item) => item.toString()}
-          showsVerticalScrollIndicator={false}
-        />
-      </TouchableOpacity>
+      <FlatList
+        style={styles.feed}
+        data={conversations}
+        renderItem={({ item }) => renderFriend(item)}
+        keyExtractor={(index, item) => item.toString()}
+        showsVerticalScrollIndicator={false}
+      />
     </View>
     // </>
   );
 };
 
 const mapStateToProps = state => ({
+  user: state.user,
   messages: state.messages
 });
 const mapDispatchToProps = dispatch => ({

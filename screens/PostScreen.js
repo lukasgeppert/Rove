@@ -31,6 +31,7 @@ const PostScreen = ({ navigation }) => {
   const [name, setName] = useState("");
   const [text, setText] = useState("");
   const [image, setImage] = useState(" ");
+  const [avatar, setAvatar] = useState("");
 
   useEffect(() => {
     getPhotoPermission();
@@ -59,6 +60,15 @@ const PostScreen = ({ navigation }) => {
       });
   };
 
+  const addAvatar = () => {
+    Fire.getAvatar(Fire.uid).then(item => {
+      setAvatar(item);
+      console.log("avatar prr", avatar);
+    });
+  };
+  useEffect(() => {
+    addAvatar();
+  }, []);
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -85,10 +95,7 @@ const PostScreen = ({ navigation }) => {
         </View>
 
         <View style={styles.inputContainer}>
-          <Image
-            source={require("../assets/images/Shane_Pro_Pic.jpeg")}
-            style={styles.avatar}
-          ></Image>
+          <Image source={{ uri: avatar }} style={styles.avatar}></Image>
           <TextInput
             autoFocus={true}
             multiline={true}
@@ -104,7 +111,7 @@ const PostScreen = ({ navigation }) => {
           <Feather name="camera" size={24} color="#737888" />
         </TouchableOpacity>
 
-        <View style={{ marginHorizontal: 32, marginTop: 32, height: 150}}>
+        <View style={{ marginHorizontal: 32, marginTop: 32, height: 150 }}>
           <Image
             source={{ uri: image }}
             style={{ width: "100%", height: "100%" }}
