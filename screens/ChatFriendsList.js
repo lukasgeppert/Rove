@@ -53,7 +53,10 @@ const ChatFriendsList = (props) => {
                   props.navigation.navigate("ChatRoom", { chatRoomId });
                 }}
               >
-                <Text>{friend.friend.name}</Text>
+                <Text style={styles.name}>Message {friend.friend.name} </Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => props.navigation.navigate('Profile', {screen: "Friend Profile", params: {frienduid: friend.friend._id}})}>
+                <Text>Check {friend.friend.name}&apos;s profile</Text>
               </TouchableOpacity>
             </View>
           </View>

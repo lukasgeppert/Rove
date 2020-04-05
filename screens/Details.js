@@ -7,7 +7,6 @@ import {
   Dimensions,
   TouchableOpacity
 } from "react-native";
-import * as firebase from "firebase";
 import { FlatList } from "react-native-gesture-handler";
 import Fire from "../Firebase";
 
@@ -18,25 +17,26 @@ export const Details = ({ route, navigation }) => {
   const [averages, setAverages] = useState({});
 
   const fetchRatings = async () => {
-    const ratings = await Fire.getRatings(name);
-    return ratings;
+    const ratings1 = await Fire.getRatings(name);
+    return ratings1;
   };
 
   useEffect(() => {
-    fetchRatings().then(ratings => setRatings(ratings));
+    fetchRatings().then(ratings2 => setRatings(ratings2));
     console.log("RATINGS", ratings);
   }, []);
 
   const fetchAverages = async () => {
-    const ratings = await Fire.getRatings(name);
+    const ratings3 = await Fire.getRatings(name);
     const costArr = [];
     const funArr = [];
     const internetArr = [];
     const safetyArr = [];
     const weatherArr = [];
 
-    for (let i = 0; i < ratings.length; i++) {
-      const singleRating = ratings[i];
+    for (let i = 0; i < ratings3.length; i++) {
+      const singleRating = ratings3[i];
+      // console.log("singleRating", singleRating);
       const cost = singleRating.rating.cost;
       const fun = singleRating.rating.fun;
       const internet = singleRating.rating.internet;
@@ -91,8 +91,6 @@ export const Details = ({ route, navigation }) => {
 
   useEffect(() => {
     fetchAverages();
-    console.log("AVERAGES", averages);
-    console.log("AVERAGE COST", averages.cost);
   }, []);
 
   const renderRatings = rating => {

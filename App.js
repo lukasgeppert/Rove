@@ -42,7 +42,7 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { AuthContext } from "./screens/AuthContext";
 import * as firebase from "firebase";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 //redux imports
 import { Provider } from "react-redux";
 import { setUser } from "./store/user";
@@ -163,25 +163,21 @@ const ChatStackScreen = ({ navigation }) => (
   </ChatStack.Navigator>
 );
 
-function CustomDrawerContent(props) {
+const CustomDrawerContent = (props) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         <TouchableOpacity
           style={{ marginTop: 20 }}
           onPress={() =>
-            props.navigation.dispatch(
-              CommonActions.navigate({
-                name: "HomeStackScreen"
-              })
-            )
+            props.navigation.navigate("Home")
           }
         >
           <Text>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={{ marginTop: 20 }}
-          onPress={() => props.navigation.navigate("ChatScreen")}
+          onPress={() => props.navigation.navigate("Chat")}
         >
           <Text>Chat</Text>
         </TouchableOpacity>
@@ -196,7 +192,7 @@ const DrawerScreen = () => (
     drawerContent={props => CustomDrawerContent(props)}
   >
     <Drawer.Screen
-      name="Home"
+      name="Homedrawer"
       component={TabsScreen}
       options={{
         drawerIcon: ({ color }) => (
@@ -206,7 +202,7 @@ const DrawerScreen = () => (
     />
 
     <Drawer.Screen
-      name="Discover"
+      name="Discoverdrawer"
       component={TabsScreen}
       options={{
         drawerIcon: ({ color }) => (
@@ -215,7 +211,7 @@ const DrawerScreen = () => (
       }}
     />
     <Drawer.Screen
-      name="Chat"
+      name="Chatdrawer"
       component={ChatStackScreen}
       options={{
         drawerIcon: ({ color }) => (
@@ -336,8 +332,6 @@ const rootComponent = () => {
   const authContext = React.useMemo(() => {
     return {
       signIn: (email, password) => {
-        console.log("Sign in occurring here!");
-
         firebase
           .auth()
           .signInWithEmailAndPassword(email, password)

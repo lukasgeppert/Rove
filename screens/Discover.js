@@ -15,7 +15,7 @@ import { Ionicons } from "@expo/vector-icons";
 import colors from "../constants/Colors";
 
 const Discover = ({ navigation }) => {
-  renderCity = city => {
+  const renderCity = city => {
     return (
       <View style={styles.feedItem}>
         <View style={{ flex: 1 }}>
@@ -74,7 +74,7 @@ const Discover = ({ navigation }) => {
       <FlatList
         style={styles.feed}
         data={cities}
-        renderItem={({ item }) => renderCity(item)}
+        renderItem={({item}) => renderCity(item)}
         keyExtractor={item => item.id}
         showsVerticalScrollIndicator={false}
       />
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
 
 export default Discover;
 
-cities = [
+let cities = [
   {
     id: "3",
     name: "Austin",
