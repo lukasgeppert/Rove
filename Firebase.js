@@ -86,7 +86,7 @@ class Fire {
           text,
           uid: this.uid,
           timestamp: this.timestamp,
-          image: remoteUri
+          image: remoteUri,
         })
         .then(ref => {
           res(ref);

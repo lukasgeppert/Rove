@@ -51,7 +51,6 @@ export const ChatRoom = props => {
     return {
       _id: props.user.uid,
       name: props.user.name,
-      avatar: props.user.avatar
     };
   };
   const chat = (
@@ -60,7 +59,6 @@ export const ChatRoom = props => {
       onSend={message => {
         Fire.addChatPost(
           props.user.name,
-          props.user.avatar,
           message[0].text,
           props.user.uid,
           props.route.params.chatRoomId
