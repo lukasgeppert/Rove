@@ -44,7 +44,7 @@ const Post = props => {
   };
   const heartIconColor = liked ? "rgb(220,100, 110)" : null;
 
-  const heartIconSize = liked ? 40 : 35;
+  const heartIconSize = liked ? 40 : 39.5;
 
   return (
     <View style={styles.feedItem}>

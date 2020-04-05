@@ -88,9 +88,9 @@ export const Details = ({ route, navigation }) => {
       });
     }
   };
+
   useEffect(() => {
     fetchAverages();
-    console.log("AVERAGES", averages);
   }, []);
 
   const renderRatings = rating => {
@@ -128,6 +128,14 @@ export const Details = ({ route, navigation }) => {
           renderItem={({ item }) => renderRatings(item)}
           keyExtractor={(index, item) => item.toString()}
         />
+      </View>
+
+      <View>
+        <Text>average cost: {averages.cost}</Text>
+        <Text>average fun: {averages.fun}</Text>
+        <Text>average internet: {averages.internet}</Text>
+        <Text>average safety: {averages.safety}</Text>
+        <Text>average weather: {averages.weather}</Text>
       </View>
     </>
   );

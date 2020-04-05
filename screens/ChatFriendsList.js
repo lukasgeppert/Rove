@@ -6,7 +6,7 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
-  FlatList
+  FlatList,
 } from "react-native";
 import * as firebase from "firebase";
 import Fire from "../Firebase";
@@ -14,8 +14,8 @@ import { useSelector } from "react-redux";
 
 // To Do  - Plug in Redux
 
-const ChatFriendsList = props => {
-  const user = useSelector(state => state.user);
+const ChatFriendsList = (props) => {
+  const user = useSelector((state) => state.user);
 
   const [friends, setFriends] = useState([]);
 
@@ -26,10 +26,10 @@ const ChatFriendsList = props => {
   };
 
   useEffect(() => {
-    fetchFriends().then(friends => setFriends(friends));
+    fetchFriends().then((friends) => setFriends(friends));
   }, []);
 
-  const renderFriend = friend => {
+  const renderFriend = (friend) => {
     console.log("gimme friend", friend);
     return (
       <View>
@@ -40,12 +40,15 @@ const ChatFriendsList = props => {
               style={{
                 flexDirection: "row",
                 justifyContent: "space-around",
-                alignItems: "center"
+                alignItems: "center",
               }}
             >
               <TouchableOpacity
                 onPress={async () => {
-                  let chat = await Fire.getSingleChatRoom(friend.friend._id);
+                  let chat = await Fire.getSingleChatRoom(
+                    friend.friend._id,
+                    friend.friend.name
+                  );
                   let chatRoomId = Object.keys(chat)[0];
                   props.navigation.navigate("ChatRoom", { chatRoomId });
                 }}
@@ -80,7 +83,7 @@ const ChatFriendsList = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#EFECF4"
+    backgroundColor: "#EFECF4",
   },
   header: {
     flex: 1,
@@ -93,26 +96,19 @@ const styles = StyleSheet.create({
     shadowRadius: 15,
     shadowOpacity: 0.2,
     zIndex: 0,
-    padding: 5
+    padding: 5,
   },
   avatar: {
     width: 36,
     height: 36,
     borderRadius: 18,
     marginRight: 16,
-    alignSelf: "stretch"
+    alignSelf: "stretch",
   },
   name: {
     fontSize: 15,
     fontWeight: "500",
     color: "#454D65",
-  },
-  profileLink: {
-    // flex: 1
-    justifyContent: "space-between"
-  },
-  profileItem: {
-    alignSelf: "flex-end"
   },
   messageItem: {
     // borderWidth: 1,
@@ -125,8 +121,8 @@ const styles = StyleSheet.create({
   },
 
   feed: {
-    marginHorizontal: 5
-  }
+    marginHorizontal: 5,
+  },
 });
 
 export default ChatFriendsList;

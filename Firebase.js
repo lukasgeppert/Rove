@@ -228,7 +228,7 @@ class Fire {
 
   //firestore users
   addUser = async (uid, name, image, location, interests, bio) => {
-    const remoteUri = await this.uploadAvatarPhotoAsync(image)
+    const remoteUri = await this.uploadAvatarPhotoAsync(image);
     return new Promise((res, rej) => {
       this.firestore
         .collection("users")
@@ -248,6 +248,22 @@ class Fire {
           rej(err);
         });
     });
+  };
+
+  addUserEmail = async (uid, email, name) => {
+    return this.firestore
+      .collection("users")
+      .doc(uid)
+      .set({
+        email: email,
+        name: name
+      })
+      .then(ref => {
+        res(ref);
+      })
+      .catch(err => {
+        rej(err);
+      });
   };
 
   // addFollow = async followerListId => {
@@ -476,16 +492,47 @@ class Fire {
   }
   //end firestore users
 
+  searchUser = email => {
+    return this.firestore
+      .collection("users")
+      .where("email", "==", email)
+      .get()
+      .then(function(querySnapshot) {
+        let tempResults = [];
+        querySnapshot.forEach(doc => {
+          tempResults.push(doc.data());
+        });
+
+        return tempResults;
+      })
+      .catch(function(error) {
+        console.log("Error searching users: ", error);
+      });
+  };
+
   //ChatRoom
-  addChatRoom = async (type, name, friendId) => {
+  addChatRoom = async (type, friendId, friendName) => {
+    const userAvatar = await this.getAvatar(this.uid);
+    const friendAvatar = await this.getAvatar(friendId);
+
     return new Promise((res, rej) => {
       this.firestore
         .collection("chatRoom")
         .add({
-          name: name,
-          avatar: "../assets/images/Shane_Pro_Pic.jpeg",
           uids: [this.uid, friendId],
-          type: type
+          type: type,
+          users: [
+            {
+              uid: this.uid,
+              name: this.name,
+              avatar: userAvatar
+            },
+            {
+              uid: friendId,
+              name: friendName,
+              avatar: friendAvatar
+            }
+          ]
         })
         .then(ref => {
           res(ref);
@@ -532,7 +579,6 @@ class Fire {
         querySnapshot.forEach(doc => {
           tempResults[doc.id] = doc.data();
         });
-
         return tempResults;
       })
       .catch(function(error) {
@@ -540,7 +586,7 @@ class Fire {
       });
   };
 
-  getSingleChatRoom = friendId => {
+  getSingleChatRoom = (friendId, friendName) => {
     const _this = this;
     return this.firestore
       .collection("chatRoom")
@@ -560,7 +606,7 @@ class Fire {
         });
 
         if (!singleChatRoom) {
-          _this.addChatRoom("personal", _this.name, friendId);
+          _this.addChatRoom("personal", friendId, friendName);
         }
         return singleChatRoom;
       })
@@ -657,9 +703,17 @@ class Fire {
   get uid() {
     return (firebase.auth().currentUser || {}).uid;
   }
-  // get avatar() {
-  //   return (firebase.auth().currentUser || {}).
-  // }
+  getAvatar = uid => {
+    return this.firestore
+      .collection("users")
+      .doc(uid)
+      .get()
+      .then(function(doc) {
+        let data = doc.data();
+
+        return data.image;
+      });
+  };
   get timestamp() {
     return Date.now();
   }
