@@ -86,7 +86,7 @@ class Fire {
           text,
           uid: this.uid,
           timestamp: this.timestamp,
-          image: remoteUri,
+          image: remoteUri
         })
         .then(ref => {
           res(ref);
@@ -448,19 +448,19 @@ class Fire {
 
   denyFriendRequest = uid => {
     this.firestore
-    .collection("users")
-    .doc(this.uid)
-    .collection("pendingFriends")
-    .doc(uid)
-    .delete();
+      .collection("users")
+      .doc(this.uid)
+      .collection("pendingFriends")
+      .doc(uid)
+      .delete();
 
-  this.firestore
-    .collection("users")
-    .doc(uid)
-    .collection("pendingFriends")
-    .doc(this.uid)
-    .delete();
-  }
+    this.firestore
+      .collection("users")
+      .doc(uid)
+      .collection("pendingFriends")
+      .doc(this.uid)
+      .delete();
+  };
 
   deleteFriend = uid => {
     this.firestore
@@ -501,7 +501,7 @@ class Fire {
       .then(function(querySnapshot) {
         let tempResults = [];
         querySnapshot.forEach(doc => {
-          console.log('doc.data is: ', doc.data())
+          console.log("doc.data is: ", doc.data());
           tempResults.push(doc.data());
         });
 
@@ -546,7 +546,7 @@ class Fire {
   };
 
   //Chat Post
-  addChatPost = async (name, text, uid, chatRoomId) => {
+  addChatPost = async (name, text, uid, chatRoomId, avatar) => {
     return new Promise((res, rej) => {
       this.firestore
         .collection("chatRoom")
@@ -556,7 +556,7 @@ class Fire {
           user: {
             name,
             _id: uid,
-            avatar: ""
+            avatar: avatar
           },
           text: text,
           createdAt: this.timestamp
@@ -705,7 +705,7 @@ class Fire {
   get uid() {
     return (firebase.auth().currentUser || {}).uid;
   }
-  get email(){
+  get email() {
     return (firebase.auth().currentUser || {}).email;
   }
   getAvatar = uid => {
