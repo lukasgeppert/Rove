@@ -63,11 +63,16 @@ const FriendProfile = props => {
           <Text>Your friend has not built out their profile yet!</Text>
         </>
       )}
-      {!props.route.params.request ? (<TouchableOpacity>
-        <Text style={styles.buttonProfile} onPress={() => sendRequest(user)}>
-          Send a Friend Request
-        </Text>
-      </TouchableOpacity>) : null}
+      <TouchableOpacity>
+        <Text style={styles.buttonProfile} onPress={() => props.navigation.navigate("Profile")}>Back to Profile</Text>
+      </TouchableOpacity>
+      {!props.route.params.request ? (
+        <TouchableOpacity>
+          <Text style={styles.buttonProfile} onPress={() => sendRequest(user)}>
+            Send a Friend Request
+          </Text>
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 };
