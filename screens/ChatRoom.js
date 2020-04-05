@@ -4,14 +4,15 @@ import {
   Text,
   SafeAreaView,
   Platform,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from "react-native";
 import { connect } from "react-redux";
 import { GiftedChat } from "react-native-gifted-chat";
 import Fire from "../Firebase";
 import firebase from "firebase";
 
-export const ChatRoom = props => {
+
+export const ChatRoom = (props) => {
   console.log("props from ChatRoom", props);
   const [messages, setMessages] = useState([]);
   const [avatar, setAvatar] = useState("");
@@ -26,7 +27,7 @@ export const ChatRoom = props => {
       .onSnapshot(querySnapshot => {
         let tempResults = {};
 
-        querySnapshot.forEach(doc => {
+        querySnapshot.forEach((doc) => {
           tempResults[doc.id] = doc.data();
         });
         let messageArr = [];
@@ -36,7 +37,7 @@ export const ChatRoom = props => {
             _id: idKey,
             text: tempResults[idKey].text,
             createdAt: tempResults[idKey].createdAt,
-            user: tempResults[idKey].user
+            user: tempResults[idKey].user,
           };
           messageArr.push(newObj);
         }
@@ -57,7 +58,7 @@ export const ChatRoom = props => {
   const chat = (
     <GiftedChat
       messages={messages}
-      onSend={message => {
+      onSend={(message) => {
         Fire.addChatPost(
           props.user.name,
           message[0].text,
@@ -84,8 +85,8 @@ export const ChatRoom = props => {
   }
   return <SafeAreaView style={{ flex: 1 }}>{chat}</SafeAreaView>;
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   messages: state.messages,
-  user: state.user
+  user: state.user,
 });
 export default connect(mapStateToProps, null)(ChatRoom);
