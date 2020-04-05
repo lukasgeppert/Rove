@@ -25,13 +25,17 @@ const Profile = props => {
   //
   // }, []);
   const [user, setUser] = useState(null);
+  const [profileStatus, setProfileStatus] = useState(null)
   const [friendRequests, setFriendRequests] = useState(null);
   let name = props.user.name || "traveler";
   const { signOut } = React.useContext(AuthContext);
   const [refresh, setRefresh] = useState(false);
   useEffect(() => {
 
-    Fire.getUser(props.user.uid).then(userInfo => setUser(userInfo));
+    Fire.getUser(props.user.uid).then(userInfo => {
+      setUser(userInfo)
+      if (userInfo.location) setProfileStatus(true)
+    });
     Fire.getPendingFriends(props.user.uid)
       .then(friendPendingRequests => setFriendRequests(friendPendingRequests));
   }, []);
@@ -43,7 +47,7 @@ const Profile = props => {
   LayoutAnimation.easeInEaseOut();
   return (
     <ScrollView style={styles.container}>
-      {user ? (
+      {profileStatus ? (
         <>
           <Text style={styles.header}>Hello, {name}!</Text>
           {/* <View style={styles.imageContainer}> */}
