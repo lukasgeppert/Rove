@@ -15,7 +15,6 @@ import Fire from "../Firebase";
 
 //Jason's Wacky Experimental Chamber
 const Profile = (props) => {
-  // console.log("props is: ", props);
   //Jason's Wacky Experimental Chamber
 
   // useEffect(() => {
