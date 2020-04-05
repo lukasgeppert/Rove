@@ -17,12 +17,12 @@ export const CreateProfile4 = props => {
 
   const handleNext = () => {
     let intArr = []
-    if (love) intArr.push("long walks along the beach")
-    if (movies) intArr.push("movies")
-    if (hiking) intArr.push("hiking")
-    if (biking) intArr.push("biking")
-    if (books) intArr.push("books")
-    if (bunker) intArr.push("bunker")
+    if (movies) intArr.push("Movies")
+    if (hiking) intArr.push("Hiking")
+    if (biking) intArr.push("Biking")
+    if (books) intArr.push("Books")
+    if (love) intArr.push("Long walks along the beach")
+    if (bunker) intArr.push("Underground Apocalypse Bunkers")
 
     props.setReduxBio(bioText)
     props.setReduxInterests(intArr)

@@ -344,9 +344,9 @@ class Fire {
       .collection("pendingFriends")
       .get()
       .then(function(querySnapshot) {
-        let tempResults;
+        let tempResults = [];
         querySnapshot.forEach(doc => {
-          tempResults = doc.data();
+          tempResults.push(doc.data());
         });
 
         return tempResults;
@@ -444,6 +444,22 @@ class Fire {
       .doc(this.uid)
       .delete();
   };
+
+  denyFriendRequest = uid => {
+    this.firestore
+    .collection("users")
+    .doc(this.uid)
+    .collection("pendingFriends")
+    .doc(uid)
+    .delete();
+
+  this.firestore
+    .collection("users")
+    .doc(uid)
+    .collection("pendingFriends")
+    .doc(this.uid)
+    .delete();
+  }
 
   deleteFriend = uid => {
     this.firestore
