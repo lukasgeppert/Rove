@@ -10,7 +10,7 @@ import {
   ScrollView,
   ImageBackground,
   Image,
-  SafeAreaView
+  SafeAreaView,
 } from "react-native";
 
 // import { MaterialCommunityIcons } from "react-native-vector-icons";
@@ -36,6 +36,7 @@ import CreateProfile5 from "./screens/CreateProfile5";
 import FriendProfile from "./screens/friendProfile";
 import HomeScreen from "./screens/HomeScreen";
 import ChatFriendsList from "./screens/ChatFriendsList";
+import RatingDetails from "./screens/RatingDetails";
 import SideBar from "./screens/SideBar";
 import Post from "./container/Post";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -96,7 +97,7 @@ const HomeStackScreen = ({ navigation }) => (
             onPress={() => navigation.navigate("Search")}
             style={{ marginLeft: 13 }}
           ></MaterialCommunityIcons>
-        )
+        ),
       }}
     />
     <HomeStack.Screen name="Search" component={Search} />
@@ -116,17 +117,22 @@ const ProfileStackScreen = () => (
     <ProfileStack.Screen name="Friend Profile" component={FriendProfile} />
   </ProfileStack.Navigator>
 );
-const DiscoverStackScreen = ({ navigation }) => (
-  <DiscoverStack.Navigator>
+const DiscoverStackScreen = () => (
+  <DiscoverStack.Navigator mode="modal">
     <DiscoverStack.Screen name="Discover" component={Discover} />
     <DiscoverStack.Screen
       name="Details"
       component={Details}
-      options={({ route }) => ({
-        title: route.params.name
-      })}
+      options={{ headerShown: false }}
     />
+    <DiscoverStack.Screen name="Search" component={Search} />
     <DiscoverStack.Screen name="RatingForm" component={RatingForm} />
+    <DiscoverStack.Screen
+      name="RatingDetails"
+      mode="card"
+      component={RatingDetails}
+      options={{ headerShown: false }}
+    />
   </DiscoverStack.Navigator>
 );
 
@@ -155,7 +161,7 @@ const ChatStackScreen = ({ navigation }) => (
             onPress={() => navigation.navigate("ChatFriendsList")}
             style={{ marginRight: 13 }}
           ></MaterialCommunityIcons>
-        )
+        ),
       }}
     />
     <ChatStack.Screen name="ChatRoom" component={ChatRoom} />
@@ -172,7 +178,7 @@ function CustomDrawerContent(props) {
           onPress={() =>
             props.navigation.dispatch(
               CommonActions.navigate({
-                name: "HomeStackScreen"
+                name: "HomeStackScreen",
               })
             )
           }
@@ -193,7 +199,7 @@ function CustomDrawerContent(props) {
 const DrawerScreen = () => (
   <Drawer.Navigator
     initialRouteName="TabsScreen"
-    drawerContent={props => CustomDrawerContent(props)}
+    drawerContent={(props) => CustomDrawerContent(props)}
   >
     <Drawer.Screen
       name="Home"
@@ -201,7 +207,7 @@ const DrawerScreen = () => (
       options={{
         drawerIcon: ({ color }) => (
           <Feather name="home" color={color} size={20} />
-        )
+        ),
       }}
     />
 
@@ -211,7 +217,7 @@ const DrawerScreen = () => (
       options={{
         drawerIcon: ({ color }) => (
           <MaterialCommunityIcons name="ferry" color={color} size={20} />
-        )
+        ),
       }}
     />
     <Drawer.Screen
@@ -220,7 +226,7 @@ const DrawerScreen = () => (
       options={{
         drawerIcon: ({ color }) => (
           <Feather name="message-circle" color={color} size={20} />
-        )
+        ),
       }}
     />
   </Drawer.Navigator>
@@ -235,7 +241,7 @@ const TabsScreen = () => (
         tabBarLabel: "Home",
         tabBarIcon: ({ color }) => (
           <Ionicons name="ios-home" color={color} size={26} />
-        )
+        ),
       }}
     />
     <Tabs.Screen
@@ -245,7 +251,7 @@ const TabsScreen = () => (
         tabBarLabel: "Profile",
         tabBarIcon: ({ color }) => (
           <MaterialCommunityIcons name="account" color={color} size={26} />
-        )
+        ),
       }}
     />
     <Tabs.Screen
@@ -255,7 +261,7 @@ const TabsScreen = () => (
         tabBarLabel: "Discover",
         tabBarIcon: ({ color }) => (
           <MaterialCommunityIcons name="ferry" color={color} size={26} />
-        )
+        ),
       }}
     />
     {/* <Tabs.Screen
@@ -290,7 +296,7 @@ const TabsScreen = () => (
         tabBarLabel: "Chat",
         tabBarIcon: ({ color }) => (
           <MaterialCommunityIcons name="chat" color={color} size={26} />
-        )
+        ),
       }}
     />
   </Tabs.Navigator>
@@ -317,13 +323,13 @@ const RootStackScreen = ({ userToken }) => (
 const rootComponent = () => {
   const [userToken, setUserToken] = useState(null);
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         setUserToken("asdf");
         store.dispatch(
           setUser({
             uid: user.uid,
-            name: user.displayName
+            name: user.displayName,
           })
         );
         // console.log("user logged in: ", user);
@@ -341,12 +347,12 @@ const rootComponent = () => {
         firebase
           .auth()
           .signInWithEmailAndPassword(email, password)
-          .catch(error => console.log("Error Here", error));
+          .catch((error) => console.log("Error Here", error));
         if (firebase.auth().currentUser) {
           setUserToken("asdf");
           store.dispatch(
             setUser({
-              uid: firebase.auth().currentUser.uid
+              uid: firebase.auth().currentUser.uid,
             })
           );
         }
@@ -355,22 +361,22 @@ const rootComponent = () => {
         firebase
           .auth()
           .createUserWithEmailAndPassword(email, password)
-          .then(userCredentials => {
+          .then((userCredentials) => {
             Fire.addUserEmail(userCredentials.user.uid, email, name);
 
             return userCredentials.user.updateProfile({
-              displayName: name
+              displayName: name,
             });
           })
 
-          .catch(error => console.log("Error Here", error));
+          .catch((error) => console.log("Error Here", error));
 
         setUserToken("asdf");
       },
       signOut: () => {
         firebase.auth().signOut();
         setUserToken(null);
-      }
+      },
     };
   }, []);
 
