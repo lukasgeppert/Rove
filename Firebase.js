@@ -233,7 +233,7 @@ class Fire {
       this.firestore
         .collection("users")
         .doc(uid)
-        .set({
+        .update({
           uid: uid,
           name: name,
           image: remoteUri,
@@ -256,7 +256,8 @@ class Fire {
       .doc(uid)
       .set({
         email: email,
-        name: name
+        name: name,
+        interests: []
       })
       .then(ref => {
         res(ref);
@@ -500,6 +501,7 @@ class Fire {
       .then(function(querySnapshot) {
         let tempResults = [];
         querySnapshot.forEach(doc => {
+          console.log('doc.data is: ', doc.data())
           tempResults.push(doc.data());
         });
 
@@ -702,6 +704,9 @@ class Fire {
   }
   get uid() {
     return (firebase.auth().currentUser || {}).uid;
+  }
+  get email(){
+    return (firebase.auth().currentUser || {}).email;
   }
   getAvatar = uid => {
     return this.firestore
