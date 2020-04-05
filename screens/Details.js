@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 import Fire from "../Firebase";
 import colors from "../constants/Colors";
 import { Rating } from "react-native-ratings";
@@ -30,7 +31,6 @@ export const Details = ({ route, navigation }) => {
       const singleRating = ratings[i];
       console.log("singleRating", singleRating.rating);
       console.log("RATINGS", ratings.length);
-
       const safety = singleRating.rating.safety;
       const locals = singleRating.rating.locals;
       const cleanliness = singleRating.rating.cleanliness;
