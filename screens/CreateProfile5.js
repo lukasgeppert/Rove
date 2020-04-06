@@ -26,7 +26,6 @@ export const CreateProfile5 = props => {
     }
   };
   useEffect(() => {
-    console.log("props.profileSubmission is: ", props);
     getPhotoPermission();
   }, []);
   //End Photo Permissions
