@@ -12,17 +12,23 @@ import {
   RefreshControl
 } from "react-native";
 
-import * as firebase from "firebase";
 import Fire from "../Firebase";
-
+import { connect } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
 
 const Post = props => {
 
+  console.log("props in post is: ", props);
+  let uid = "1";
+
   const [liked, setLiked] = useState(false);
   const { post } = props;
   const { data } = props.post;
+
+  if (data.uid === props.user.uid) {
+    uid = null;
+  }
 
   useEffect(() => {
     if (data.likes) {
@@ -59,7 +65,20 @@ const Post = props => {
           }}
         >
           <View>
-            <Text style={styles.post}>{data.name}</Text>
+            {uid ? (
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate("Profile", {
+                  screen: "Friend Profile",
+                  params: { frienduid: data.uid, request: true }
+                })}
+              >
+                <Text style={styles.post}>{data.name}</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity onPress={() => props.navigation.navigate("Profile")}>
+                <Text style={styles.post}>{data.name}</Text>
+              </TouchableOpacity>
+            )}
             <Text style={styles.timestamp}>
               {moment(data.timestamp).fromNow()}
             </Text>
@@ -158,4 +177,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Post;
+const mapState = state => ({
+  user: state.user
+});
+
+export default connect(mapState)(Post);

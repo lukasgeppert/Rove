@@ -363,6 +363,7 @@ const rootComponent = () => {
                 name: name,
               })
             );
+
             return userCredentials.user.updateProfile({
               displayName: name,
             });
