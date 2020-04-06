@@ -10,7 +10,7 @@ import {
   ScrollView,
   ImageBackground,
   Image,
-  SafeAreaView,
+  SafeAreaView
 } from "react-native";
 
 // import { MaterialCommunityIcons } from "react-native-vector-icons";
@@ -81,23 +81,23 @@ const HomeStackScreen = ({ navigation }) => (
       options={{
         title: "Home",
         headerRight: () => (
-          <MaterialCommunityIcons
-            name="plus-circle-outline"
+          <Feather
+            name="edit"
             size={30}
             backGroundColor="#009387"
             onPress={() => navigation.navigate("PostScreen")}
-            style={{ marginRight: 13 }}
-          ></MaterialCommunityIcons>
+            style={{ marginRight: 10  }}
+          ></Feather>
         ),
         headerLeft: () => (
           <MaterialCommunityIcons
             name="account-search"
-            size={30}
+            size={31}
             backGroundColor="#009387"
             onPress={() => navigation.navigate("Search")}
-            style={{ marginLeft: 13 }}
+            style={{ marginLeft: 13, marginTop: 10 }}
           ></MaterialCommunityIcons>
-        ),
+        )
       }}
     />
     <HomeStack.Screen name="Search" component={Search} />
@@ -106,17 +106,55 @@ const HomeStackScreen = ({ navigation }) => (
     <HomeStack.Screen name="Post" component={Post} />
   </HomeStack.Navigator>
 );
-const ProfileStackScreen = () => (
-  <ProfileStack.Navigator>
-    <ProfileStack.Screen name="Profile" component={Profile} />
-    <ProfileStack.Screen name="Welcome" component={CreateProfile1} />
-    <ProfileStack.Screen name="Choose Location" component={CreateProfile2} />
-    <ProfileStack.Screen name="Choose Profession" component={CreateProfile3} />
-    <ProfileStack.Screen name="Interests and Bio" component={CreateProfile4} />
-    <ProfileStack.Screen name="Upload Photo" component={CreateProfile5} />
-    <ProfileStack.Screen name="Friend Profile" component={FriendProfile} />
-  </ProfileStack.Navigator>
-);
+
+const ProfileStackScreen = ({ navigation }) => {
+  const { signOut } = React.useContext(AuthContext);
+
+  const signOutUser = () => {
+    signOut();
+  };
+  return (
+    <ProfileStack.Navigator>
+      <ProfileStack.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          title: "Profile",
+          headerRight: () => (
+            <Feather
+              name="settings"
+              size={30}
+              backGroundColor="#009387"
+              onPress={() => navigation.navigate("Welcome")}
+              style={{ marginRight: 7 }}
+            ></Feather>
+          ),
+          headerLeft: () => (
+            <Feather
+              name="log-out"
+              size={30}
+              backGroundColor="#009387"
+              onPress={signOutUser}
+              style={{ marginLeft: 6 }}
+            ></Feather>
+          )
+        }}
+      />
+      <ProfileStack.Screen name="Welcome" component={CreateProfile1} />
+      <ProfileStack.Screen name="Choose Location" component={CreateProfile2} />
+      <ProfileStack.Screen
+        name="Choose Profession"
+        component={CreateProfile3}
+      />
+      <ProfileStack.Screen
+        name="Interests and Bio"
+        component={CreateProfile4}
+      />
+      <ProfileStack.Screen name="Upload Photo" component={CreateProfile5} />
+      <ProfileStack.Screen name="Friend Profile" component={FriendProfile} />
+    </ProfileStack.Navigator>
+  );
+};
 const DiscoverStackScreen = () => (
   <DiscoverStack.Navigator mode="modal">
     <DiscoverStack.Screen name="Discover" component={Discover} />
@@ -158,26 +196,24 @@ const ChatStackScreen = ({ navigation }) => (
             name="message-outline"
             size={30}
             backGroundColor="#009387"
-            onPress={() => navigation.navigate("ChatFriendsList")}
+            onPress={() => navigation.navigate("Friend List")}
             style={{ marginRight: 13 }}
           ></MaterialCommunityIcons>
-        ),
+        )
       }}
     />
     <ChatStack.Screen name="ChatRoom" component={ChatRoom} />
-    <ChatStack.Screen name="ChatFriendsList" component={ChatFriendsList} />
+    <ChatStack.Screen name="Friend List" component={ChatFriendsList} />
   </ChatStack.Navigator>
 );
 
-const CustomDrawerContent = (props) => {
+const CustomDrawerContent = props => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         <TouchableOpacity
           style={{ marginTop: 20 }}
-          onPress={() =>
-            props.navigation.navigate("Home")
-          }
+          onPress={() => props.navigation.navigate("Home")}
         >
           <Text>Home</Text>
         </TouchableOpacity>
@@ -190,12 +226,12 @@ const CustomDrawerContent = (props) => {
       </ScrollView>
     </SafeAreaView>
   );
-}
+};
 
 const DrawerScreen = () => (
   <Drawer.Navigator
     initialRouteName="TabsScreen"
-    drawerContent={(props) => CustomDrawerContent(props)}
+    drawerContent={props => CustomDrawerContent(props)}
   >
     <Drawer.Screen
       name="Homedrawer"
@@ -203,7 +239,7 @@ const DrawerScreen = () => (
       options={{
         drawerIcon: ({ color }) => (
           <Feather name="home" color={color} size={20} />
-        ),
+        )
       }}
     />
 
@@ -213,7 +249,7 @@ const DrawerScreen = () => (
       options={{
         drawerIcon: ({ color }) => (
           <MaterialCommunityIcons name="ferry" color={color} size={20} />
-        ),
+        )
       }}
     />
     <Drawer.Screen
@@ -222,7 +258,7 @@ const DrawerScreen = () => (
       options={{
         drawerIcon: ({ color }) => (
           <Feather name="message-circle" color={color} size={20} />
-        ),
+        )
       }}
     />
   </Drawer.Navigator>
@@ -237,7 +273,7 @@ const TabsScreen = () => (
         tabBarLabel: "Home",
         tabBarIcon: ({ color }) => (
           <Ionicons name="ios-home" color={color} size={26} />
-        ),
+        )
       }}
     />
     <Tabs.Screen
@@ -247,7 +283,7 @@ const TabsScreen = () => (
         tabBarLabel: "Profile",
         tabBarIcon: ({ color }) => (
           <MaterialCommunityIcons name="account" color={color} size={26} />
-        ),
+        )
       }}
     />
     <Tabs.Screen
@@ -257,7 +293,7 @@ const TabsScreen = () => (
         tabBarLabel: "Discover",
         tabBarIcon: ({ color }) => (
           <MaterialCommunityIcons name="ferry" color={color} size={26} />
-        ),
+        )
       }}
     />
     {/* <Tabs.Screen
@@ -292,7 +328,7 @@ const TabsScreen = () => (
         tabBarLabel: "Chat",
         tabBarIcon: ({ color }) => (
           <MaterialCommunityIcons name="chat" color={color} size={26} />
-        ),
+        )
       }}
     />
   </Tabs.Navigator>
@@ -319,13 +355,13 @@ const RootStackScreen = ({ userToken }) => (
 const rootComponent = () => {
   const [userToken, setUserToken] = useState(null);
   useEffect(() => {
-    firebase.auth().onAuthStateChanged((user) => {
+    firebase.auth().onAuthStateChanged(user => {
       if (user) {
         setUserToken("asdf");
         store.dispatch(
           setUser({
             uid: user.uid,
-            name: user.displayName,
+            name: user.displayName
           })
         );
         // console.log("user logged in: ", user);
@@ -341,12 +377,12 @@ const rootComponent = () => {
         firebase
           .auth()
           .signInWithEmailAndPassword(email, password)
-          .catch((error) => console.log("Error Here", error));
+          .catch(error => console.log("Error Here", error));
         if (firebase.auth().currentUser) {
           setUserToken("asdf");
           store.dispatch(
             setUser({
-              uid: firebase.auth().currentUser.uid,
+              uid: firebase.auth().currentUser.uid
             })
           );
         }
@@ -355,28 +391,27 @@ const rootComponent = () => {
         firebase
           .auth()
           .createUserWithEmailAndPassword(email, password)
-          .then((userCredentials) => {
+          .then(userCredentials => {
             Fire.addUserEmail(userCredentials.user.uid, email, name);
             store.dispatch(
               setUser({
                 uid: userCredentials.user.uid,
-                name: name,
+                name: name
               })
             );
 
             return userCredentials.user.updateProfile({
-              displayName: name,
+              displayName: name
             });
           })
+          .then(() => setUserToken("asdf"))
 
-          .catch((error) => console.log("Error Here", error));
-
-        setUserToken("asdf");
+          .catch(error => console.log("Error Here", error));
       },
       signOut: () => {
         firebase.auth().signOut();
         setUserToken(null);
-      },
+      }
     };
   }, []);
 

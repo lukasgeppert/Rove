@@ -96,11 +96,9 @@ const RegisterScreen = ({ navigation }) => {
             />
           </View>
         </View>
-        <Button
-          style={styles.button}
-          title="Continue"
-          onPress={register}
-        ></Button>
+        <TouchableOpacity onPress={register} style={styles.registerButton}>
+          <Text style={{ color: "white" }}>Register</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -159,6 +157,26 @@ const styles = StyleSheet.create({
     height: 52,
     alignItems: "center",
     justifyContent: "center"
+  },
+  registerButton: {
+    flexDirection: "row",
+    justifyContent: "center",
+    paddingHorizontal: 32,
+    paddingVertical: 12,
+    borderBottomWidth: 2,
+    backgroundColor: "rgb(215,106,97)",
+    width: 150,
+    margin: 15,
+    fontWeight: "bold",
+    borderRadius: 12,
+    borderColor: "white",
+    borderWidth: 1,
+    color: "white",
+    fontSize: 24,
+    overflow: "hidden",
+    padding: 12,
+    textAlign: "center",
+    marginLeft: 135
   }
 });
 

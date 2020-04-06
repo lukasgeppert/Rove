@@ -55,7 +55,7 @@ export const CreateProfile5 = props => {
       props.profileSubmission.interests,
       props.profileSubmission.bio
     );
-    props.navigation.navigate("Profile")
+    props.navigation.navigate("Profile");
   };
 
   return !props.profileSubmission.image ? (
@@ -83,18 +83,17 @@ export const CreateProfile5 = props => {
           resizeMode="contain"
         />
       </View>
-      <Button
-        title="Choose a different avatar"
+      <TouchableOpacity style={styles.newButton}
         onPress={() => {
           props.setImageLocal(null);
           setImage(null);
         }}
-      />
-      <View style={styles.submitContainer}>
-        <TouchableOpacity onPress={handleSubmit}>
-          <Text>Submit</Text>
+      >
+        <Text style={styles.name}>Choose a different avatar</Text>
+      </TouchableOpacity>
+        <TouchableOpacity style={styles.continueButton} onPress={handleSubmit}>
+          <Text style={styles.name}>Submit</Text>
         </TouchableOpacity>
-      </View>
     </View>
   );
 };
@@ -131,6 +130,46 @@ const styles = StyleSheet.create({
   submitButton: {
     height: 100,
     aspectRatio: 2.09
+  },
+  newButton: {
+    flexDirection: "row",
+    justifyContent: "center",
+    paddingHorizontal: 32,
+    paddingVertical: 12,
+    borderBottomWidth: 2,
+    backgroundColor: "#6495ED",
+    width: 300,
+    margin: 15,
+    fontWeight: "bold",
+    borderRadius: 12,
+    borderColor: "white",
+    borderWidth: 1,
+    color: "white",
+    fontSize: 24,
+    overflow: "hidden",
+    padding: 12,
+    textAlign: "center",
+    marginLeft: 60
+  },
+  continueButton:{
+    flexDirection: "row",
+    justifyContent: "center",
+    paddingHorizontal: 32,
+    paddingVertical: 12,
+    borderBottomWidth: 2,
+    backgroundColor: "rgb(215,106,97)",
+    width: 300,
+    margin: 15,
+    fontWeight: "bold",
+    borderRadius: 12,
+    borderColor: "white",
+    borderWidth: 1,
+    color: "white",
+    fontSize: 24,
+    overflow: "hidden",
+    padding: 12,
+    textAlign: "center",
+    marginLeft: 60
   }
 });
 
