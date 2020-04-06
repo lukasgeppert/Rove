@@ -84,16 +84,6 @@ const PostScreen = ({ navigation }) => {
   return (
     <DismissKeyboard>
       <SafeAreaView style={styles.container}>
-        <View style={styles.header}>
-          {/* <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Ionicons name="md-arrow-back" size={24} color="#D8D9DB" />
-          </TouchableOpacity> */}
-
-          <TouchableOpacity onPress={handlePost}>
-            <Text style={{ fontWeight: "500" }}>Post</Text>
-          </TouchableOpacity>
-        </View>
-
         <View style={styles.inputContainer}>
           <Image source={{ uri: avatar }} style={styles.avatar}></Image>
           <TextInput
@@ -107,8 +97,15 @@ const PostScreen = ({ navigation }) => {
             onChangeText={text => setText(text)}
           ></TextInput>
         </View>
+        <View style={styles.postButton}>
+          <TouchableOpacity onPress={handlePost}>
+            <Text style={{ fontWeight: "500", color: 'white' }}>Post</Text>
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity style={styles.photo} onPress={pickImage}>
-          <Feather name="camera" size={24} color="#737888" />
+          <View style={styles.cameraButton}>
+            <Feather name="camera" size={24} color="#737888" />
+          </View>
         </TouchableOpacity>
 
         <View style={{ marginHorizontal: 32, marginTop: 32, height: 150 }}>
@@ -130,8 +127,48 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "#D8D9DB"
+    borderBottomColor: "#D8D9DB",
+    margin: 32
   },
+  postButton: {
+    flexDirection: "row",
+    justifyContent: "center",
+    paddingHorizontal: 32,
+    paddingVertical: 12,
+    borderBottomWidth: 2,
+    backgroundColor: "#6495ED",
+    width: 150,
+    margin: 15,
+    fontWeight: "bold",
+    borderRadius: 12,
+    borderColor: "white",
+    borderWidth: 1,
+    color: "white",
+    fontSize: 24,
+    overflow: "hidden",
+    padding: 12,
+    textAlign: "center",
+    marginLeft: 135,
+  },
+  // cameraButton: {
+  //   paddingHorizontal: 32,
+  //   justifyContent: "center",
+  //   flexDirection: "row",
+  //   paddingVertical: 12,
+  //   borderBottomWidth: 2,
+  //   backgroundColor: "white",
+  //   width: 100,
+  //   margin: 15,
+  //   fontWeight: "bold",
+  //   borderRadius: 12,
+  //   borderColor: "black",
+  //   borderWidth: 1,
+  //   color: "white",
+  //   fontSize: 24,
+  //   overflow: "hidden",
+  //   padding: 12,
+  //   textAlign: "center"
+  // },
   avatar: {
     width: 48,
     height: 48,
