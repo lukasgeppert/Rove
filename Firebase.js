@@ -1,13 +1,13 @@
 import firebase from "firebase";
 const firebaseConfig = {
-  apiKey: "AIzaSyA2dCdOeDp-by7fvr1gNTKr0pl_ZLikC-E",
-  authDomain: "rove-96d5a.firebaseapp.com",
-  databaseURL: "https://rove-96d5a.firebaseio.com",
-  projectId: "rove-96d5a",
-  storageBucket: "rove-96d5a.appspot.com",
-  messagingSenderId: "382947731268",
-  appId: "1:382947731268:web:2a332efe58420c01b45911",
-  measurementId: "G-W0J1F80PRD",
+  apiKey: "AIzaSyCcmjfOQrPxE4PDJgUFTu7xcDeIZLf5MGw",
+  authDomain: "rove-01.firebaseapp.com",
+  databaseURL: "https://rove-01.firebaseio.com",
+  projectId: "rove-01",
+  storageBucket: "rove-01.appspot.com",
+  messagingSenderId: "894706767214",
+  appId: "1:894706767214:web:c670f1fdcd0794423b9d7f",
+  measurementId: "G-S6Q98CWK8F",
 };
 class Fire {
   constructor() {
