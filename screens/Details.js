@@ -116,7 +116,7 @@ export const Details = ({ route, navigation }) => {
               position: "absolute",
               top: 0,
               left: 0,
-              right: 330,
+              right: 360,
               bottom: 200,
               justifyContent: "center",
               alignItems: "center",
@@ -215,7 +215,12 @@ export const Details = ({ route, navigation }) => {
                 }}
               >
                 <Text
-                  style={{ alignSelf: "flex-end", color: "rgb(215,106,97)" }}
+                  style={{
+                    alignSelf: "flex-end",
+                    color: "rgb(215,106,97)",
+                    fontSize: 20,
+                    fontWeight: "bold",
+                  }}
                 >
                   >
                 </Text>

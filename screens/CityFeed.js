@@ -33,8 +33,8 @@ renderCityPost = (post) => {
               {moment(post.timestamp).fromNow()}
             </Text>
           </View>
-          <Ionicons name="ios-more" size={24} color="#737888" />
         </View>
+
         <Text style={styles.post}>{post.text}</Text>
         <Image
           source={post.image}
@@ -99,15 +99,16 @@ const styles = StyleSheet.create({
   feedItem: {
     backgroundColor: "#FFF",
     borderRadius: 5,
-    padding: 8,
     flexDirection: "row",
     marginVertical: 8,
+    marginRight: 10,
   },
   avatar: {
     width: 36,
     height: 36,
     borderRadius: 18,
-    marginRight: 10,
+    marginLeft: 10,
+    marginRight: 5,
   },
   name: {
     fontSize: 15,
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   post: {
-    marginTop: 16,
+    marginTop: 5,
     fontSize: 14,
     color: "#838899",
   },

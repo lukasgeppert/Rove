@@ -655,7 +655,7 @@ class Fire {
         },
       })
       .then(() => {
-        alert("Rating Added");
+        alert("Rating Added!");
       })
       .catch((err) => {
         console.log(err);

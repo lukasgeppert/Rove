@@ -1,17 +1,12 @@
 import * as React from "react";
-// import { Ionicons } from "@expo/vector-icons";
 import {
   View,
   Text,
   StyleSheet,
-  TextInput,
   TouchableOpacity,
   Image,
-  Button,
   FlatList,
-  ImageBackground,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import colors from "../constants/Colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import moment from "moment";
@@ -19,42 +14,55 @@ import moment from "moment";
 export const RoversList = ({ navigation }) => {
   const renderRover = (rover) => {
     return (
-      <View
-        style={{
-          flexDirection: "row",
-          flex: 1,
-          width: "100%",
-        }}
-      >
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Profile", {
-              screen: "Friend Profile",
-              params: { frienduid: rover.uid },
-            });
-          }}
-        >
-          <Image source={rover.avatar} style={styles.avatar}></Image>
-          <Text>{rover.name}</Text>
-          <Text style={styles.timestamp}>
-            {moment(rover.timestamp).fromNow()}
-          </Text>
-        </TouchableOpacity>
+      <View>
+        <View style={styles.messageItem}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Profile", {
+                screen: "Friend Profile",
+                params: { frienduid: rover.uid },
+              });
+            }}
+          >
+            <Image source={rover.avatar} style={styles.avatar} />
+            <View style={{ flexDirection: "row" }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={styles.name}>{rover.name}</Text>
+                <Text style={styles.timestamp}>
+                  {moment(rover.timestamp).fromNow()}
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ marginLeft: 15 }}>
       <View>
         <Text onPress={() => navigation.goBack()} style={styles.closeModal}>
           X
         </Text>
       </View>
 
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <Text>Rovers</Text>
-        <Text>Checked In</Text>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-around",
+          borderBottomWidth: StyleSheet.hairlineWidth,
+          borderBottomColor: colors.lightgray,
+        }}
+      >
+        <Text style={{ fontSize: 24, marginBottom: 20 }}>Rovers</Text>
+        <Text style={{ alignSelf: "baseline", marginTop: 10 }}>Checked In</Text>
       </View>
 
       <View>
@@ -90,9 +98,22 @@ const styles = StyleSheet.create({
   },
   timestamp: {
     fontSize: 16,
-    color: "#C4C6CE",
-    textAlign: "right",
-    justifyContent: "flex-end",
+    color: colors.black,
+    marginRight: 30,
+  },
+  messageItem: {
+    // borderWidth: 1,
+    backgroundColor: "#FFF",
+    borderRadius: 5,
+    padding: 10,
+    flexDirection: "row",
+    marginVertical: 3,
+    marginTop: 12,
+  },
+  name: {
+    fontSize: 15,
+    fontWeight: "500",
+    color: "#454D65",
   },
 });
 
@@ -106,14 +127,14 @@ const rovers = [
   },
   {
     id: "2",
-    name: "Jason",
+    name: "Luigi",
     timestamp: 1569109273726,
     avatar: require("../assets/images/Shane_Pro_Pic.jpeg"),
     uid: "ZW0nVICEJlQf6xiWRxSDd0mdVGk1",
   },
   {
     id: "3",
-    name: "Milos",
+    name: "Peach",
     timestamp: 1569109273726,
     avatar: require("../assets/images/Shane_Pro_Pic.jpeg"),
     uid: "ZW0nVICEJlQf6xiWRxSDd0mdVGk1",
@@ -121,7 +142,6 @@ const rovers = [
   {
     id: "4",
     name: "Wario",
-
     timestamp: 1569109273726,
     avatar: require("../assets/images/Shane_Pro_Pic.jpeg"),
     uid: "ZW0nVICEJlQf6xiWRxSDd0mdVGk1",

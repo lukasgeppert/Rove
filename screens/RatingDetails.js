@@ -67,25 +67,38 @@ export const RatingDetails = ({ route, navigation }) => {
             Reviews
           </Text>
 
-          <View style={{ alignContent: "space-between" }}>
-            <Text style={{ marginBottom: 20 }}>
-              {averages.rover} 🌟 Rover Rating
-            </Text>
-            <Text style={{ marginBottom: 20 }}>{ratings.length} reviews</Text>
-          </View>
-
-          <View>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("RatingForm", {
-                  city: city,
-                });
-              }}
-            >
-              {singleUserCheck ? null : (
-                <Text style={{ marginBottom: 20 }}>Add New Rating</Text>
-              )}
-            </TouchableOpacity>
+          <View style={{ flexDirection: "row" }}>
+            <View>
+              <Text
+                style={{ marginBottom: 5, fontSize: 20, fontWeight: "bold" }}
+              >
+                {averages.rover} 🌟 Rover Rating
+              </Text>
+              <Text style={{ marginBottom: 15 }}>{ratings.length} reviews</Text>
+            </View>
+            {singleUserCheck ? null : (
+              <View style={styles.addFriendButton}>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("RatingForm", {
+                      city: city,
+                    });
+                  }}
+                >
+                  <Text
+                    style={{
+                      marginBottom: 5,
+                      paddingVertical: 10,
+                      color: "white",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                    }}
+                  >
+                    Add New Rating
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
 
           <View
@@ -102,14 +115,15 @@ export const RatingDetails = ({ route, navigation }) => {
               <Text>Safety</Text>
               <Rating
                 type="custom"
-                imageSize={20}
+                imageSize={22}
                 readonly
                 startingValue={averages.safety}
                 ratingColor="gold"
-                ratingBackgroundColor="white"
-                style={{ marginLeft: 100 }}
+                ratingBackgroundColor={colors.gray}
+                tintColor="rgb(242,242,242)"
+                style={{ marginLeft: 140 }}
               />
-              <Text style={{ marginLeft: 80 }}>
+              <Text style={{ marginLeft: 40 }}>
                 {parseFloat(averages.safety).toFixed(2)}
               </Text>
             </View>
@@ -118,14 +132,15 @@ export const RatingDetails = ({ route, navigation }) => {
               <Text>Locals</Text>
               <Rating
                 type="custom"
-                imageSize={20}
+                imageSize={22}
                 readonly
                 startingValue={averages.locals}
                 ratingColor="gold"
-                ratingBackgroundColor="white"
-                style={{ marginLeft: 100 }}
+                ratingBackgroundColor={colors.gray}
+                tintColor="rgb(242,242,242)"
+                style={{ marginLeft: 140 }}
               />
-              <Text style={{ marginLeft: 80 }}>
+              <Text style={{ marginLeft: 40 }}>
                 {parseFloat(averages.locals).toFixed(2)}
               </Text>
             </View>
@@ -134,14 +149,15 @@ export const RatingDetails = ({ route, navigation }) => {
               <Text>Cleanliness</Text>
               <Rating
                 type="custom"
-                imageSize={20}
+                imageSize={22}
                 readonly
                 startingValue={averages.cleanliness}
                 ratingColor="gold"
-                ratingBackgroundColor="white"
-                style={{ marginLeft: 68 }}
+                ratingBackgroundColor={colors.gray}
+                tintColor="rgb(242,242,242)"
+                style={{ marginLeft: 108 }}
               />
-              <Text style={{ marginLeft: 80 }}>
+              <Text style={{ marginLeft: 40 }}>
                 {parseFloat(averages.cleanliness).toFixed(2)}
               </Text>
             </View>
@@ -150,14 +166,15 @@ export const RatingDetails = ({ route, navigation }) => {
               <Text>Value</Text>
               <Rating
                 type="custom"
-                imageSize={20}
+                imageSize={22}
                 readonly
                 startingValue={averages.value}
                 ratingColor="gold"
-                ratingBackgroundColor="white"
-                style={{ marginLeft: 106 }}
+                ratingBackgroundColor={colors.gray}
+                tintColor="rgb(242,242,242)"
+                style={{ marginLeft: 146 }}
               />
-              <Text style={{ marginLeft: 80 }}>
+              <Text style={{ marginLeft: 40 }}>
                 {parseFloat(averages.value).toFixed(2)}
               </Text>
             </View>
@@ -173,15 +190,16 @@ export const RatingDetails = ({ route, navigation }) => {
               <Text>Co-working Space</Text>
               <Rating
                 type="custom"
-                imageSize={20}
+                imageSize={22}
                 readonly
                 startingValue={averages.coworkingspace}
                 style={styles.rating}
                 ratingColor="gold"
-                ratingBackgroundColor="white"
-                style={{ marginLeft: 22 }}
+                ratingBackgroundColor={colors.gray}
+                tintColor="rgb(242,242,242)"
+                style={{ marginLeft: 62 }}
               />
-              <Text style={{ marginBottom: 25, marginLeft: 80 }}>
+              <Text style={{ marginBottom: 25, marginLeft: 40 }}>
                 {parseFloat(averages.coworkingspace).toFixed(2)}
               </Text>
             </View>
@@ -245,6 +263,22 @@ const styles = StyleSheet.create({
   // rating: {
   //   backgroundColor: colors.gray,
   // },
+  addFriendButton: {
+    paddingHorizontal: 15,
+    marginLeft: 25,
+    backgroundColor: "rgb(215,106,97)",
+    width: 150,
+    margin: 8,
+    fontWeight: "bold",
+    borderRadius: 12,
+    borderColor: "white",
+    borderWidth: 1,
+    color: "white",
+    fontSize: 32,
+    overflow: "hidden",
+    textAlign: "center",
+    // marginLeft: 135,
+  },
   progressBar: {
     height: 15,
     width: "60%",

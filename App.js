@@ -127,7 +127,6 @@ const DiscoverStackScreen = () => (
       component={Details}
       options={{ headerShown: false }}
     />
-    <DiscoverStack.Screen name="Search" component={Search} />
     <DiscoverStack.Screen name="RatingForm" component={RatingForm} />
     <DiscoverStack.Screen
       name="RatingDetails"
