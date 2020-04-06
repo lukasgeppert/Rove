@@ -12,6 +12,7 @@ import Fire from "../Firebase";
 import colors from "../constants/Colors";
 import { Rating } from "react-native-ratings";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons, Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 
 export const Details = ({ route, navigation }) => {
   const { city } = route.params;
@@ -29,8 +30,6 @@ export const Details = ({ route, navigation }) => {
 
     for (let i = 0; i < ratings.length; i++) {
       const singleRating = ratings[i];
-      console.log("singleRating", singleRating.rating);
-      console.log("RATINGS", ratings.length);
       const safety = singleRating.rating.safety;
       const locals = singleRating.rating.locals;
       const cleanliness = singleRating.rating.cleanliness;
@@ -47,8 +46,7 @@ export const Details = ({ route, navigation }) => {
       for (let i = 0; i < safetyArr.length; i++) {
         total += safetyArr[i];
       }
-      let averageSafety = parseFloat(total / safetyArr.length).toIndex(2);
-      console.log("AVERAGE COST", averageSafety);
+      let averageSafety = total / safetyArr.length;
 
       total = 0;
       for (let i = 0; i < localsArr.length; i++) {
@@ -85,9 +83,8 @@ export const Details = ({ route, navigation }) => {
       for (let i = 0; i < roverArr.length; i++) {
         total += roverArr[i];
       }
+
       let averageAll = parseFloat(total / roverArr.length).toFixed(2);
-      console.log("ROVER AVG", averageAll);
-      console.log("RATINGS", ratings);
 
       setAverages({
         rover: averageAll,
@@ -119,7 +116,7 @@ export const Details = ({ route, navigation }) => {
               position: "absolute",
               top: 0,
               left: 0,
-              right: 330,
+              right: 360,
               bottom: 200,
               justifyContent: "center",
               alignItems: "center",
@@ -137,24 +134,30 @@ export const Details = ({ route, navigation }) => {
           </View>
 
           <View style={styles.cityInfo}>
+            <MaterialCommunityIcons
+              name="currency-usd"
+              size={25}
+              backGroundColor="#009387"
+            ></MaterialCommunityIcons>
             <Text style={styles.cityStats}>{city.cost}</Text>
-            <Text style={styles.cityStats}>{city.weather}</Text>
-            <Text style={styles.cityStats}>{city.internet}</Text>
-            <Text style={styles.cityStats}>{city.rovers}</Text>
-          </View>
-
-          <View style={styles.bestTime}>
-            <View>
-              <Text style={{ fontWeight: "bold" }}>Best time to visit</Text>
-              <Text style={{ marginBottom: 20 }}>{city.timeVisit}</Text>
-            </View>
-            <View>
-              <TouchableOpacity>
-                <Text style={{ alignSelf: "right", color: "rgb(215,106,97)" }}>
-                  View more
-                </Text>
-              </TouchableOpacity>
-            </View>
+            <MaterialCommunityIcons
+              name="temperature-fahrenheit"
+              size={25}
+              backGroundColor="#009387"
+            ></MaterialCommunityIcons>
+            <Text style={styles.cityStats}> {city.weather}</Text>
+            <MaterialCommunityIcons
+              name="wifi"
+              size={25}
+              backGroundColor="#009387"
+            ></MaterialCommunityIcons>
+            <Text style={styles.cityStats}> {city.internet}</Text>
+            <MaterialCommunityIcons
+              name="account-multiple"
+              size={25}
+              backGroundColor="#009387"
+            ></MaterialCommunityIcons>
+            <Text style={styles.cityStats}> {city.rovers} rovers</Text>
           </View>
 
           <View style={styles.reviews}>
@@ -174,9 +177,7 @@ export const Details = ({ route, navigation }) => {
                   });
                 }}
               >
-                <Text
-                  style={{ justifyText: "right", color: "rgb(215,106,97)" }}
-                >
+                <Text style={{ color: "rgb(215,106,97)" }}>
                   View {ratings.length} reviews
                 </Text>
               </TouchableOpacity>
@@ -185,15 +186,43 @@ export const Details = ({ route, navigation }) => {
 
           <View style={styles.rovers}>
             <View>
-              <Text style={{ fontWeight: "bold" }}>Other Rovers</Text>
-              <Text style={{ marginBottom: 20 }}>{city.rovers} rovers</Text>
+              <Text style={{ fontWeight: "bold" }}>Rovers</Text>
+              <Text style={{ marginBottom: 20 }}>
+                {city.rovers} active rovers
+              </Text>
             </View>
             <View>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("RoversList", {});
+                }}
+              >
+                <Text style={{ color: "rgb(215,106,97)" }}>View more</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View style={styles.bestTime}>
+            <View>
+              <Text style={{ fontWeight: "bold", marginBottom: 20 }}>
+                View Feed
+              </Text>
+            </View>
+            <View>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("Austin, TX Feed", {});
+                }}
+              >
                 <Text
-                  style={{ justifyText: "right", color: "rgb(215,106,97)" }}
+                  style={{
+                    alignSelf: "flex-end",
+                    color: "rgb(215,106,97)",
+                    fontSize: 20,
+                    fontWeight: "bold",
+                  }}
                 >
-                  View more
+                  >
                 </Text>
               </TouchableOpacity>
             </View>
@@ -203,6 +232,7 @@ export const Details = ({ route, navigation }) => {
     </>
   );
 };
+
 const styles = StyleSheet.create({
   container: { flex: 1, width: "100%", height: "100%" },
   cityImage: {
@@ -236,6 +266,7 @@ const styles = StyleSheet.create({
   cityStats: {
     flex: 1,
     marginBottom: 20,
+    fontSize: 15,
   },
   bestTime: {
     flexDirection: "row",
