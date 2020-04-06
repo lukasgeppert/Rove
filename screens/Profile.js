@@ -69,14 +69,14 @@ const Profile = props => {
               </Text>
             );
           })}
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => props.navigation.navigate("Welcome")}
           >
             <Text style={styles.buttonProfile}>Edit My Profile!</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={signOutUser}>
             <Text style={styles.buttonLogout}>Logout</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </>
       ) : (
         <>

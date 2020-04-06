@@ -24,7 +24,10 @@ const Login = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <ImageBackground source={require("../assets/images/welcomeSplash.jpg")} style={styles.image}>
+        <ImageBackground
+          source={require("../assets/images/welcomeSplash.jpg")}
+          style={styles.image}
+        >
           <Text style={styles.greeting}>{`Welcome Back, Traveler`}</Text>
         </ImageBackground>
       </View>
@@ -55,9 +58,9 @@ const Login = ({ navigation }) => {
             />
           </View>
         </View>
-
-        <Button style={styles.login} title="Login" onPress={login} />
-
+        <TouchableOpacity style={styles.loginButton} onPress={login}>
+          <Text style={{ color: "white" }}>Login</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           style={{ color: "red" }}
           onPress={() => navigation.navigate("RegisterScreen")}
@@ -82,6 +85,13 @@ const styles = StyleSheet.create({
   image: {
     resizeMode: "contain",
     minHeight: 300,
+    borderRadius: 2,
+    marginTop: 12,
+    margin: 6,
+    padding:20
+  
+
+
   },
   greeting: {
     marginTop: 20,
@@ -90,8 +100,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#FFFFFF",
     textShadowColor: "#000000",
-    textShadowOffset: {width: -1, height: 1},
-    textShadowRadius: 10,
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10
   },
   errorMessage: {
     height: 72,
@@ -121,6 +131,26 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: "center"
+  },
+  loginButton: {
+    flexDirection: "row",
+    justifyContent: "center",
+    paddingHorizontal: 32,
+    paddingVertical: 12,
+    borderBottomWidth: 2,
+    backgroundColor: "rgb(215,106,97)",
+    width: 150,
+    margin: 15,
+    fontWeight: "bold",
+    borderRadius: 12,
+    borderColor: "white",
+    borderWidth: 1,
+    color: "white",
+    fontSize: 24,
+    overflow: "hidden",
+    padding: 12,
+    textAlign: "center",
+    marginLeft: 135
   }
 });
 
