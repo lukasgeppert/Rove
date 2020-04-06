@@ -357,7 +357,6 @@ const rootComponent = () => {
           .createUserWithEmailAndPassword(email, password)
           .then((userCredentials) => {
             Fire.addUserEmail(userCredentials.user.uid, email, name);
-
             return userCredentials.user.updateProfile({
               displayName: name,
             });
