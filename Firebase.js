@@ -251,7 +251,7 @@ class Fire {
       .set({
         email: email,
         name: name,
-        interests: []
+        interests: [],
       })
       .then((ref) => {
         res(ref);
@@ -494,7 +494,7 @@ class Fire {
       .get()
       .then(function (querySnapshot) {
         let tempResults = [];
-        querySnapshot.forEach(doc => {
+        querySnapshot.forEach((doc) => {
           tempResults.push(doc.data());
         });
 
@@ -549,8 +549,7 @@ class Fire {
           user: {
             name,
             _id: uid,
-            avatar: avatar
-
+            avatar: avatar,
           },
           text: text,
           createdAt: this.timestamp,
@@ -658,11 +657,11 @@ class Fire {
           name: this.name,
         },
       })
-      .then((ref) => {
-        res(ref);
+      .then(() => {
+        alert("Rating Added");
       })
       .catch((err) => {
-        rej(err);
+        console.log(err);
       });
   };
 
@@ -700,10 +699,10 @@ class Fire {
     return (firebase.auth().currentUser || {}).uid;
   }
 
-  get email(){
+  get email() {
     return (firebase.auth().currentUser || {}).email;
   }
-  getAvatar = uid => {
+  getAvatar = (uid) => {
     return this.firestore
       .collection("users")
       .doc(uid)

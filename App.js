@@ -25,6 +25,7 @@ import RegisterScreen from "./screens/RegisterScreen";
 import Discover from "./screens/Discover";
 import Profile from "./screens/Profile";
 import Details from "./screens/Details";
+import RoversList from "./screens/RoversList";
 import Search from "./screens/Search";
 import PostScreen from "./screens/PostScreen";
 import NotificationScreen from "./screens/NotificationScreen";
@@ -52,6 +53,7 @@ import store from "./store/index";
 import { decode, encode } from "base-64";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import RatingForm from "./screens/RatingForm";
+import CityFeed from "./screens/CityFeed";
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -129,10 +131,15 @@ const DiscoverStackScreen = () => (
     <DiscoverStack.Screen name="RatingForm" component={RatingForm} />
     <DiscoverStack.Screen
       name="RatingDetails"
-      mode="card"
       component={RatingDetails}
       options={{ headerShown: false }}
     />
+    <DiscoverStack.Screen
+      name="RoversList"
+      component={RoversList}
+      options={{ headerShown: false }}
+    />
+    <DiscoverStack.Screen name="Austin, TX Feed" component={CityFeed} />
   </DiscoverStack.Navigator>
 );
 
@@ -175,9 +182,7 @@ const CustomDrawerContent = (props) => {
       <ScrollView>
         <TouchableOpacity
           style={{ marginTop: 20 }}
-          onPress={() =>
-            props.navigation.navigate("Home")
-          }
+          onPress={() => props.navigation.navigate("Home")}
         >
           <Text>Home</Text>
         </TouchableOpacity>
@@ -190,7 +195,7 @@ const CustomDrawerContent = (props) => {
       </ScrollView>
     </SafeAreaView>
   );
-}
+};
 
 const DrawerScreen = () => (
   <Drawer.Navigator

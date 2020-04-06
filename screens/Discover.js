@@ -15,7 +15,7 @@ import { Ionicons } from "@expo/vector-icons";
 import colors from "../constants/Colors";
 
 const Discover = ({ navigation }) => {
-  const renderCity = city => {
+  const renderCity = (city) => {
     return (
       <View style={styles.feedItem}>
         <View style={{ flex: 1 }}>
@@ -54,10 +54,6 @@ const Discover = ({ navigation }) => {
               </ImageBackground>
             </View>
           </TouchableOpacity>
-          <View>
-            <Text style={styles.name}>{city.cost}</Text>
-            <Text style={styles.name}>{city.weather}</Text>
-          </View>
         </View>
       </View>
     );
@@ -65,14 +61,11 @@ const Discover = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Button title="Search" onPress={() => navigation.push("Search")} />
-      </View>
       <FlatList
         style={styles.feed}
         data={cities}
-        renderItem={({item}) => renderCity(item)}
-        keyExtractor={item => item.id}
+        renderItem={({ item }) => renderCity(item)}
+        keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
       />
     </View>
@@ -121,12 +114,11 @@ let cities = [
   {
     id: "3",
     name: "Austin, TX",
-    text: "The Second City",
     image: require("../assets/images/cities/austin.jpg"),
     roveScore: "4.5/5.0",
-    cost: "1000 / M",
-    weather: "60* F",
-    internet: "14 MBPS",
+    cost: "1000/M",
+    weather: "75* F",
+    internet: "140 mbps",
     safety: "moderate",
     fun: "good",
     rovers: 160,
@@ -135,156 +127,143 @@ let cities = [
   {
     id: "7",
     name: "Denver, CO",
-    text: "The Second City",
     image: require("../assets/images/cities/denver.jpg"),
-    cost: "1000 / M",
+    cost: "900/M",
     weather: "60* F",
-    internet: "14 MBPS",
-    rovers: 160,
+    internet: "140 mbps",
+
+    rovers: 150,
     timeVisit: "May-June",
   },
   {
     id: "6",
     name: "Seattle, WA",
-    text: "The Second City",
     image: require("../assets/images/cities/seattle.jpg"),
-    cost: "1000 / M",
+    cost: "1100/M",
     weather: "60* F",
-    internet: "14 MBPS",
-    rovers: 160,
-    timeVisit: "May-June",
+    internet: "140 mbps",
+    rovers: 170,
+    timeVisit: "July-August",
   },
   {
     id: "8",
     name: "Charlotte, NC",
-    text: "The Second City",
     image: require("../assets/images/cities/charlotte.jpeg"),
-    cost: "1000 / M",
-    weather: "60* F",
-    internet: "14 MBPS",
-    rovers: 160,
-    timeVisit: "May-June",
+    cost: "900/M",
+    weather: "75* F",
+    internet: "140 mbps",
+    rovers: 100,
+    timeVisit: "October-December",
   },
   {
     id: "1",
     name: "Chicago, IL",
-    text: "The Second City",
     image: require("../assets/images/cities/city-of-chicago.jpg"),
-    cost: "1000 / M",
-    weather: "60* F",
-    internet: "14 MBPS",
-    rovers: 160,
-    timeVisit: "May-June",
+    cost: "1000/M",
+    weather: "50* F",
+    internet: "140 mbps",
+    rovers: 180,
+    timeVisit: "July-August",
   },
   {
     id: "2",
     name: "San Francisco, CA",
-    text: "The Second City",
     image: require("../assets/images/cities/san-francisco.jpg"),
-    cost: "1000 / M",
-    weather: "60* F",
-    internet: "14 MBPS",
-    rovers: 160,
+    cost: "1500/M",
+    weather: "65* F",
+    internet: "140 mbps",
+    rovers: 140,
     timeVisit: "May-June",
   },
   {
     id: "4",
     name: "Salt Lake City, UT",
-    text: "The Second City",
     image: require("../assets/images/cities/slc.jpg"),
-    cost: "1000 / M",
+    cost: "1000/M",
     weather: "60* F",
-    internet: "14 MBPS",
-    rovers: 160,
+    internet: "140 mbps",
+    rovers: 120,
     timeVisit: "May-June",
   },
   {
     id: "5",
     name: "Portland, OR",
-    text: "The Second City",
     image: require("../assets/images/cities/portland.jpg"),
-    cost: "1000 / M",
+    cost: "900/M",
     weather: "60* F",
-    internet: "14 MBPS",
-    rovers: 160,
+    internet: "140 mbps",
+    rovers: 50,
     timeVisit: "May-June",
   },
 
   {
     id: "9",
     name: "Colorado Springs, CO",
-    text: "The Second City",
     image: require("../assets/images/cities/colorado-springs.jpeg"),
-    cost: "1000 / M",
+    cost: "900/M",
     weather: "60* F",
-    internet: "14 MBPS",
-    rovers: 160,
+    internet: "140 mbps",
+    rovers: 40,
     timeVisit: "May-June",
   },
   {
     id: "10",
     name: "Pittsburgh, PA",
-    text: "The Second City",
     image: require("../assets/images/cities/pitt.jpg"),
-    cost: "1000 / M",
+    cost: "900/M",
     weather: "60* F",
-    internet: "14 MBPS",
-    rovers: 160,
+    internet: "140 mbps",
+    rovers: 60,
     timeVisit: "May-June",
   },
   {
     id: "11",
     name: "San Diego, CA",
-    text: "The Second City",
     image: require("../assets/images/cities/sd.jpg"),
-    cost: "1000 / M",
-    weather: "60* F",
-    internet: "14 MBPS",
-    rovers: 160,
+    cost: "1100/M",
+    weather: "70* F",
+    internet: "140 mbps",
+    rovers: 80,
     timeVisit: "May-June",
   },
   {
     id: "12",
     name: "Dallas, TX",
-    text: "The Second City",
     image: require("../assets/images/cities/dallas.jpeg"),
-    cost: "1000 / M",
-    weather: "60* F",
-    internet: "14 MBPS",
-    rovers: 160,
-    timeVisit: "May-June",
+    cost: "1000/M",
+    weather: "70* F",
+    internet: "140 mbps",
+    rovers: 90,
+    timeVisit: "September-November",
   },
   {
     id: "13",
     name: "Miami, FL",
-    text: "The Second City",
     image: require("../assets/images/cities/miami.jpeg"),
-    cost: "1000 / M",
-    weather: "60* F",
-    internet: "14 MBPS",
-    rovers: 160,
-    timeVisit: "May-June",
+    cost: "1000/M",
+    weather: "70* F",
+    internet: "140 mbps",
+    rovers: 100,
+    timeVisit: "February-April",
   },
   {
-    id: "14",
+    id: "140",
     name: "Phoenix, AZ",
-    text: "The Second City",
     image: require("../assets/images/cities/phoenix.jpg"),
-    cost: "1000 / M",
-    weather: "60* F",
-    internet: "14 MBPS",
-    rovers: 160,
-    timeVisit: "May-June",
+    cost: "1000/M",
+    weather: "70* F",
+    internet: "140 mbps",
+    rovers: 80,
+    timeVisit: "February-April",
   },
   {
     id: "15",
     name: "Nashville, TN",
-    text: "The Second City",
     image: require("../assets/images/cities/nashville.jpg"),
-    cost: "1000 / M",
-    weather: "60* F",
-    internet: "14 MBPS",
-    rovers: 160,
+    cost: "1000/M",
+    weather: "70* F",
+    internet: "140 mbps",
+    rovers: 70,
     timeVisit: "May-June",
   },
 ];
