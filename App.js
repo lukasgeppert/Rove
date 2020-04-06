@@ -362,6 +362,12 @@ const rootComponent = () => {
           .createUserWithEmailAndPassword(email, password)
           .then((userCredentials) => {
             Fire.addUserEmail(userCredentials.user.uid, email, name);
+            store.dispatch(
+              setUser({
+                uid: userCredentials.user.uid,
+                name: name,
+              })
+            );
 
             return userCredentials.user.updateProfile({
               displayName: name,

@@ -229,7 +229,7 @@ class Fire {
         .doc(uid)
         .update({
           uid: uid,
-          name: name,
+          name: this.name,
           image: remoteUri,
           location: location,
           interests: interests,
@@ -253,11 +253,8 @@ class Fire {
         name: name,
         interests: [],
       })
-      .then((ref) => {
-        res(ref);
-      })
       .catch((err) => {
-        rej(err);
+        console.error(err);
       });
   };
 

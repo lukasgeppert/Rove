@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Button, SafeAreaView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  SafeAreaView,
+  ImageBackground
+} from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import * as firebase from "firebase";
 import { AuthContext } from "./AuthContext";
@@ -16,9 +23,12 @@ const Login = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View>
+        <ImageBackground source={require("../assets/images/welcomeSplash.jpg")} style={styles.image}>
+          <Text style={styles.greeting}>{`Welcome Back, Traveler`}</Text>
+        </ImageBackground>
+      </View>
       <View style={styles.container}>
-        <Text style={styles.greeting}>{`Welcome back, traveler`}</Text>
-
         <View style={styles.errorMessage}>
           {error && <Text style={styles.errorMessage}>{error}</Text>}
         </View>
@@ -69,11 +79,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  image: {
+    resizeMode: "contain",
+    minHeight: 300,
+  },
   greeting: {
-    marginTop: 32,
-    fontSize: 18,
-    fontWeight: "400",
-    textAlign: "center"
+    marginTop: 20,
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "#FFFFFF",
+    textShadowColor: "#000000",
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10,
   },
   errorMessage: {
     height: 72,
