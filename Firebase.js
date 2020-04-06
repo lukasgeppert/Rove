@@ -229,7 +229,7 @@ class Fire {
         .doc(uid)
         .update({
           uid: uid,
-          name: name,
+          name: this.name,
           image: remoteUri,
           location: location,
           interests: interests,
