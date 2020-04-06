@@ -38,7 +38,7 @@ const HomeScreen = props => {
   }, []);
 
   renderPost = post => {
-    return <Post post={post} />;
+    return <Post post={post} navigation={props.navigation}/>;
   };
   return (
     <View style={styles.container}>

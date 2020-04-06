@@ -14,11 +14,6 @@ import Fire from "../Firebase";
 
 const FriendProfile = props => {
   console.log("props is: ", props);
-  //Jason's Wacky Experimental Chamber
-
-  // useEffect(() => {
-  //
-  // }, []);
 
   const [user, setUser] = useState(null);
   let name = props.user.name || "traveler";
