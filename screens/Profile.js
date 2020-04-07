@@ -8,36 +8,54 @@ import {
   Button,
   TouchableOpacity,
   LayoutAnimation,
-  RefreshControl
+  RefreshControl,
+  FlatList,
 } from "react-native";
 import * as firebase from "firebase";
 import { AuthContext } from "./AuthContext";
 import { connect } from "react-redux";
 import Fire from "../Firebase";
+import Post from "../container/Post";
 
 //TODO: Find a better picture for building a profile
 //TODO: Refresh the profile page upon scroll up.
 
-const Profile = props => {
+const Profile = (props) => {
   //Jason's Wacky Experimental Chamber
 
   // useEffect(() => {
   //
   // }, []);
+  const [posts, setPosts] = useState([]);
+
+  async function fetchPosts() {
+    const posts = await Fire.getUserPosts();
+    return posts;
+  }
+  useEffect(() => {
+    fetchPosts().then((promisePosts) => {
+      setPosts(promisePosts);
+      console.log("MILOS TEST POST", posts);
+    });
+  }, []);
+
   const [user, setUser] = useState(null);
-  const [profileStatus, setProfileStatus] = useState(null)
+  const [profileStatus, setProfileStatus] = useState(null);
   const [friendRequests, setFriendRequests] = useState(null);
   let name = props.user.name || "traveler";
   const { signOut } = React.useContext(AuthContext);
   const [refresh, setRefresh] = useState(false);
-  useEffect(() => {
 
-    Fire.getUser(props.user.uid).then(userInfo => {
-      setUser(userInfo)
-      if (userInfo.location) setProfileStatus(true)
+  useEffect(() => {
+    setRefresh(true);
+    Fire.getUser(props.user.uid).then((userInfo) => {
+      setUser(userInfo);
+      if (userInfo.location) setProfileStatus(true);
     });
+
     Fire.getPendingFriends(props.user.uid)
-      .then(friendPendingRequests => setFriendRequests(friendPendingRequests));
+      .then((friendPendingRequests) => setFriendRequests(friendPendingRequests))
+      .finally(setRefresh(false));
   }, []);
 
   const signOutUser = () => {
@@ -45,30 +63,68 @@ const Profile = props => {
   };
 
   LayoutAnimation.easeInEaseOut();
+
+  renderPost = (post) => {
+    return <Post post={post} navigation={props.navigation} />;
+  };
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      refreshControl={
+        <RefreshControl
+          refreshing={refresh}
+          onRefresh={() => {
+            Fire.getUser(props.user.uid)
+              .then((userInfo) => {
+                setUser(userInfo);
+                setProfileStatus(true);
+              })
+              .finally(() => setRefresh(false));
+
+            Fire.getPendingFriends(props.user.uid)
+              .then((friendPendingRequests) =>
+                setFriendRequests(friendPendingRequests)
+              )
+              .finally(setRefresh(false));
+          }}
+        />
+      }
+      style={styles.container}
+    >
       {profileStatus ? (
         <>
-          <Text style={styles.header}>Hello, {name}!</Text>
-          {/* <View style={styles.imageContainer}> */}
-          <Image
-            source={{ uri: user.image }}
-            style={styles.avatar}
-            resizeMode="contain"
-          />
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+            }}
+          >
+            <Image source={{ uri: user.image }} style={styles.avatar} />
+            <View style={{ alignSelf: "center" }}>
+              <Text style={styles.header}>{name}</Text>
+              <Text style={{ alignSelf: "center" }}> {user.location}</Text>
+              <Text style={styles.header2}>About Me</Text>
+              <Text style={styles.paragraph}>{user.aboutMe}</Text>
+            </View>
+            {/* <View style={styles.imageContainer}> */}
+          </View>
           {/* </View> */}
-          <Text style={styles.header2}>Bio:</Text>
-          <Text style={styles.paragraph}>{user.aboutMe}</Text>
-          <Text style={styles.header2}>Location:</Text>
-          <Text style={styles.paragraph}> {user.location}</Text>
-          <Text style={styles.header2}>Your interests are: </Text>
-          {user.interests.map(interest => {
-            return (
-              <Text style={styles.interestList} key={interest}>
-                {interest}
-              </Text>
-            );
-          })}
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "column",
+              alignSelf: "center",
+            }}
+          >
+            <Text style={styles.header2}>Interests</Text>
+            {user.interests.map((interest) => {
+              return (
+                <Text style={styles.interestList} key={interest}>
+                  {interest}
+                </Text>
+              );
+            })}
+          </View>
+
           {/* <TouchableOpacity
             onPress={() => props.navigation.navigate("Welcome")}
           >
@@ -99,7 +155,7 @@ const Profile = props => {
       friendRequests ? (
         <>
           {//if so, map over them to check each friend request
-          friendRequests.map(friendRequestObj => {
+          friendRequests.map((friendRequestObj) => {
             let friendName = friendRequestObj.friend.name || "A Traveler";
             let frienduid = friendRequestObj.friend._id;
             //are any of the friend requests incoming? If so, display them. Else, don't display any.
@@ -114,7 +170,7 @@ const Profile = props => {
                     onPress={() =>
                       props.navigation.navigate("Friend Profile", {
                         frienduid,
-                        request: true
+                        request: true,
                       })
                     }
                   >
@@ -125,7 +181,12 @@ const Profile = props => {
                   <TouchableOpacity
                     onPress={() => {
                       Fire.acceptFriendRequest(frienduid, friendName);
-                      setFriendRequests(friendRequests.filter(friendRequestObject => friendRequestObject.friend._id !== frienduid))
+                      setFriendRequests(
+                        friendRequests.filter(
+                          (friendRequestObject) =>
+                            friendRequestObject.friend._id !== frienduid
+                        )
+                      );
                     }}
                   >
                     <Text style={styles.acceptButton}>
@@ -135,7 +196,12 @@ const Profile = props => {
                   <TouchableOpacity
                     onPress={() => {
                       Fire.denyFriendRequest(frienduid);
-                      setFriendRequests(friendRequests.filter(friendRequestObject => friendRequestObject.friend._id !== frienduid))
+                      setFriendRequests(
+                        friendRequests.filter(
+                          (friendRequestObject) =>
+                            friendRequestObject.friend._id !== frienduid
+                        )
+                      );
                     }}
                   >
                     <Text style={styles.rejectButton}>
@@ -149,6 +215,16 @@ const Profile = props => {
           })}
         </>
       ) : null}
+      <View style={{ marginTop: 25 }}>
+        <Text style={styles.header2}>My Posts</Text>
+        <FlatList
+          style={styles.feed}
+          data={posts}
+          renderItem={({ item }) => renderPost(item)}
+          keyExtractor={(index, item) => item.toString()}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
     </ScrollView>
   );
 };
@@ -159,17 +235,19 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 30,
     alignSelf: "center",
-    marginTop: 10
+    marginLeft: 25,
+    marginTop: 10,
   },
   header2: {
     marginTop: 10,
     fontSize: 18,
+    textDecorationLine: "underline",
     alignSelf: "center",
-    textDecorationLine: "underline"
   },
   paragraph: {
     fontSize: 14,
-    alignSelf: "center"
+    alignSelf: "center",
+    fontStyle: "italic",
   },
   buttonProfile: {
     margin: 10,
@@ -179,7 +257,7 @@ const styles = StyleSheet.create({
     color: "rgb(215,106,97)",
     padding: 10,
     borderWidth: 1,
-    borderColor: "#000000"
+    borderColor: "#000000",
   },
   buttonLogout: {
     margin: 10,
@@ -189,25 +267,27 @@ const styles = StyleSheet.create({
     color: "rgb(215,106,97)",
     padding: 10,
     borderWidth: 1,
-    borderColor: "#000000"
+    borderColor: "#000000",
   },
   interestList: {
     alignSelf: "center",
-    fontSize: 14
+    fontSize: 14,
   },
   buildingButton: {
     alignSelf: "center",
     height: 300,
-    aspectRatio: 1.5
+    aspectRatio: 1.5,
   },
   imageContainer: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   avatar: {
-    height: 150,
-    margin: 15
+    width: 175,
+    height: 175,
+    margin: 15,
+    borderRadius: 100,
   },
   acceptButton: {
     width: 240,
@@ -216,7 +296,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#00e660",
     color: "#ffffff",
     alignSelf: "center",
-    padding: 10
+    padding: 10,
   },
   rejectButton: {
     width: 240,
@@ -225,9 +305,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fc0303",
     color: "#ffffff",
     alignSelf: "center",
-    padding: 10
-  }
-
+    padding: 10,
+  },
 });
 
 const mapState = (state) => ({
