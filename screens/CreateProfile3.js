@@ -55,13 +55,14 @@ export const CreateProfile3 = props => {
           <Text style={styles.header}>Your chosen profession is:</Text>
           <Text style={styles.header}>{prof}</Text>
           <TouchableOpacity
-            style={styles.professionButton}
+            style={styles.currentProfession}
             onPress={() => setProf(null)}
           >
             <Text style={styles.name}>Set a different profession</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.continueButton}
+            style={styles.currentProfession}
+            title="Continue"
             onPress={() => props.navigation.navigate("Interests and Bio")}
           >
             <Text style={styles.name}>Continue</Text>
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
     color: "white"
   },
   continueButton: {
-    flexDirection: "row",
+     flexDirection: "row",
     justifyContent: "center",
     paddingHorizontal: 32,
     paddingVertical: 12,

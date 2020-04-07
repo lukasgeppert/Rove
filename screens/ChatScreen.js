@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import Fire from "../Firebase";
 import { useSelector } from "react-redux";
-
+import moment from "moment"
 import { Ionicons, Feather } from "@expo/vector-icons";
 
 import firebase from "firebase";
@@ -23,18 +23,21 @@ import ChatRoom from "./ChatRoom";
 import ChatFriendsList from "./ChatFriendsList";
 
 import { getMessages } from "../store/messages";
-// const dummyChat = [
-//   {
-//     name: "Shane",
-//     id: "1",
-//     avatar: require("../assets/images/Shane_Pro_Pic.jpeg")
-//   },
-//   {
-//     name: "Test",
-//     id: "2",
-//     avatar: require("../assets/images/Shane_Pro_Pic.jpeg")
-//   }
-// ];
+const dummyChat = [
+  {
+    name: "Shane",
+    id: "1",
+    avatar: require("../assets/images/Shane_Pro_Pic.jpeg"),
+    timestamp: "1569109273726"
+
+  },
+  {
+    name: "Test",
+    id: "2",
+    avatar: require("../assets/images/Shane_Pro_Pic.jpeg"),
+    timestamp: "1569109273726"
+  }
+];
 const ChatScreen = props => {
   const [chatRoomId, setChatRoomId] = React.useState([]);
   const [conversations, setConversations] = React.useState([]);
@@ -71,6 +74,7 @@ const ChatScreen = props => {
   const user = useSelector(state => state.user);
 
   const renderFriend = cArr => {
+    console.log('gimme caRR', cArr)
     return (
       <View>
         <TouchableOpacity
@@ -92,6 +96,9 @@ const ChatScreen = props => {
                 }}
               >
                 <Text style={styles.name}>{cArr.name}</Text>
+                <Text style={styles.timestamp}>
+              {moment(dummyChat.timestamp).fromNow()}
+            </Text>
                 {/* <Feather
                 name="trash"
                 size={24}
@@ -171,5 +178,13 @@ const styles = StyleSheet.create({
 
   feed: {
     marginHorizontal: 5
-  }
+  },
+  timestamp: {
+    fontSize: 11,
+    // color: "#C4C6CE",
+    color: "#454D65",
+
+    marginTop: 4,
+    marginLeft: 170
+  },
 });

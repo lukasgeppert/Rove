@@ -170,7 +170,13 @@ const styles = StyleSheet.create({
     padding: 12,
     textAlign: "center",
     marginLeft: 60
-  }
+  },
+  name: {
+    fontSize: 15,
+    justifyContent: "center",
+    // borderBottomWidth: 3
+    color: "white"
+  },
 });
 
 const mapStateToProps = state => ({
