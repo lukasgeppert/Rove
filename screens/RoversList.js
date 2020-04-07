@@ -127,28 +127,28 @@ const rovers = [
     name: "Toad",
     timestamp: 1569109273726,
     avatar: require("../assets/images/Shane_Pro_Pic.jpeg"),
-    uid: "ZW0nVICEJlQf6xiWRxSDd0mdVGk1",
+    uid: "sHCIW5cZGsb2WJwTi7LkA3xB2m52",
   },
   {
     id: "2",
     name: "Luigi",
     timestamp: 1569109273726,
     avatar: require("../assets/images/Shane_Pro_Pic.jpeg"),
-    uid: "ZW0nVICEJlQf6xiWRxSDd0mdVGk1",
+    uid: "sHCIW5cZGsb2WJwTi7LkA3xB2m52",
   },
   {
     id: "3",
     name: "Peach",
     timestamp: 1569109273726,
     avatar: require("../assets/images/Shane_Pro_Pic.jpeg"),
-    uid: "ZW0nVICEJlQf6xiWRxSDd0mdVGk1",
+    uid: "sHCIW5cZGsb2WJwTi7LkA3xB2m52",
   },
   {
     id: "4",
     name: "Wario",
     timestamp: 1569109273726,
     avatar: require("../assets/images/Shane_Pro_Pic.jpeg"),
-    uid: "ZW0nVICEJlQf6xiWRxSDd0mdVGk1",
+    uid: "sHCIW5cZGsb2WJwTi7LkA3xB2m52",
   },
 ];
 
