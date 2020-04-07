@@ -7,7 +7,7 @@ import {
   Dimensions,
   TouchableOpacity,
   FlatList,
-  Button
+  Button,
 } from "react-native";
 import * as firebase from "firebase";
 import { Input } from "react-native-elements";
@@ -17,13 +17,13 @@ import { Ionicons, Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 // import algoliasearch from "algoliasearch";
 // import autocomplete from "autocomplete.js";
 
-const Search = props => {
+const Search = (props) => {
   // let client = algoliasearch("48RBUD3R3L", "dd31c406b6de3173a2433a0dbda70f9c");
   // let index = client.initIndex("Rove");
   const [search, setSearch] = useState(false);
   const [userList, setUserList] = useState(null);
   const [friendRequest, setFriendRequest] = useState(1);
-  const renderUser = userInfo => {
+  const renderUser = (userInfo) => {
     console.log("gimme userInfo", userInfo);
     return (
       <View style={styles.feedItem}>
@@ -32,7 +32,7 @@ const Search = props => {
             onPress={() => {
               props.navigation.navigate("Profile", {
                 screen: "Friend Profile",
-                params: { frienduid: userInfo.uid }
+                params: { frienduid: userInfo.uid },
               });
             }}
           >
@@ -47,7 +47,7 @@ const Search = props => {
               // flexDirection: "row",
               // justifyContent: "space-between",
               alignContent: "center",
-              marginLeft: 1
+              marginLeft: 1,
               // backgroundColor: "red"
             }}
           >
@@ -85,7 +85,9 @@ const Search = props => {
                     <Text style={{ color: "white" }}>Add a friend</Text>
                   </TouchableOpacity>
                 ) : (
-                  <Text style={{color: "white", fontSize: 12 }}>Request Sent!</Text>
+                  <Text style={{ color: "white", fontSize: 12 }}>
+                    Request Sent!
+                  </Text>
                 )}
               </View>
             </View>
@@ -103,14 +105,14 @@ const Search = props => {
         type="text"
         placeholder="Email"
         autoCapitalize="none"
-        onChangeText={text => setSearch(text)}
+        onChangeText={(text) => setSearch(text)}
       />
       <TouchableOpacity
         style={styles.searchButton}
         onPress={async () => {
           const results = await Fire.searchUser(search);
-          setUserList(results)
-          setFriendRequest(1)
+          setUserList(results);
+          setFriendRequest(1);
         }}
       >
         <Text style={{ fontWeight: "500", color: "white" }}>Search</Text>
@@ -148,7 +150,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     padding: 12,
     textAlign: "center",
-    marginLeft: 135
+    marginLeft: 135,
   },
   addFriendButton: {
     flexDirection: "row",
@@ -169,9 +171,8 @@ const styles = StyleSheet.create({
     padding: 12,
     textAlign: "center",
     // marginLeft: 135,
-    marginVertical: 30
+    marginVertical: 30,
   },
-
 
   feedItem: {
     backgroundColor: "white",
@@ -183,11 +184,11 @@ const styles = StyleSheet.create({
     margin: 50,
     // alignContent: "center"
     alignItems: "center",
-    marginTop: 12
+    marginTop: 12,
   },
   center: {
     alignContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
 
   avatar: {
@@ -198,25 +199,25 @@ const styles = StyleSheet.create({
     // alignSelf: "stretch",
     margin: 10,
     alignContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   nameView: {
     justifyContent: "center",
     alignItems: "center",
     alignContent: "center",
-    color: "black"
+    color: "black",
   },
   name: {
     fontSize: 15,
-    justifyContent: "center"
+    justifyContent: "center",
     // borderBottomWidth: 3
   },
   post: {
-    fontSize: 30
+    fontSize: 30,
     // fontWeight: "500",
     // color: "#454D65",
     // margin: 10,
-  }
+  },
 });
 
 export default Search;
