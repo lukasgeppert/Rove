@@ -113,6 +113,24 @@ class Fire {
         console.log("Error getting posts: ", error);
       });
   }
+
+  getUserPosts = async () => {
+    return this.firestore
+      .collection("posts")
+      .where("uid", "==", this.uid)
+      .get()
+      .then(function (querySnapshot) {
+        let tempResults = [];
+        querySnapshot.forEach((doc) => {
+          tempResults.push({ data: doc.data(), id: doc.id });
+        });
+        return tempResults;
+      })
+      .catch(function (error) {
+        console.log("Error getting posts: ", error);
+      });
+  };
+
   //Add a getUserPosts for Profile page
   getPosts = async () => {
     const friendsList = await this.getFriends(this.uid);
