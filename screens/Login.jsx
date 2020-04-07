@@ -87,11 +87,8 @@ const styles = StyleSheet.create({
     minHeight: 300,
     borderRadius: 2,
     marginTop: 12,
-    margin: 6,
+    // margin: 6,
     padding:20
-  
-
-
   },
   greeting: {
     marginTop: 20,

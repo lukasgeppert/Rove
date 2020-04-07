@@ -529,9 +529,11 @@ class Fire {
 
   //ChatRoom
   addChatRoom = async (type, friendId, friendName) => {
-    const userAvatar = await this.getAvatar(this.uid);
-    const friendAvatar = await this.getAvatar(friendId);
+  let userAvatar = await this.getAvatar(this.uid);
+  let friendAvatar = await this.getAvatar(friendId);
 
+  if (!userAvatar) userAvatar = " "
+  if (!friendAvatar) friendAvatar = " "
     return new Promise((res, rej) => {
       this.firestore
         .collection("chatRoom")
@@ -562,6 +564,7 @@ class Fire {
 
   //Chat Post
   addChatPost = async (name, text, uid, chatRoomId, avatar) => {
+    if (!avatar) avatar = " "
     return new Promise((res, rej) => {
       this.firestore
         .collection("chatRoom")

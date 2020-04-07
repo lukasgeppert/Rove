@@ -28,7 +28,6 @@ const ChatFriendsList = props => {
   useEffect(() => {
     fetchFriends().then(friends2 => {
       setFriends(friends2);
-      console.log("hello friends", friends);
     });
   }, []);
 
@@ -54,8 +53,10 @@ const ChatFriendsList = props => {
                     friend.friend._id,
                     friend.friend.name
                   );
+                  if (chat){
                   let chatRoomId = Object.keys(chat)[0];
                   props.navigation.navigate("ChatRoom", { chatRoomId });
+                  } 
                 }}
               >
                 <Text style={styles.name}>Message {friend.friend.name} </Text>
