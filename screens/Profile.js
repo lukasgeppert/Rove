@@ -35,7 +35,6 @@ const Profile = (props) => {
   useEffect(() => {
     fetchPosts().then((promisePosts) => {
       setPosts(promisePosts);
-      console.log("MILOS TEST POST", posts);
     });
   }, []);
 

@@ -28,8 +28,7 @@ export const ratingsCalc = ({ route }) => {
 
     for (let i = 0; i < ratings.length; i++) {
       const singleRating = ratings[i];
-      console.log("singleRating", singleRating.rating);
-      console.log("RATINGS", ratings.length);
+
 
       // const rover = singleRating.rating;
       const cost = singleRating.rating.cost;
@@ -49,7 +48,6 @@ export const ratingsCalc = ({ route }) => {
         total += costArr[i];
       }
       let averageCost = total / costArr.length;
-      console.log("AVERAGE COST", averageCost);
 
       total = 0;
       for (let i = 0; i < funArr.length; i++) {
@@ -87,7 +85,6 @@ export const ratingsCalc = ({ route }) => {
         total += roverArr[i];
       }
       let averageAll = parseFloat(total / roverArr.length).toFixed(2);
-      console.log("ROVER AVG", averageAll);
 
       setAverages({
         rover: averageAll,

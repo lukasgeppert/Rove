@@ -13,7 +13,6 @@ import firebase from "firebase";
 
 
 export const ChatRoom = (props) => {
-  console.log("props from ChatRoom", props);
   const [messages, setMessages] = useState([]);
   const [avatar, setAvatar] = useState("");
   useEffect(() => {

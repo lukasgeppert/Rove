@@ -65,7 +65,6 @@ const ChatScreen = props => {
 
           conversationsArr.push(friend);
         }
-        console.log("gimme conversationsarr", conversationsArr);
 
         return conversationsArr;
       })
@@ -74,7 +73,6 @@ const ChatScreen = props => {
   const user = useSelector(state => state.user);
 
   const renderFriend = cArr => {
-    console.log('gimme caRR', cArr)
     return (
       <View>
         <TouchableOpacity

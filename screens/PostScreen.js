@@ -63,7 +63,6 @@ const PostScreen = ({ navigation }) => {
   const addAvatar = () => {
     Fire.getAvatar(Fire.uid).then(item => {
       setAvatar(item);
-      console.log("avatar prr", avatar);
     });
   };
   useEffect(() => {
