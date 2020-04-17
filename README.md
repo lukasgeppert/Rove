@@ -1,1 +1,1 @@
-![](userprofile.gif =250x250)
+![](userprofile.gif | width=100)
