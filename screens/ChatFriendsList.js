@@ -32,12 +32,10 @@ const ChatFriendsList = props => {
   }, []);
 
   const renderFriend = friend => {
-    // let friendAvatar = await Fire.getAvatar(friend.friend._id);
-    // console.log("friendAvatar", friendAvatar);
+  ;
     return (
       <View>
         <View style={styles.messageItem}>
-          {/* <Image source={{ uri: friendAvatar }} style={styles.avatar} /> */}
           <View style={{ flexDirection: "row" }}>
             <View
               style={{

@@ -16,7 +16,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export const RatingDetails = ({ route, navigation }) => {
   const { city } = route.params;
   const { averages } = route.params;
-  console.log("AVERAGES", averages);
 
   const [ratings, setRatings] = useState([]);
 
@@ -27,31 +26,16 @@ export const RatingDetails = ({ route, navigation }) => {
 
   useEffect(() => {
     fetchRatings().then((ratings) => setRatings(ratings));
-    console.log("RATINGS", ratings);
   }, []);
 
-  // const renderRatings = (rating) => {
-  //   return (
-  //     <View>
-  //       <Text>{rating.user.name}'s Rating</Text>
-  //       <Text>Safety: {rating.rating.safety}</Text>
-  //       <Text>Locals: {rating.rating.locals}</Text>
-  //       <Text>Cleanliness: {rating.rating.cleanliness}</Text>
-  //       <Text>Value: {rating.rating.value}</Text>
-  //       <Text>Co-working Space: {rating.rating.coworkingspace}</Text>
-  //     </View>
-  //   );
-  // };
+ 
 
   let singleUserCheck = false;
   for (let i = 0; i < ratings.length; i++) {
     const singleUserRating = ratings[i];
-    // if Fire.uid
-    console.log("SINGLEUSERRATING", singleUserRating.user.id);
     if (Fire.uid === singleUserRating.user.id) {
       singleUserCheck = true;
     }
-    console.log("SINGLEUSERCHECK", singleUserCheck);
   }
 
   return (

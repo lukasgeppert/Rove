@@ -24,7 +24,6 @@ const Search = (props) => {
   const [userList, setUserList] = useState(null);
   const [friendRequest, setFriendRequest] = useState(1);
   const renderUser = (userInfo) => {
-    console.log("gimme userInfo", userInfo);
     return (
       <View style={styles.feedItem}>
         <View style={{ flex: 1 }}>

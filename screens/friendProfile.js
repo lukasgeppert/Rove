@@ -13,7 +13,6 @@ import { connect } from "react-redux";
 import Fire from "../Firebase";
 
 const FriendProfile = props => {
-  console.log("props is: ", props);
 
   const [user, setUser] = useState(null);
   let name = props.user.name || "traveler";

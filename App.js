@@ -19,6 +19,7 @@ import Fire from "./Firebase";
 import ChatScreen from "./screens/ChatScreen";
 import ChatRoom from "./screens/ChatRoom";
 
+
 // import LoginScreen from "./screens/LoginScreen";
 import Login from "./screens/Login";
 import RegisterScreen from "./screens/RegisterScreen";
@@ -73,6 +74,7 @@ const NotificationStack = createStackNavigator();
 const PostStack = createStackNavigator();
 const RootStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
+console.disableYellowBox = true;
 
 const HomeStackScreen = ({ navigation }) => (
   <HomeStack.Navigator>
@@ -370,9 +372,6 @@ const rootComponent = () => {
             name: user.displayName
           })
         );
-        // console.log("user logged in: ", user);
-      } else {
-        // console.log("user logged out: ", user);
       }
     });
   }, []);
@@ -422,6 +421,7 @@ const rootComponent = () => {
   }, []);
 
   return (
+    
     <Provider store={store}>
       <AuthContext.Provider value={authContext}>
         <NavigationContainer>

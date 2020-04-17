@@ -45,10 +45,7 @@ const RatingForm = ({ route, navigation }) => {
       });
   };
 
-  // console.log("Weather", weather);
-  // console.log("Name", name);
-  // console.log("fun", fun);
-  // console.log("cost", cost);
+
 
   return (
     <View style={styles.container}>

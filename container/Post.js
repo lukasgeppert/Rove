@@ -18,7 +18,6 @@ import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
 
 const Post = (props) => {
-  console.log("props in post is: ", props);
   let uid = "1";
 
   const [liked, setLiked] = useState(false);

@@ -27,33 +27,6 @@ class Fire {
     });
   };
 
-  //POSTING GROUP
-  //Add Post
-  // We need to grab postId
-
-  // getPostId = () => {
-  //   return this.firestore
-  //     .collection("posts")
-  //     .get()
-  //     .then(function(querySnapshot) {
-  //       let tempResults = {};
-
-  //       querySnapshot.forEach(doc => {
-  //         tempResults[doc.id] = doc.data();
-  //       });
-  //       let postsId = [];
-  //       for (let i = 0; i < Object.keys(tempResults).length; i++) {
-  //         let result = Object.keys(tempResults)[i];
-  //         postsId.push(result);
-  //       }
-
-  //       return postsId;
-  //     })
-  //     .catch(function(error) {
-  //       console.log("Error getting chatRoom: ", error);
-  //     });
-  // };
-
   addLike = async postId => {
     return this.firestore
       .collection("posts")
@@ -155,7 +128,6 @@ class Fire {
           querySnapshot.forEach(doc => {
             tempResults.push({ data: doc.data(), id: doc.id });
           });
-          // console.log("tempResults in get posts!!", tempResults);
         })
         .catch(function(error) {
           console.log("Error getting posts: ", error);
@@ -174,17 +146,12 @@ class Fire {
         let tempResults = {};
         let singleChatRoom = null;
         querySnapshot.forEach(doc => {
-          // if (doc) {
           tempResults[doc.id] = doc.data();
           if (tempResults[doc.id].uids.includes(friendId)) {
             singleChatRoom = {};
             singleChatRoom[doc.id] = doc.data();
           }
-          //   console.log("doc data was positive");
-          // } else {
-          //   console.log("adding chatroom pls");
-          //   this.addChatRoom("personal", this.name, friendId);
-          // }
+       
         });
         if (!singleChatRoom) {
           _this.addChatRoom("personal", _this.name, friendId);
