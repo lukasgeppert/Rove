@@ -10,7 +10,6 @@ const googleLogin = () => {
     .then(result => {
       const user = result.user;
       document.write(`Hello ${user.displayName}`);
-      console.log(user);
     });
 };
 
