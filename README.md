@@ -1,1 +1,1 @@
-![](userprofile.gif | width=100)
+<img src= "userprofile.gif" width="100" height="100" />
