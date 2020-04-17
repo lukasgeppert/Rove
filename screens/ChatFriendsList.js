@@ -32,7 +32,6 @@ const ChatFriendsList = props => {
   }, []);
 
   const renderFriend = friend => {
-  ;
     return (
       <View>
         <View style={styles.messageItem}>
