@@ -30,7 +30,6 @@ const Post = (props) => {
   const addAvatar = () => {
     Fire.getAvatar(data.uid).then(item => {
       setAvatar(item);
-      console.log("avatar prr", avatar);
     });
   };
   useEffect(() => {
