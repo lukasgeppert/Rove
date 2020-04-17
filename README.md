@@ -5,15 +5,15 @@ Rove is a social media app for digital nomads, people who have embraced the trav
 ## About
 Rove allows users, who sign-up for free profiles, to connect with other digital nomads via friend requests. It allows users to share pictures and stories of their travels and build out their own profile. 
 
-<img src= "userprofile.gif" width="125" height="265" />
+<img src= "userprofile.gif" width="175" height="373" />
 
 Users can also chat in real-time with friends. 
 
-<img src= "chatdemo.gif" width="125" height="265" />
+<img src= "chatdemo.gif" width="175" height="373" />
 
 To supplement sharing and chatting with friends, users can discover new cities, rate places they have visited, view users and a post feed of users in that city.
 
-<img src= "discover.gif" width="125" height="265" />
+<img src= "discover.gif" width="175" height="373" />
 
 
 ## Members
